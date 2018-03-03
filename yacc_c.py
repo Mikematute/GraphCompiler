@@ -119,52 +119,113 @@ precedence = (
     ('left','TIMES','DIVIDE'),
     ('right','USUB'),
     )
+'''
+import ply.yacc as yacc
 
-# dictionary of names
-names = { }
+# from calclex import tokens
 
-def p_statement_assign(t):
-    'statement : NAME EQL expression'
-    names[t[1]] = t[3]
+def p_program(t):
+    'program : ID SCOLO vars function body'
+    # print("enters program")
 
-def p_statement_expr(t):
-    'statement : expression'
-    print(t[1])
+def p_vars(t):
+    '''vars : VAR type vars_1 SCOLO vars
+                | empty'''
+    # if t[1] == 'VAR':
+       #  print("enter var")
+    # else:
+       #  print("enter empty")
 
-def p_expression_binop(t):
-    expression : expression ADD expression
-                  | expression SUB expression
-                  | expression TIMES expression
-                  | expression DIVIDE expression
-    if t[2] == '+'  : t[0] = t[1] + t[3]
-    elif t[2] == '-': t[0] = t[1] - t[3]
-    elif t[2] == '*': t[0] = t[1] * t[3]
-    elif t[2] == '/': t[0] = t[1] / t[3]
+def p_vars_1(t):
+    '''vars_1 : ID
+              | ID COMA ID'''
+    # if t[2] == 'COMA':
+        # print("enter ID COMA ID")
+    # else:
+        # print("enter ID")
 
-def p_expression_uSUB(t):
-    'expression : SUB expression %prec USUB'
-    t[0] = -t[2]
+def p_function(t):
+    '''function : function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK
+                | empty'''
+    # print("enters function")
 
-def p_expression_group(t):
-    'expression : LPAREN expression RPAREN'
-    t[0] = t[2]
+def p_function_t(t):
+    '''function_t : VOID
+                    | t_number
+                    | t_string
+                    | t_bool
+                    | t_graph'''
 
-def p_expression_number(t):
-    'expression : NUMBER'
-    t[0] = t[1]
+def p_function_v(t):
+    '''function_v : function_v1
+                    | empty'''
 
-def p_expression_name(t):
-    'expression : NAME'
-    try:
-        t[0] = names[t[1]]
-    except LookupError:
-        print("Undefined name '%s'" % t[1])
-        t[0] = 0
+def p_function_v1(t):
+    '''function_v1 : type ID COMA
+                    | type ID COMA function_v1'''
+
+def p_body(t):
+    'body : MAIN LPAREN RPAREN LBRACK vars statutes RBRACK'
+
+def p_type(t):
+    '''type : t_number
+            | t_string
+            | t_bool
+            | t_graph
+            | t_array'''
+
+def p_t_number(t):
+    '''t_number : INT
+                | FLOAT'''
+
+def p_t_string(t):
+    '''t_string : STRING
+                | CHAR'''
+
+def p_t_bool(t):
+    't_bool : BOOL'
+
+def p_t_graph(t):
+    '''t_graph : NODE
+                | ARC
+                | UNDIRECTED
+                | DIRECTED'''
+
+def p_t_array(t):
+    't_array : t_array_1 LCORCH CTE_INT RCORCH t_array_2'
+
+def p_t_array_1(t):
+    '''t_array_1 : t_number
+                | t_string
+                | t_bool
+                | t_graph'''
+
+def p_t_array_2(t):
+    '''t_array_2 : LCORCH CTE_INT RCORCH t_array_2
+                | empty'''
+
+def p_t_statutes(t):
+    '''statutes : statutes_1 statutes
+                | empty'''
+
+def p_t_statutes_1(t):
+    '''statutes_1 : assignation
+                    | writting
+                    | condition
+                    | cycle'''
+
+def p_assignation(t):
+    'assignation : ID EQL expression'
+
+
+
+def p_empty(p):
+    'empty :'
+    pass
 
 def p_error(t):
     print("Syntax error at '%s'" % t.value)
 
-import ply.yacc as yacc
 parser = yacc.yacc()
 
 while True:
@@ -173,6 +234,6 @@ while True:
     except EOFError:
         break
     parser.parse(s)
-'''
+
 
 
