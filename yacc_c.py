@@ -217,6 +217,25 @@ def p_t_statutes_1(t):
 def p_assignation(t):
     'assignation : ID EQL expression'
 
+def p_writting(t):
+    'writting : PRINT LPAREN writting_1 RPAREN SCOLO'
+
+def p_writting_1(t):
+    '''writting_1 : expression
+                    | CTE_STRING
+                    | writting_2'''
+
+def p_writting_2(t):
+    '''writting_2 : expression SUMA writting_1
+                    | CTE_STRING SUMA writting_1'''
+
+def p_condition(t):
+    'condition : IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO'
+
+def p_condition_1(t):
+    '''condition_1 : ELSE LBRACK expression RBRACK
+                    | empty'''
+
 
 
 def p_empty(p):
