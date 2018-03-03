@@ -136,7 +136,7 @@ def p_program(t):
 
 def p_vars(t):
     '''vars : VAR type vars_1 SCOLO vars
-                | empty'''
+            | empty'''
     # if t[1] == 'VAR':
        #  print("enter var")
     # else:
@@ -151,24 +151,24 @@ def p_vars_1(t):
         # print("enter ID")
 
 def p_function(t):
-    '''function : function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK
+    '''function : function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
                 | empty'''
     # print("enters function")
 
 def p_function_t(t):
     '''function_t : VOID
-                    | t_number
-                    | t_string
-                    | t_bool
-                    | t_graph'''
+                  | t_number
+                  | t_string
+                  | t_bool
+                  | t_graph'''
 
 def p_function_v(t):
     '''function_v : function_v1
-                    | empty'''
+                  | empty'''
 
 def p_function_v1(t):
     '''function_v1 : type ID COMA
-                    | type ID COMA function_v1'''
+                   | type ID COMA function_v1'''
 
 def p_body(t):
     'body : MAIN LPAREN RPAREN LBRACK vars statutes RBRACK'
@@ -193,22 +193,22 @@ def p_t_bool(t):
 
 def p_t_graph(t):
     '''t_graph : NODE
-                | ARC
-                | UNDIRECTED
-                | DIRECTED'''
+               | ARC
+               | UNDIRECTED
+               | DIRECTED'''
 
 def p_t_array(t):
     't_array : t_array_1 LCORCH CTE_INT RCORCH t_array_2'
 
 def p_t_array_1(t):
     '''t_array_1 : t_number
-                | t_string
-                | t_bool
-                | t_graph'''
+                 | t_string
+                 | t_bool
+                 | t_graph'''
 
 def p_t_array_2(t):
     '''t_array_2 : LCORCH CTE_INT RCORCH t_array_2
-                | empty'''
+                 | empty'''
 
 def p_t_statutes(t):
     '''statutes : statutes_1 statutes
@@ -216,31 +216,12 @@ def p_t_statutes(t):
 
 def p_t_statutes_1(t):
     '''statutes_1 : assignation
-                    | writting
-                    | condition
-                    | cycle'''
+                  | writing
+                  | condition
+                  | cycle'''
 
 def p_assignation(t):
     'assignation : ID EQL expression'
-
-def p_writting(t):
-    'writting : PRINT LPAREN writting_1 RPAREN SCOLO'
-
-def p_writting_1(t):
-    '''writting_1 : expression
-                    | CTE_STRING
-                    | writting_2'''
-
-def p_writting_2(t):
-    '''writting_2 : expression SUMA writting_1
-                    | CTE_STRING SUMA writting_1'''
-
-def p_condition(t):
-    'condition : IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO'
-
-def p_condition_1(t):
-    '''condition_1 : ELSE LBRACK expression RBRACK
-                    | empty'''
 
 
 
