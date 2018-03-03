@@ -79,7 +79,7 @@ t_DOT = r'\.'
 t_COLON = r':'
 t_CTE_STRING = r'\".*\"'
 t_CTE_FLO = r'[0-9]+\.[0-9]+'
-t_CTE_BOO = r'True|False'
+t_CTE_BOO = r'true|false'
 t_CTE_CHAR = r'\'.\''
 
 
