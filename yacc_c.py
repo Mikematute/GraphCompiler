@@ -6,40 +6,44 @@
 # A simple calculator with variables -- all in one file.
 # -----------------------------------------------------------------------------
 
+################################################################################
+#                                 T O K E N S                                  #
+################################################################################
+
 reserved = {
-    'program' : 'PROGRAM',
-    'var': 'VAR',
-    'void': 'VOID',
-    'main': 'MAIN',
-    'int': 'INT',
-    'float': 'FLOAT',
-    'string': 'STRING',
-    'char': 'CHAR',
-    'bool': 'BOOL',
-    'node': 'NODE',
-    'arc': 'ARC',
+    'program'   : 'PROGRAM',
+    'var'       : 'VAR',
+    'void'      : 'VOID',
+    'main'      : 'MAIN',
+    'int'       : 'INT',
+    'float'     : 'FLOAT',
+    'string'    : 'STRING',
+    'char'      : 'CHAR',
+    'bool'      : 'BOOL',
+    'node'      : 'NODE',
+    'arc'       : 'ARC',
     'undirected': 'UNDIRECTED',
-    'directed': 'DIRECTED',
-    'print': 'PRINT',
-    'if' : 'IF',
-    'else' : 'ELSE',
-    'while' : 'WHILE',
-    'do': 'DO',
-    'deg': 'DEG',
-    'shortpath': 'SHORTPATH',
-    'diameter': 'DIAMETER',
-    'add': 'ADD',
-    'delete': 'DELETE'
+    'directed'  : 'DIRECTED',
+    'print'     : 'PRINT',
+    'if'        : 'IF',
+    'else'      : 'ELSE',
+    'while'     : 'WHILE',
+    'do'        : 'DO',
+    'deg'       : 'DEG',
+    'shortpath' : 'SHORTPATH',
+    'diameter'  : 'DIAMETER',
+    'add'       : 'ADD',
+    'delete'    : 'DELETE'
 }
 
 tokens = [
-    'ID', 'SCOLO', 'COMA', 'LPAREN', 
-    'RPAREN', 'LCORCH', 'RCORCH', 'CTE_INT',
-    'EQL',  'LBRACK', 'RBRACK', 'CTE_STRING',
-    'SUMA', 'SUB', 'MUL', 'DIV', 'RESD',
-    'AND', 'OR', 'MORET', 'LESST', 'MOREEQUAL',
-    'LESSEQUAL', 'EQUALTO', 'NOTEQUALTO', 'NOT', 'CTE_FLO',
-    'CTE_BOO', 'CTE_CHAR','DOT', 'COLON'
+    'ID',       'SCOLO',        'COMA',         'LPAREN',   'RPAREN',
+    'LCORCH',   'RCORCH',       'CTE_INT',      'EQL',      'LBRACK',
+    'RBRACK',   'CTE_STRING',   'SUMA',         'SUB',      'MUL',
+    'DIV',      'RESD',         'AND',          'OR',       'MORET',
+    'LESST',    'MOREEQUAL',    'LESSEQUAL',    'EQUALTO',  'NOTEQUALTO',
+    'NOT',      'CTE_FLO',      'CTE_BOO',      'CTE_CHAR', 'DOT',
+    'COLON'
     ] + list(reserved.values())
 
 # Tokens
@@ -52,35 +56,35 @@ tokens = [
 # t_RPAREN  = r'\)'
 # t_NAME    = r'[a-zA-Z_][a-zA-Z0-9_]*'
 
-t_SCOLO = r';'
-t_COMA = r','
-t_LPAREN = r'\('
-t_RPAREN = r'\)'
-t_LCORCH = r'\['
-t_RCORCH = r'\]'
-t_EQL = r'='
-t_LBRACK = r'{'
-t_RBRACK = r'}'
-t_SUMA = r'\+'
-t_SUB = r'-'
-t_MUL = r'\*'
-t_DIV = r'\/'
-t_RESD = r'%'
-t_AND = r'&&'
-t_OR = r'\|\|'
-t_MORET = r'>'
-t_LESST = r'<'
-t_MOREEQUAL = r'>='
-t_LESSEQUAL = r'<='
-t_EQUALTO = r'=='
-t_NOTEQUALTO = r'!='
-t_NOT = r'!'
-t_DOT = r'\.'
-t_COLON = r':'
-t_CTE_STRING = r'\".*\"'
-t_CTE_FLO = r'[0-9]+\.[0-9]+'
-t_CTE_BOO = r'true|false'
-t_CTE_CHAR = r'\'.\''
+t_SCOLO =       r';'
+t_COMA =        r','
+t_LPAREN =      r'\('
+t_RPAREN =      r'\)'
+t_LCORCH =      r'\['
+t_RCORCH =      r'\]'
+t_EQL =         r'='
+t_LBRACK =      r'{'
+t_RBRACK =      r'}'
+t_SUMA =        r'\+'
+t_SUB =         r'-'
+t_MUL =         r'\*'
+t_DIV =         r'\/'
+t_RESD =        r'%'
+t_AND =         r'&&'
+t_OR =          r'\|\|'
+t_MORET =       r'>'
+t_LESST =       r'<'
+t_MOREEQUAL =   r'>='
+t_LESSEQUAL =   r'<='
+t_EQUALTO =     r'=='
+t_NOTEQUALTO =  r'!='
+t_NOT =         r'!'
+t_DOT =         r'\.'
+t_COLON =       r':'
+t_CTE_STRING =  r'\".*\"'
+t_CTE_FLO =     r'[0-9]+\.[0-9]+'
+t_CTE_BOO =     r'true|false'
+t_CTE_CHAR =    r'\'.\''
 
 
 def t_ID(t):
@@ -103,15 +107,17 @@ t_ignore = " \t"
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
-    
+
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
-    
+
 # Build the lexer
 import ply.lex as lex
 lexer = lex.lex()
-
+################################################################################
+#                                  R U L E S                                   #
+################################################################################
 # Parsing rules
 '''
 precedence = (
@@ -234,6 +240,3 @@ while True:
     except EOFError:
         break
     parser.parse(s)
-
-
-
