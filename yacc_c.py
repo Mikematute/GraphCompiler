@@ -6,24 +6,89 @@
 # A simple calculator with variables -- all in one file.
 # -----------------------------------------------------------------------------
 
-tokens = (
-    'NAME','NUMBER',
-    'PLUS','MINUS','TIMES','DIVIDE','EQUALS',
-    'LPAREN','RPAREN',
-    )
+reserved = {
+    'program' : 'PROGRAM',
+    'var': 'VAR',
+    'void': 'VOID',
+    'main': 'MAIN',
+    'int': 'INT',
+    'float': 'FLOAT',
+    'string': 'STRING',
+    'char': 'CHAR',
+    'bool': 'BOOL',
+    'node': 'NODE',
+    'arc': 'ARC',
+    'undirected': 'UNDIRECTED',
+    'directed': 'DIRECTED',
+    'print': 'PRINT',
+    'if' : 'IF',
+    'else' : 'ELSE',
+    'while' : 'WHILE',
+    'do': 'DO',
+    'deg': 'DEG',
+    'shortpath': 'SHORTPATH',
+    'diameter': 'DIAMETER',
+    'add': 'ADD',
+    'delete': 'DELETE'
+}
+
+tokens = [
+    'ID', 'SCOLO', 'COMA', 'LPAREN', 
+    'RPAREN', 'LCORCH', 'RCORCH', 'CTE_INT',
+    'EQL',  'LBRACK', 'RBRACK', 'CTE_STRING',
+    'SUMA', 'SUB', 'MUL', 'DIV', 'RESD',
+    'AND', 'OR', 'MORET', 'LESST', 'MOREEQUAL',
+    'LESSEQUAL', 'EQUALTO', 'NOTEQUALTO', 'NOT', 'CTE_FLO',
+    'CTE_BOO', 'CTE_CHAR','DOT', 'COLON'
+    ] + list(reserved.values())
 
 # Tokens
+# t_ADD    = r'\+'
+# t_SUB   = r'-'
+# t_TIMES   = r'\*'
+# t_DIVIDE  = r'/'
+# t_EQL  = r'='
+# t_LPAREN  = r'\('
+# t_RPAREN  = r'\)'
+# t_NAME    = r'[a-zA-Z_][a-zA-Z0-9_]*'
 
-t_PLUS    = r'\+'
-t_MINUS   = r'-'
-t_TIMES   = r'\*'
-t_DIVIDE  = r'/'
-t_EQUALS  = r'='
-t_LPAREN  = r'\('
-t_RPAREN  = r'\)'
-t_NAME    = r'[a-zA-Z_][a-zA-Z0-9_]*'
+t_SCOLO = r';'
+t_COMA = r','
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
+t_LCORCH = r'\['
+t_RCORCH = r'\]'
+t_EQL = r'='
+t_LBRACK = r'{'
+t_RBRACK = r'}'
+t_SUMA = r'\+'
+t_SUB = r'-'
+t_MUL = r'\*'
+t_DIV = r'\/'
+t_RESD = r'%'
+t_AND = r'&&'
+t_OR = r'\|\|'
+t_MORET = r'>'
+t_LESST = r'<'
+t_MOREEQUAL = r'>='
+t_LESSEQUAL = r'<='
+t_EQUALTO = r'=='
+t_NOTEQUALTO = r'!='
+t_NOT = r'!'
+t_DOT = r'\.'
+t_COLON = r':'
+t_CTE_STRING = r'\".*\"'
+t_CTE_FLO = r'[0-9]+\.[0-9]+'
+t_CTE_BOO = r'True|False'
+t_CTE_CHAR = r'\'.\''
 
-def t_NUMBER(t):
+
+def t_ID(t):
+    r'[a-z][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value,'ID')    # Check for reserved words
+    return t
+
+def t_CTE_INT(t):
     r'\d+'
     try:
         t.value = int(t.value)
@@ -48,18 +113,18 @@ import ply.lex as lex
 lexer = lex.lex()
 
 # Parsing rules
-
+'''
 precedence = (
-    ('left','PLUS','MINUS'),
+    ('left','ADD','SUB'),
     ('left','TIMES','DIVIDE'),
-    ('right','UMINUS'),
+    ('right','USUB'),
     )
 
 # dictionary of names
 names = { }
 
 def p_statement_assign(t):
-    'statement : NAME EQUALS expression'
+    'statement : NAME EQL expression'
     names[t[1]] = t[3]
 
 def p_statement_expr(t):
@@ -67,17 +132,17 @@ def p_statement_expr(t):
     print(t[1])
 
 def p_expression_binop(t):
-    '''expression : expression PLUS expression
-                  | expression MINUS expression
+    expression : expression ADD expression
+                  | expression SUB expression
                   | expression TIMES expression
-                  | expression DIVIDE expression'''
+                  | expression DIVIDE expression
     if t[2] == '+'  : t[0] = t[1] + t[3]
     elif t[2] == '-': t[0] = t[1] - t[3]
     elif t[2] == '*': t[0] = t[1] * t[3]
     elif t[2] == '/': t[0] = t[1] / t[3]
 
-def p_expression_uminus(t):
-    'expression : MINUS expression %prec UMINUS'
+def p_expression_uSUB(t):
+    'expression : SUB expression %prec USUB'
     t[0] = -t[2]
 
 def p_expression_group(t):
@@ -108,3 +173,6 @@ while True:
     except EOFError:
         break
     parser.parse(s)
+'''
+
+
