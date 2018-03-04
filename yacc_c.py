@@ -213,11 +213,11 @@ def p_t_array_2(t):
     '''t_array_2 : LCORCH CTE_INT RCORCH t_array_2
                  | empty'''
 ################################ S T A T U T E S ###############################
-def p_t_statutes(t):
+def p_statutes(t):
     '''statutes : statutes_1 statutes
                 | empty'''
 
-def p_t_statutes_1(t):
+def p_statutes_1(t):
     '''statutes_1 : assignation
                   | writing
                   | condition
