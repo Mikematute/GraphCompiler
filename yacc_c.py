@@ -275,7 +275,7 @@ def p_function_call_2(t):
     '''function_call_2 : expression
                        | ID
                        | expression SCOLO function_call_2
-                       | ID SCOLO function_call_2
+                       | ID SCOLO function_call_2'''
 
 ############################## E X P R E S S I O N #############################
 def p_expression(t):
