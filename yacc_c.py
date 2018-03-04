@@ -225,7 +225,7 @@ def p_statutes_1(t):
                   | function_call'''
 #---------------------------- a s s i g n a t i o n ----------------------------
 def p_assignation(t):
-    'assignation : ID EQL expression'
+    'assignation : ID EQL expression SCOLO'
 #------------------------------- w r i t i n g ---------------------------------
 def p_writing(t):
     'writing : PRINT LPAREN writing_1 RPAREN SCOLO'
@@ -240,10 +240,10 @@ def p_writing_2(t):
                  | CTE_STRING SUMA writing_1'''
 #------------------------------ c o n d i t i o n ------------------------------
 def p_condition(t):
-    'condition : IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO'
+    'condition : IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1'
 
 def p_condition_1(t):
-    '''condition_1 : ELSE LBRACK expression RBRACK
+    '''condition_1 : ELSE LBRACK statutes RBRACK
                    | empty'''
 #--------------------------------- c y c l e -----------------------------------
 def p_cycle(t):
@@ -256,7 +256,7 @@ def p_c_while(t):
     'c_while : WHILE LPAREN expression RPAREN LBRACK statutes RBRACK'
 
 def p_c_do(t):
-    'c_do : DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN'
+    'c_do : DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO'
 
 def p_c_for(t):
     'c_for : FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK'
