@@ -90,7 +90,7 @@ t_CTE_CHAR =    r'\'.\''
 
 
 def t_ID(t):
-    r'[a-z][a-zA-Z_0-9]*'
+    r'[a-z][a-z|A-Z|0-9]*'
     t.type = reserved.get(t.value,'ID')    # Check for reserved words
     return t
 
@@ -146,12 +146,17 @@ def p_vars(t):
        #  print("enter empty")
 
 def p_vars_1(t):
-    '''vars_1 : ID
-              | ID COMA ID'''
+    '''vars_1 : ID vars_2
+              | ID vars_2 COMA vars_1'''
     # if t[2] == 'COMA':
         # print("enter ID COMA ID")
     # else:
         # print("enter ID")
+
+def p_vars_2(t):
+    '''vars_2 : array
+              | empty'''
+
 ############################### F U N C T I O N ################################
 def p_function(t):
     '''function : function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
@@ -180,8 +185,7 @@ def p_type(t):
     '''type : t_number
             | t_string
             | t_bool
-            | t_graph
-            | t_array'''
+            | t_graph'''
 
 def p_t_number(t):
     '''t_number : INT
@@ -199,19 +203,13 @@ def p_t_graph(t):
                | ARC
                | UNDIRECTED
                | DIRECTED'''
+################################### A R R A Y  #################################
+def p_array(t):
+    'array : LCORCH CTE_INT RCORCH array_1'
 
-def p_t_array(t):
-    't_array : t_array_1 LCORCH CTE_INT RCORCH t_array_2'
-
-def p_t_array_1(t):
-    '''t_array_1 : t_number
-                 | t_string
-                 | t_bool
-                 | t_graph'''
-
-def p_t_array_2(t):
-    '''t_array_2 : LCORCH CTE_INT RCORCH t_array_2
-                 | empty'''
+def p_array_1(t):
+    '''array_1 : LCORCH CTE_INT RCORCH array_1
+               | empty'''
 ################################ S T A T U T E S ###############################
 def p_statutes(t):
     '''statutes : statutes_1 statutes
