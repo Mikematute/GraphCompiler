@@ -221,7 +221,8 @@ def p_t_statutes_1(t):
     '''statutes_1 : assignation
                   | writing
                   | condition
-                  | cycle'''
+                  | cycle
+                  | function_call'''
 #---------------------------- a s s i g n a t i o n ----------------------------
 def p_assignation(t):
     'assignation : ID EQL expression'
@@ -262,6 +263,19 @@ def p_c_for(t):
 
 def p_c_forin(t):
     'c_forin : FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK'
+#------------------------- f u n c t i o n _ c a l l ---------------------------
+def p_function_call(t):
+    'function_call : ID LPAREN function_call_1 RPAREN SCOLO'
+
+def p_function_call_1(t):
+    '''function_call_1 : function_call_2
+                       | empty'''
+
+def p_function_call_2(t):
+    '''function_call_2 : expression
+                       | ID
+                       | expression SCOLO function_call_2
+                       | ID SCOLO function_call_2
 
 ############################## E X P R E S S I O N #############################
 def p_expression(t):
