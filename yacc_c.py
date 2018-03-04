@@ -154,7 +154,7 @@ def p_vars_1(t):
         # print("enter ID")
 
 def p_vars_2(t):
-    '''vars_2 : array
+    '''vars_2 : array_declare
               | empty'''
 
 ############################### F U N C T I O N ################################
@@ -175,8 +175,10 @@ def p_function_v(t):
                   | empty'''
 
 def p_function_v1(t):
-    '''function_v1 : type ID COMA
-                   | type ID COMA function_v1'''
+    '''function_v1 : type ID
+                   | type ID COMA function_v1
+                   | type ID array_declare
+                   | type ID array_declare COMA function_v1'''
 #################################### B O D Y ###################################
 def p_body(t):
     'body : MAIN LPAREN RPAREN LBRACK vars statutes RBRACK'
@@ -203,13 +205,13 @@ def p_t_graph(t):
                | ARC
                | UNDIRECTED
                | DIRECTED'''
-################################### A R R A Y  #################################
-def p_array(t):
-    'array : LCORCH CTE_INT RCORCH array_1'
+########################### A R R A Y _ D E C L A R E ##########################
+def p_array_declare(t):
+    'array_declare : LCORCH CTE_INT RCORCH array_declare_1'
 
-def p_array_1(t):
-    '''array_1 : LCORCH CTE_INT RCORCH array_1
-               | empty'''
+def p_array_declare_1(t):
+    '''array_declare_1 : LCORCH CTE_INT RCORCH array_declare_1
+                       | empty'''
 ################################ S T A T U T E S ###############################
 def p_statutes(t):
     '''statutes : statutes_1 statutes
