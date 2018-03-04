@@ -1,49 +1,18 @@
-Created by PLY version 3.9 (http://www.dabeaz.com/ply)
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    EQL
-    CTE_STRING
-    SUMA
-    SUB
-    MUL
-    DIV
-    RESD
-    AND
-    OR
-    MORET
-    LESST
-    MOREEQUAL
-    LESSEQUAL
-    EQUALTO
-    NOTEQUALTO
-    NOT
-    CTE_FLO
-    CTE_BOO
-    CTE_CHAR
-    DOT
     COLON
-    PROGRAM
-    PRINT
-    IF
-    ELSE
-    WHILE
-    DO
-    DEG
-    SHORTPATH
-    DIAMETER
-    ADD
-    DELETE
 
 Grammar
 
 Rule 0     S' -> program
-Rule 1     program -> ID SCOLO vars function body
+Rule 1     program -> PROGRAM ID SCOLO vars function body
 Rule 2     vars -> VAR type vars_1 SCOLO vars
 Rule 3     vars -> empty
 Rule 4     vars_1 -> ID
 Rule 5     vars_1 -> ID COMA ID
-Rule 6     function -> function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK
+Rule 6     function -> function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
 Rule 7     function -> empty
 Rule 8     function_t -> VOID
 Rule 9     function_t -> t_number
@@ -79,82 +48,161 @@ Rule 38    t_array_2 -> empty
 Rule 39    statutes -> statutes_1 statutes
 Rule 40    statutes -> empty
 Rule 41    statutes_1 -> assignation
-Rule 42    statutes_1 -> writting
+Rule 42    statutes_1 -> writing
 Rule 43    statutes_1 -> condition
 Rule 44    statutes_1 -> cycle
-Rule 45    empty -> <empty>
+Rule 45    assignation -> ID EQL expression
+Rule 46    writing -> PRINT LPAREN writing_1 RPAREN SCOLO
+Rule 47    writing_1 -> expression
+Rule 48    writing_1 -> CTE_STRING
+Rule 49    writing_1 -> writing_2
+Rule 50    writing_2 -> expression SUMA writing_1
+Rule 51    writing_2 -> CTE_STRING SUMA writing_1
+Rule 52    condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+Rule 53    condition_1 -> ELSE LBRACK expression RBRACK
+Rule 54    condition_1 -> empty
+Rule 55    cycle -> c_while
+Rule 56    cycle -> c_do
+Rule 57    cycle -> c_for
+Rule 58    cycle -> c_forin
+Rule 59    c_while -> WHILE LPAREN expression RPAREN LBRACK statutes RBRACK
+Rule 60    c_do -> DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN
+Rule 61    c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+Rule 62    c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+Rule 63    expression -> exp_lv1
+Rule 64    expression -> exp_lv1 AND expression
+Rule 65    expression -> exp_lv1 OR expression
+Rule 66    exp_lv1 -> exp_lv2 exp_lv1_1
+Rule 67    exp_lv1_1 -> LESST exp_lv2
+Rule 68    exp_lv1_1 -> MORET exp_lv2
+Rule 69    exp_lv1_1 -> LESSEQUAL exp_lv2
+Rule 70    exp_lv1_1 -> MOREEQUAL exp_lv2
+Rule 71    exp_lv1_1 -> EQUALTO exp_lv2
+Rule 72    exp_lv1_1 -> NOTEQUALTO exp_lv2
+Rule 73    exp_lv1_1 -> empty
+Rule 74    exp_lv2 -> exp_lv3
+Rule 75    exp_lv2 -> exp_lv3 SUMA exp_lv2
+Rule 76    exp_lv2 -> exp_lv3 SUB exp_lv2
+Rule 77    exp_lv3 -> exp_lv4
+Rule 78    exp_lv3 -> exp_lv4 MUL exp_lv3
+Rule 79    exp_lv3 -> exp_lv4 DIV exp_lv3
+Rule 80    exp_lv3 -> exp_lv4 RESD exp_lv3
+Rule 81    exp_lv4 -> exp_lv5
+Rule 82    exp_lv4 -> NOT exp_lv5
+Rule 83    exp_lv5 -> RPAREN expression LPAREN
+Rule 84    exp_lv5 -> var_cte
+Rule 85    exp_lv5 -> method
+Rule 86    exp_lv5 -> ID
+Rule 87    var_cte -> CTE_INT
+Rule 88    var_cte -> CTE_FLO
+Rule 89    var_cte -> CTE_BOO
+Rule 90    var_cte -> CTE_STRING
+Rule 91    var_cte -> CTE_CHAR
+Rule 92    method -> ID DOT method_t LPAREN method_1 RPAREN
+Rule 93    method_1 -> method_1_1
+Rule 94    method_1 -> empty
+Rule 95    method_1_1 -> method_v
+Rule 96    method_1_1 -> method_v COMA method_1_1
+Rule 97    method_t -> DEG
+Rule 98    method_t -> SHORTPATH
+Rule 99    method_t -> DIAMETER
+Rule 100   method_t -> ADD
+Rule 101   method_t -> DELETE
+Rule 102   method_t -> ARC
+Rule 103   method_v -> ID
+Rule 104   method_v -> LBRACK ID COMA ID RBRACK
+Rule 105   empty -> <empty>
 
 Terminals, with rules where they appear
 
-ADD                  : 
-AND                  : 
-ARC                  : 29
+ADD                  : 100
+AND                  : 64
+ARC                  : 29 102
 BOOL                 : 27
 CHAR                 : 26
 COLON                : 
-COMA                 : 5 15 16
-CTE_BOO              : 
-CTE_CHAR             : 
-CTE_FLO              : 
-CTE_INT              : 32 37
-CTE_STRING           : 
-DEG                  : 
-DELETE               : 
-DIAMETER             : 
+COMA                 : 5 15 16 96 104
+CTE_BOO              : 89
+CTE_CHAR             : 91
+CTE_FLO              : 88
+CTE_INT              : 32 37 87
+CTE_STRING           : 48 51 90
+DEG                  : 97
+DELETE               : 101
+DIAMETER             : 99
 DIRECTED             : 31
-DIV                  : 
-DO                   : 
-DOT                  : 
-ELSE                 : 
-EQL                  : 
-EQUALTO              : 
+DIV                  : 79
+DO                   : 60
+DOT                  : 92
+ELSE                 : 53
+EQL                  : 45
+EQUALTO              : 71
 FLOAT                : 24
-ID                   : 1 4 5 5 6 15 16
-IF                   : 
+FOR                  : 61 62
+ID                   : 1 4 5 5 6 15 16 45 61 62 62 86 92 103 104 104
+IF                   : 52
+IN                   : 62
 INT                  : 23
-LBRACK               : 6 17
+LBRACK               : 6 17 52 53 59 60 61 62 104
 LCORCH               : 32 37
-LESSEQUAL            : 
-LESST                : 
-LPAREN               : 6 17
+LESSEQUAL            : 69
+LESST                : 67
+LPAREN               : 6 17 46 52 59 60 61 62 83 92
 MAIN                 : 17
-MOREEQUAL            : 
-MORET                : 
-MUL                  : 
+MOREEQUAL            : 70
+MORET                : 68
+MUL                  : 78
 NODE                 : 28
-NOT                  : 
-NOTEQUALTO           : 
-OR                   : 
-PRINT                : 
-PROGRAM              : 
-RBRACK               : 6 17
+NOT                  : 82
+NOTEQUALTO           : 72
+OR                   : 65
+PRINT                : 46
+PROGRAM              : 1
+RBRACK               : 6 17 52 53 59 60 61 62 104
 RCORCH               : 32 37
-RESD                 : 
-RPAREN               : 6 17
-SCOLO                : 1 2
-SHORTPATH            : 
+RESD                 : 80
+RPAREN               : 6 17 46 52 59 60 61 62 83 92
+SCOLO                : 1 2 46 52 61 61
+SHORTPATH            : 98
 STRING               : 25
-SUB                  : 
-SUMA                 : 
+SUB                  : 76
+SUMA                 : 50 51 75
 UNDIRECTED           : 30
 VAR                  : 2
 VOID                 : 8
-WHILE                : 
+WHILE                : 59 60
 error                : 
 
 Nonterminals, with rules where they appear
 
-assignation          : 41
+assignation          : 41 61
 body                 : 1
+c_do                 : 56
+c_for                : 57
+c_forin              : 58
+c_while              : 55
 condition            : 43
+condition_1          : 52
 cycle                : 44
-empty                : 3 7 14 38 40
-function             : 1
+empty                : 3 7 14 38 40 54 73 94
+exp_lv1              : 63 64 65
+exp_lv1_1            : 66
+exp_lv2              : 66 67 68 69 70 71 72 75 76
+exp_lv3              : 74 75 76 78 79 80
+exp_lv4              : 77 78 79 80
+exp_lv5              : 81 82
+expression           : 45 47 50 52 53 59 60 61 64 65 83
+function             : 1 6
 function_t           : 6
 function_v           : 6
 function_v1          : 13 16
+method               : 85
+method_1             : 92
+method_1_1           : 93 96
+method_t             : 92
+method_v             : 95 96
 program              : 0
-statutes             : 6 17 39
+statutes             : 6 17 39 52 59 60 61 62
 statutes_1           : 39
 t_array              : 22
 t_array_1            : 32
@@ -164,7 +212,3651 @@ t_graph              : 12 21 36
 t_number             : 9 18 33
 t_string             : 10 19 34
 type                 : 2 15 16
+var_cte              : 84
 vars                 : 1 2 6 17
 vars_1               : 2
-writting             : 42
+writing              : 42
+writing_1            : 46 50 51
+writing_2            : 49
 
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . PROGRAM ID SCOLO vars function body
+
+    PROGRAM         shift and go to state 2
+
+    program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> PROGRAM . ID SCOLO vars function body
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) program -> PROGRAM ID . SCOLO vars function body
+
+    SCOLO           shift and go to state 4
+
+
+state 4
+
+    (1) program -> PROGRAM ID SCOLO . vars function body
+    (2) vars -> . VAR type vars_1 SCOLO vars
+    (3) vars -> . empty
+    (105) empty -> .
+
+    VAR             shift and go to state 6
+    VOID            reduce using rule 105 (empty -> .)
+    INT             reduce using rule 105 (empty -> .)
+    FLOAT           reduce using rule 105 (empty -> .)
+    STRING          reduce using rule 105 (empty -> .)
+    CHAR            reduce using rule 105 (empty -> .)
+    BOOL            reduce using rule 105 (empty -> .)
+    NODE            reduce using rule 105 (empty -> .)
+    ARC             reduce using rule 105 (empty -> .)
+    UNDIRECTED      reduce using rule 105 (empty -> .)
+    DIRECTED        reduce using rule 105 (empty -> .)
+    MAIN            reduce using rule 105 (empty -> .)
+
+    vars                           shift and go to state 5
+    empty                          shift and go to state 7
+
+state 5
+
+    (1) program -> PROGRAM ID SCOLO vars . function body
+    (6) function -> . function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
+    (7) function -> . empty
+    (8) function_t -> . VOID
+    (9) function_t -> . t_number
+    (10) function_t -> . t_string
+    (11) function_t -> . t_bool
+    (12) function_t -> . t_graph
+    (105) empty -> .
+    (23) t_number -> . INT
+    (24) t_number -> . FLOAT
+    (25) t_string -> . STRING
+    (26) t_string -> . CHAR
+    (27) t_bool -> . BOOL
+    (28) t_graph -> . NODE
+    (29) t_graph -> . ARC
+    (30) t_graph -> . UNDIRECTED
+    (31) t_graph -> . DIRECTED
+
+    VOID            shift and go to state 11
+    MAIN            reduce using rule 105 (empty -> .)
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    STRING          shift and go to state 18
+    CHAR            shift and go to state 19
+    BOOL            shift and go to state 20
+    NODE            shift and go to state 21
+    ARC             shift and go to state 22
+    UNDIRECTED      shift and go to state 23
+    DIRECTED        shift and go to state 24
+
+    function                       shift and go to state 8
+    function_t                     shift and go to state 9
+    empty                          shift and go to state 10
+    t_number                       shift and go to state 12
+    t_string                       shift and go to state 13
+    t_bool                         shift and go to state 14
+    t_graph                        shift and go to state 15
+
+state 6
+
+    (2) vars -> VAR . type vars_1 SCOLO vars
+    (18) type -> . t_number
+    (19) type -> . t_string
+    (20) type -> . t_bool
+    (21) type -> . t_graph
+    (22) type -> . t_array
+    (23) t_number -> . INT
+    (24) t_number -> . FLOAT
+    (25) t_string -> . STRING
+    (26) t_string -> . CHAR
+    (27) t_bool -> . BOOL
+    (28) t_graph -> . NODE
+    (29) t_graph -> . ARC
+    (30) t_graph -> . UNDIRECTED
+    (31) t_graph -> . DIRECTED
+    (32) t_array -> . t_array_1 LCORCH CTE_INT RCORCH t_array_2
+    (33) t_array_1 -> . t_number
+    (34) t_array_1 -> . t_string
+    (35) t_array_1 -> . t_bool
+    (36) t_array_1 -> . t_graph
+
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    STRING          shift and go to state 18
+    CHAR            shift and go to state 19
+    BOOL            shift and go to state 20
+    NODE            shift and go to state 21
+    ARC             shift and go to state 22
+    UNDIRECTED      shift and go to state 23
+    DIRECTED        shift and go to state 24
+
+    type                           shift and go to state 25
+    t_number                       shift and go to state 26
+    t_string                       shift and go to state 27
+    t_bool                         shift and go to state 28
+    t_graph                        shift and go to state 29
+    t_array                        shift and go to state 30
+    t_array_1                      shift and go to state 31
+
+state 7
+
+    (3) vars -> empty .
+
+    VOID            reduce using rule 3 (vars -> empty .)
+    INT             reduce using rule 3 (vars -> empty .)
+    FLOAT           reduce using rule 3 (vars -> empty .)
+    STRING          reduce using rule 3 (vars -> empty .)
+    CHAR            reduce using rule 3 (vars -> empty .)
+    BOOL            reduce using rule 3 (vars -> empty .)
+    NODE            reduce using rule 3 (vars -> empty .)
+    ARC             reduce using rule 3 (vars -> empty .)
+    UNDIRECTED      reduce using rule 3 (vars -> empty .)
+    DIRECTED        reduce using rule 3 (vars -> empty .)
+    MAIN            reduce using rule 3 (vars -> empty .)
+    ID              reduce using rule 3 (vars -> empty .)
+    PRINT           reduce using rule 3 (vars -> empty .)
+    IF              reduce using rule 3 (vars -> empty .)
+    WHILE           reduce using rule 3 (vars -> empty .)
+    DO              reduce using rule 3 (vars -> empty .)
+    FOR             reduce using rule 3 (vars -> empty .)
+    RBRACK          reduce using rule 3 (vars -> empty .)
+
+
+state 8
+
+    (1) program -> PROGRAM ID SCOLO vars function . body
+    (17) body -> . MAIN LPAREN RPAREN LBRACK vars statutes RBRACK
+
+    MAIN            shift and go to state 33
+
+    body                           shift and go to state 32
+
+state 9
+
+    (6) function -> function_t . ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
+
+    ID              shift and go to state 34
+
+
+state 10
+
+    (7) function -> empty .
+
+    MAIN            reduce using rule 7 (function -> empty .)
+
+
+state 11
+
+    (8) function_t -> VOID .
+
+    ID              reduce using rule 8 (function_t -> VOID .)
+
+
+state 12
+
+    (9) function_t -> t_number .
+
+    ID              reduce using rule 9 (function_t -> t_number .)
+
+
+state 13
+
+    (10) function_t -> t_string .
+
+    ID              reduce using rule 10 (function_t -> t_string .)
+
+
+state 14
+
+    (11) function_t -> t_bool .
+
+    ID              reduce using rule 11 (function_t -> t_bool .)
+
+
+state 15
+
+    (12) function_t -> t_graph .
+
+    ID              reduce using rule 12 (function_t -> t_graph .)
+
+
+state 16
+
+    (23) t_number -> INT .
+
+    ID              reduce using rule 23 (t_number -> INT .)
+    LCORCH          reduce using rule 23 (t_number -> INT .)
+
+
+state 17
+
+    (24) t_number -> FLOAT .
+
+    ID              reduce using rule 24 (t_number -> FLOAT .)
+    LCORCH          reduce using rule 24 (t_number -> FLOAT .)
+
+
+state 18
+
+    (25) t_string -> STRING .
+
+    ID              reduce using rule 25 (t_string -> STRING .)
+    LCORCH          reduce using rule 25 (t_string -> STRING .)
+
+
+state 19
+
+    (26) t_string -> CHAR .
+
+    ID              reduce using rule 26 (t_string -> CHAR .)
+    LCORCH          reduce using rule 26 (t_string -> CHAR .)
+
+
+state 20
+
+    (27) t_bool -> BOOL .
+
+    ID              reduce using rule 27 (t_bool -> BOOL .)
+    LCORCH          reduce using rule 27 (t_bool -> BOOL .)
+
+
+state 21
+
+    (28) t_graph -> NODE .
+
+    ID              reduce using rule 28 (t_graph -> NODE .)
+    LCORCH          reduce using rule 28 (t_graph -> NODE .)
+
+
+state 22
+
+    (29) t_graph -> ARC .
+
+    ID              reduce using rule 29 (t_graph -> ARC .)
+    LCORCH          reduce using rule 29 (t_graph -> ARC .)
+
+
+state 23
+
+    (30) t_graph -> UNDIRECTED .
+
+    ID              reduce using rule 30 (t_graph -> UNDIRECTED .)
+    LCORCH          reduce using rule 30 (t_graph -> UNDIRECTED .)
+
+
+state 24
+
+    (31) t_graph -> DIRECTED .
+
+    ID              reduce using rule 31 (t_graph -> DIRECTED .)
+    LCORCH          reduce using rule 31 (t_graph -> DIRECTED .)
+
+
+state 25
+
+    (2) vars -> VAR type . vars_1 SCOLO vars
+    (4) vars_1 -> . ID
+    (5) vars_1 -> . ID COMA ID
+
+    ID              shift and go to state 36
+
+    vars_1                         shift and go to state 35
+
+state 26
+
+    (18) type -> t_number .
+    (33) t_array_1 -> t_number .
+
+    ID              reduce using rule 18 (type -> t_number .)
+    LCORCH          reduce using rule 33 (t_array_1 -> t_number .)
+
+
+state 27
+
+    (19) type -> t_string .
+    (34) t_array_1 -> t_string .
+
+    ID              reduce using rule 19 (type -> t_string .)
+    LCORCH          reduce using rule 34 (t_array_1 -> t_string .)
+
+
+state 28
+
+    (20) type -> t_bool .
+    (35) t_array_1 -> t_bool .
+
+    ID              reduce using rule 20 (type -> t_bool .)
+    LCORCH          reduce using rule 35 (t_array_1 -> t_bool .)
+
+
+state 29
+
+    (21) type -> t_graph .
+    (36) t_array_1 -> t_graph .
+
+    ID              reduce using rule 21 (type -> t_graph .)
+    LCORCH          reduce using rule 36 (t_array_1 -> t_graph .)
+
+
+state 30
+
+    (22) type -> t_array .
+
+    ID              reduce using rule 22 (type -> t_array .)
+
+
+state 31
+
+    (32) t_array -> t_array_1 . LCORCH CTE_INT RCORCH t_array_2
+
+    LCORCH          shift and go to state 37
+
+
+state 32
+
+    (1) program -> PROGRAM ID SCOLO vars function body .
+
+    $end            reduce using rule 1 (program -> PROGRAM ID SCOLO vars function body .)
+
+
+state 33
+
+    (17) body -> MAIN . LPAREN RPAREN LBRACK vars statutes RBRACK
+
+    LPAREN          shift and go to state 38
+
+
+state 34
+
+    (6) function -> function_t ID . LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
+
+    LPAREN          shift and go to state 39
+
+
+state 35
+
+    (2) vars -> VAR type vars_1 . SCOLO vars
+
+    SCOLO           shift and go to state 40
+
+
+state 36
+
+    (4) vars_1 -> ID .
+    (5) vars_1 -> ID . COMA ID
+
+    SCOLO           reduce using rule 4 (vars_1 -> ID .)
+    COMA            shift and go to state 41
+
+
+state 37
+
+    (32) t_array -> t_array_1 LCORCH . CTE_INT RCORCH t_array_2
+
+    CTE_INT         shift and go to state 42
+
+
+state 38
+
+    (17) body -> MAIN LPAREN . RPAREN LBRACK vars statutes RBRACK
+
+    RPAREN          shift and go to state 43
+
+
+state 39
+
+    (6) function -> function_t ID LPAREN . function_v RPAREN LBRACK vars statutes RBRACK function
+    (13) function_v -> . function_v1
+    (14) function_v -> . empty
+    (15) function_v1 -> . type ID COMA
+    (16) function_v1 -> . type ID COMA function_v1
+    (105) empty -> .
+    (18) type -> . t_number
+    (19) type -> . t_string
+    (20) type -> . t_bool
+    (21) type -> . t_graph
+    (22) type -> . t_array
+    (23) t_number -> . INT
+    (24) t_number -> . FLOAT
+    (25) t_string -> . STRING
+    (26) t_string -> . CHAR
+    (27) t_bool -> . BOOL
+    (28) t_graph -> . NODE
+    (29) t_graph -> . ARC
+    (30) t_graph -> . UNDIRECTED
+    (31) t_graph -> . DIRECTED
+    (32) t_array -> . t_array_1 LCORCH CTE_INT RCORCH t_array_2
+    (33) t_array_1 -> . t_number
+    (34) t_array_1 -> . t_string
+    (35) t_array_1 -> . t_bool
+    (36) t_array_1 -> . t_graph
+
+    RPAREN          reduce using rule 105 (empty -> .)
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    STRING          shift and go to state 18
+    CHAR            shift and go to state 19
+    BOOL            shift and go to state 20
+    NODE            shift and go to state 21
+    ARC             shift and go to state 22
+    UNDIRECTED      shift and go to state 23
+    DIRECTED        shift and go to state 24
+
+    function_v                     shift and go to state 44
+    function_v1                    shift and go to state 45
+    empty                          shift and go to state 46
+    type                           shift and go to state 47
+    t_number                       shift and go to state 26
+    t_string                       shift and go to state 27
+    t_bool                         shift and go to state 28
+    t_graph                        shift and go to state 29
+    t_array                        shift and go to state 30
+    t_array_1                      shift and go to state 31
+
+state 40
+
+    (2) vars -> VAR type vars_1 SCOLO . vars
+    (2) vars -> . VAR type vars_1 SCOLO vars
+    (3) vars -> . empty
+    (105) empty -> .
+
+    VAR             shift and go to state 6
+    VOID            reduce using rule 105 (empty -> .)
+    INT             reduce using rule 105 (empty -> .)
+    FLOAT           reduce using rule 105 (empty -> .)
+    STRING          reduce using rule 105 (empty -> .)
+    CHAR            reduce using rule 105 (empty -> .)
+    BOOL            reduce using rule 105 (empty -> .)
+    NODE            reduce using rule 105 (empty -> .)
+    ARC             reduce using rule 105 (empty -> .)
+    UNDIRECTED      reduce using rule 105 (empty -> .)
+    DIRECTED        reduce using rule 105 (empty -> .)
+    MAIN            reduce using rule 105 (empty -> .)
+    ID              reduce using rule 105 (empty -> .)
+    PRINT           reduce using rule 105 (empty -> .)
+    IF              reduce using rule 105 (empty -> .)
+    WHILE           reduce using rule 105 (empty -> .)
+    DO              reduce using rule 105 (empty -> .)
+    FOR             reduce using rule 105 (empty -> .)
+    RBRACK          reduce using rule 105 (empty -> .)
+
+    vars                           shift and go to state 48
+    empty                          shift and go to state 7
+
+state 41
+
+    (5) vars_1 -> ID COMA . ID
+
+    ID              shift and go to state 49
+
+
+state 42
+
+    (32) t_array -> t_array_1 LCORCH CTE_INT . RCORCH t_array_2
+
+    RCORCH          shift and go to state 50
+
+
+state 43
+
+    (17) body -> MAIN LPAREN RPAREN . LBRACK vars statutes RBRACK
+
+    LBRACK          shift and go to state 51
+
+
+state 44
+
+    (6) function -> function_t ID LPAREN function_v . RPAREN LBRACK vars statutes RBRACK function
+
+    RPAREN          shift and go to state 52
+
+
+state 45
+
+    (13) function_v -> function_v1 .
+
+    RPAREN          reduce using rule 13 (function_v -> function_v1 .)
+
+
+state 46
+
+    (14) function_v -> empty .
+
+    RPAREN          reduce using rule 14 (function_v -> empty .)
+
+
+state 47
+
+    (15) function_v1 -> type . ID COMA
+    (16) function_v1 -> type . ID COMA function_v1
+
+    ID              shift and go to state 53
+
+
+state 48
+
+    (2) vars -> VAR type vars_1 SCOLO vars .
+
+    VOID            reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    INT             reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    FLOAT           reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    STRING          reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    CHAR            reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    BOOL            reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    NODE            reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    ARC             reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    UNDIRECTED      reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    DIRECTED        reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    MAIN            reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    ID              reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    PRINT           reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    IF              reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    WHILE           reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    DO              reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    FOR             reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+    RBRACK          reduce using rule 2 (vars -> VAR type vars_1 SCOLO vars .)
+
+
+state 49
+
+    (5) vars_1 -> ID COMA ID .
+
+    SCOLO           reduce using rule 5 (vars_1 -> ID COMA ID .)
+
+
+state 50
+
+    (32) t_array -> t_array_1 LCORCH CTE_INT RCORCH . t_array_2
+    (37) t_array_2 -> . LCORCH CTE_INT RCORCH t_array_2
+    (38) t_array_2 -> . empty
+    (105) empty -> .
+
+    LCORCH          shift and go to state 54
+    ID              reduce using rule 105 (empty -> .)
+
+    t_array_2                      shift and go to state 55
+    empty                          shift and go to state 56
+
+state 51
+
+    (17) body -> MAIN LPAREN RPAREN LBRACK . vars statutes RBRACK
+    (2) vars -> . VAR type vars_1 SCOLO vars
+    (3) vars -> . empty
+    (105) empty -> .
+
+    VAR             shift and go to state 6
+    ID              reduce using rule 105 (empty -> .)
+    PRINT           reduce using rule 105 (empty -> .)
+    IF              reduce using rule 105 (empty -> .)
+    WHILE           reduce using rule 105 (empty -> .)
+    DO              reduce using rule 105 (empty -> .)
+    FOR             reduce using rule 105 (empty -> .)
+    RBRACK          reduce using rule 105 (empty -> .)
+
+    vars                           shift and go to state 57
+    empty                          shift and go to state 7
+
+state 52
+
+    (6) function -> function_t ID LPAREN function_v RPAREN . LBRACK vars statutes RBRACK function
+
+    LBRACK          shift and go to state 58
+
+
+state 53
+
+    (15) function_v1 -> type ID . COMA
+    (16) function_v1 -> type ID . COMA function_v1
+
+    COMA            shift and go to state 59
+
+
+state 54
+
+    (37) t_array_2 -> LCORCH . CTE_INT RCORCH t_array_2
+
+    CTE_INT         shift and go to state 60
+
+
+state 55
+
+    (32) t_array -> t_array_1 LCORCH CTE_INT RCORCH t_array_2 .
+
+    ID              reduce using rule 32 (t_array -> t_array_1 LCORCH CTE_INT RCORCH t_array_2 .)
+
+
+state 56
+
+    (38) t_array_2 -> empty .
+
+    ID              reduce using rule 38 (t_array_2 -> empty .)
+
+
+state 57
+
+    (17) body -> MAIN LPAREN RPAREN LBRACK vars . statutes RBRACK
+    (39) statutes -> . statutes_1 statutes
+    (40) statutes -> . empty
+    (41) statutes_1 -> . assignation
+    (42) statutes_1 -> . writing
+    (43) statutes_1 -> . condition
+    (44) statutes_1 -> . cycle
+    (105) empty -> .
+    (45) assignation -> . ID EQL expression
+    (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
+    (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+    (55) cycle -> . c_while
+    (56) cycle -> . c_do
+    (57) cycle -> . c_for
+    (58) cycle -> . c_forin
+    (59) c_while -> . WHILE LPAREN expression RPAREN LBRACK statutes RBRACK
+    (60) c_do -> . DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN
+    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+
+    RBRACK          reduce using rule 105 (empty -> .)
+    ID              shift and go to state 68
+    PRINT           shift and go to state 69
+    IF              shift and go to state 70
+    WHILE           shift and go to state 75
+    DO              shift and go to state 76
+    FOR             shift and go to state 77
+
+    statutes                       shift and go to state 61
+    statutes_1                     shift and go to state 62
+    empty                          shift and go to state 63
+    assignation                    shift and go to state 64
+    writing                        shift and go to state 65
+    condition                      shift and go to state 66
+    cycle                          shift and go to state 67
+    c_while                        shift and go to state 71
+    c_do                           shift and go to state 72
+    c_for                          shift and go to state 73
+    c_forin                        shift and go to state 74
+
+state 58
+
+    (6) function -> function_t ID LPAREN function_v RPAREN LBRACK . vars statutes RBRACK function
+    (2) vars -> . VAR type vars_1 SCOLO vars
+    (3) vars -> . empty
+    (105) empty -> .
+
+    VAR             shift and go to state 6
+    ID              reduce using rule 105 (empty -> .)
+    PRINT           reduce using rule 105 (empty -> .)
+    IF              reduce using rule 105 (empty -> .)
+    WHILE           reduce using rule 105 (empty -> .)
+    DO              reduce using rule 105 (empty -> .)
+    FOR             reduce using rule 105 (empty -> .)
+    RBRACK          reduce using rule 105 (empty -> .)
+
+    vars                           shift and go to state 78
+    empty                          shift and go to state 7
+
+state 59
+
+    (15) function_v1 -> type ID COMA .
+    (16) function_v1 -> type ID COMA . function_v1
+    (15) function_v1 -> . type ID COMA
+    (16) function_v1 -> . type ID COMA function_v1
+    (18) type -> . t_number
+    (19) type -> . t_string
+    (20) type -> . t_bool
+    (21) type -> . t_graph
+    (22) type -> . t_array
+    (23) t_number -> . INT
+    (24) t_number -> . FLOAT
+    (25) t_string -> . STRING
+    (26) t_string -> . CHAR
+    (27) t_bool -> . BOOL
+    (28) t_graph -> . NODE
+    (29) t_graph -> . ARC
+    (30) t_graph -> . UNDIRECTED
+    (31) t_graph -> . DIRECTED
+    (32) t_array -> . t_array_1 LCORCH CTE_INT RCORCH t_array_2
+    (33) t_array_1 -> . t_number
+    (34) t_array_1 -> . t_string
+    (35) t_array_1 -> . t_bool
+    (36) t_array_1 -> . t_graph
+
+    RPAREN          reduce using rule 15 (function_v1 -> type ID COMA .)
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    STRING          shift and go to state 18
+    CHAR            shift and go to state 19
+    BOOL            shift and go to state 20
+    NODE            shift and go to state 21
+    ARC             shift and go to state 22
+    UNDIRECTED      shift and go to state 23
+    DIRECTED        shift and go to state 24
+
+    type                           shift and go to state 47
+    function_v1                    shift and go to state 79
+    t_number                       shift and go to state 26
+    t_string                       shift and go to state 27
+    t_bool                         shift and go to state 28
+    t_graph                        shift and go to state 29
+    t_array                        shift and go to state 30
+    t_array_1                      shift and go to state 31
+
+state 60
+
+    (37) t_array_2 -> LCORCH CTE_INT . RCORCH t_array_2
+
+    RCORCH          shift and go to state 80
+
+
+state 61
+
+    (17) body -> MAIN LPAREN RPAREN LBRACK vars statutes . RBRACK
+
+    RBRACK          shift and go to state 81
+
+
+state 62
+
+    (39) statutes -> statutes_1 . statutes
+    (39) statutes -> . statutes_1 statutes
+    (40) statutes -> . empty
+    (41) statutes_1 -> . assignation
+    (42) statutes_1 -> . writing
+    (43) statutes_1 -> . condition
+    (44) statutes_1 -> . cycle
+    (105) empty -> .
+    (45) assignation -> . ID EQL expression
+    (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
+    (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+    (55) cycle -> . c_while
+    (56) cycle -> . c_do
+    (57) cycle -> . c_for
+    (58) cycle -> . c_forin
+    (59) c_while -> . WHILE LPAREN expression RPAREN LBRACK statutes RBRACK
+    (60) c_do -> . DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN
+    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+
+    RBRACK          reduce using rule 105 (empty -> .)
+    ID              shift and go to state 68
+    PRINT           shift and go to state 69
+    IF              shift and go to state 70
+    WHILE           shift and go to state 75
+    DO              shift and go to state 76
+    FOR             shift and go to state 77
+
+    statutes_1                     shift and go to state 62
+    statutes                       shift and go to state 82
+    empty                          shift and go to state 63
+    assignation                    shift and go to state 64
+    writing                        shift and go to state 65
+    condition                      shift and go to state 66
+    cycle                          shift and go to state 67
+    c_while                        shift and go to state 71
+    c_do                           shift and go to state 72
+    c_for                          shift and go to state 73
+    c_forin                        shift and go to state 74
+
+state 63
+
+    (40) statutes -> empty .
+
+    RBRACK          reduce using rule 40 (statutes -> empty .)
+
+
+state 64
+
+    (41) statutes_1 -> assignation .
+
+    ID              reduce using rule 41 (statutes_1 -> assignation .)
+    PRINT           reduce using rule 41 (statutes_1 -> assignation .)
+    IF              reduce using rule 41 (statutes_1 -> assignation .)
+    WHILE           reduce using rule 41 (statutes_1 -> assignation .)
+    DO              reduce using rule 41 (statutes_1 -> assignation .)
+    FOR             reduce using rule 41 (statutes_1 -> assignation .)
+    RBRACK          reduce using rule 41 (statutes_1 -> assignation .)
+
+
+state 65
+
+    (42) statutes_1 -> writing .
+
+    ID              reduce using rule 42 (statutes_1 -> writing .)
+    PRINT           reduce using rule 42 (statutes_1 -> writing .)
+    IF              reduce using rule 42 (statutes_1 -> writing .)
+    WHILE           reduce using rule 42 (statutes_1 -> writing .)
+    DO              reduce using rule 42 (statutes_1 -> writing .)
+    FOR             reduce using rule 42 (statutes_1 -> writing .)
+    RBRACK          reduce using rule 42 (statutes_1 -> writing .)
+
+
+state 66
+
+    (43) statutes_1 -> condition .
+
+    ID              reduce using rule 43 (statutes_1 -> condition .)
+    PRINT           reduce using rule 43 (statutes_1 -> condition .)
+    IF              reduce using rule 43 (statutes_1 -> condition .)
+    WHILE           reduce using rule 43 (statutes_1 -> condition .)
+    DO              reduce using rule 43 (statutes_1 -> condition .)
+    FOR             reduce using rule 43 (statutes_1 -> condition .)
+    RBRACK          reduce using rule 43 (statutes_1 -> condition .)
+
+
+state 67
+
+    (44) statutes_1 -> cycle .
+
+    ID              reduce using rule 44 (statutes_1 -> cycle .)
+    PRINT           reduce using rule 44 (statutes_1 -> cycle .)
+    IF              reduce using rule 44 (statutes_1 -> cycle .)
+    WHILE           reduce using rule 44 (statutes_1 -> cycle .)
+    DO              reduce using rule 44 (statutes_1 -> cycle .)
+    FOR             reduce using rule 44 (statutes_1 -> cycle .)
+    RBRACK          reduce using rule 44 (statutes_1 -> cycle .)
+
+
+state 68
+
+    (45) assignation -> ID . EQL expression
+
+    EQL             shift and go to state 83
+
+
+state 69
+
+    (46) writing -> PRINT . LPAREN writing_1 RPAREN SCOLO
+
+    LPAREN          shift and go to state 84
+
+
+state 70
+
+    (52) condition -> IF . LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+
+    LPAREN          shift and go to state 85
+
+
+state 71
+
+    (55) cycle -> c_while .
+
+    ID              reduce using rule 55 (cycle -> c_while .)
+    PRINT           reduce using rule 55 (cycle -> c_while .)
+    IF              reduce using rule 55 (cycle -> c_while .)
+    WHILE           reduce using rule 55 (cycle -> c_while .)
+    DO              reduce using rule 55 (cycle -> c_while .)
+    FOR             reduce using rule 55 (cycle -> c_while .)
+    RBRACK          reduce using rule 55 (cycle -> c_while .)
+
+
+state 72
+
+    (56) cycle -> c_do .
+
+    ID              reduce using rule 56 (cycle -> c_do .)
+    PRINT           reduce using rule 56 (cycle -> c_do .)
+    IF              reduce using rule 56 (cycle -> c_do .)
+    WHILE           reduce using rule 56 (cycle -> c_do .)
+    DO              reduce using rule 56 (cycle -> c_do .)
+    FOR             reduce using rule 56 (cycle -> c_do .)
+    RBRACK          reduce using rule 56 (cycle -> c_do .)
+
+
+state 73
+
+    (57) cycle -> c_for .
+
+    ID              reduce using rule 57 (cycle -> c_for .)
+    PRINT           reduce using rule 57 (cycle -> c_for .)
+    IF              reduce using rule 57 (cycle -> c_for .)
+    WHILE           reduce using rule 57 (cycle -> c_for .)
+    DO              reduce using rule 57 (cycle -> c_for .)
+    FOR             reduce using rule 57 (cycle -> c_for .)
+    RBRACK          reduce using rule 57 (cycle -> c_for .)
+
+
+state 74
+
+    (58) cycle -> c_forin .
+
+    ID              reduce using rule 58 (cycle -> c_forin .)
+    PRINT           reduce using rule 58 (cycle -> c_forin .)
+    IF              reduce using rule 58 (cycle -> c_forin .)
+    WHILE           reduce using rule 58 (cycle -> c_forin .)
+    DO              reduce using rule 58 (cycle -> c_forin .)
+    FOR             reduce using rule 58 (cycle -> c_forin .)
+    RBRACK          reduce using rule 58 (cycle -> c_forin .)
+
+
+state 75
+
+    (59) c_while -> WHILE . LPAREN expression RPAREN LBRACK statutes RBRACK
+
+    LPAREN          shift and go to state 86
+
+
+state 76
+
+    (60) c_do -> DO . LBRACK statutes RBRACK WHILE LPAREN expression RPAREN
+
+    LBRACK          shift and go to state 87
+
+
+state 77
+
+    (61) c_for -> FOR . LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> FOR . LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+
+    LPAREN          shift and go to state 88
+
+
+state 78
+
+    (6) function -> function_t ID LPAREN function_v RPAREN LBRACK vars . statutes RBRACK function
+    (39) statutes -> . statutes_1 statutes
+    (40) statutes -> . empty
+    (41) statutes_1 -> . assignation
+    (42) statutes_1 -> . writing
+    (43) statutes_1 -> . condition
+    (44) statutes_1 -> . cycle
+    (105) empty -> .
+    (45) assignation -> . ID EQL expression
+    (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
+    (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+    (55) cycle -> . c_while
+    (56) cycle -> . c_do
+    (57) cycle -> . c_for
+    (58) cycle -> . c_forin
+    (59) c_while -> . WHILE LPAREN expression RPAREN LBRACK statutes RBRACK
+    (60) c_do -> . DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN
+    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+
+    RBRACK          reduce using rule 105 (empty -> .)
+    ID              shift and go to state 68
+    PRINT           shift and go to state 69
+    IF              shift and go to state 70
+    WHILE           shift and go to state 75
+    DO              shift and go to state 76
+    FOR             shift and go to state 77
+
+    statutes                       shift and go to state 89
+    statutes_1                     shift and go to state 62
+    empty                          shift and go to state 63
+    assignation                    shift and go to state 64
+    writing                        shift and go to state 65
+    condition                      shift and go to state 66
+    cycle                          shift and go to state 67
+    c_while                        shift and go to state 71
+    c_do                           shift and go to state 72
+    c_for                          shift and go to state 73
+    c_forin                        shift and go to state 74
+
+state 79
+
+    (16) function_v1 -> type ID COMA function_v1 .
+
+    RPAREN          reduce using rule 16 (function_v1 -> type ID COMA function_v1 .)
+
+
+state 80
+
+    (37) t_array_2 -> LCORCH CTE_INT RCORCH . t_array_2
+    (37) t_array_2 -> . LCORCH CTE_INT RCORCH t_array_2
+    (38) t_array_2 -> . empty
+    (105) empty -> .
+
+    LCORCH          shift and go to state 54
+    ID              reduce using rule 105 (empty -> .)
+
+    t_array_2                      shift and go to state 90
+    empty                          shift and go to state 56
+
+state 81
+
+    (17) body -> MAIN LPAREN RPAREN LBRACK vars statutes RBRACK .
+
+    $end            reduce using rule 17 (body -> MAIN LPAREN RPAREN LBRACK vars statutes RBRACK .)
+
+
+state 82
+
+    (39) statutes -> statutes_1 statutes .
+
+    RBRACK          reduce using rule 39 (statutes -> statutes_1 statutes .)
+
+
+state 83
+
+    (45) assignation -> ID EQL . expression
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    expression                     shift and go to state 92
+    exp_lv1                        shift and go to state 93
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 84
+
+    (46) writing -> PRINT LPAREN . writing_1 RPAREN SCOLO
+    (47) writing_1 -> . expression
+    (48) writing_1 -> . CTE_STRING
+    (49) writing_1 -> . writing_2
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (50) writing_2 -> . expression SUMA writing_1
+    (51) writing_2 -> . CTE_STRING SUMA writing_1
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    CTE_STRING      shift and go to state 109
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_CHAR        shift and go to state 106
+
+    writing_1                      shift and go to state 107
+    expression                     shift and go to state 108
+    writing_2                      shift and go to state 110
+    exp_lv1                        shift and go to state 93
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 85
+
+    (52) condition -> IF LPAREN . expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    expression                     shift and go to state 111
+    exp_lv1                        shift and go to state 93
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 86
+
+    (59) c_while -> WHILE LPAREN . expression RPAREN LBRACK statutes RBRACK
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    expression                     shift and go to state 112
+    exp_lv1                        shift and go to state 93
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 87
+
+    (60) c_do -> DO LBRACK . statutes RBRACK WHILE LPAREN expression RPAREN
+    (39) statutes -> . statutes_1 statutes
+    (40) statutes -> . empty
+    (41) statutes_1 -> . assignation
+    (42) statutes_1 -> . writing
+    (43) statutes_1 -> . condition
+    (44) statutes_1 -> . cycle
+    (105) empty -> .
+    (45) assignation -> . ID EQL expression
+    (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
+    (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+    (55) cycle -> . c_while
+    (56) cycle -> . c_do
+    (57) cycle -> . c_for
+    (58) cycle -> . c_forin
+    (59) c_while -> . WHILE LPAREN expression RPAREN LBRACK statutes RBRACK
+    (60) c_do -> . DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN
+    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+
+    RBRACK          reduce using rule 105 (empty -> .)
+    ID              shift and go to state 68
+    PRINT           shift and go to state 69
+    IF              shift and go to state 70
+    WHILE           shift and go to state 75
+    DO              shift and go to state 76
+    FOR             shift and go to state 77
+
+    statutes                       shift and go to state 113
+    statutes_1                     shift and go to state 62
+    empty                          shift and go to state 63
+    assignation                    shift and go to state 64
+    writing                        shift and go to state 65
+    condition                      shift and go to state 66
+    cycle                          shift and go to state 67
+    c_while                        shift and go to state 71
+    c_do                           shift and go to state 72
+    c_for                          shift and go to state 73
+    c_forin                        shift and go to state 74
+
+state 88
+
+    (61) c_for -> FOR LPAREN . ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> FOR LPAREN . ID IN ID RPAREN LBRACK statutes RBRACK
+
+    ID              shift and go to state 114
+
+
+state 89
+
+    (6) function -> function_t ID LPAREN function_v RPAREN LBRACK vars statutes . RBRACK function
+
+    RBRACK          shift and go to state 115
+
+
+state 90
+
+    (37) t_array_2 -> LCORCH CTE_INT RCORCH t_array_2 .
+
+    ID              reduce using rule 37 (t_array_2 -> LCORCH CTE_INT RCORCH t_array_2 .)
+
+
+state 91
+
+    (86) exp_lv5 -> ID .
+    (92) method -> ID . DOT method_t LPAREN method_1 RPAREN
+
+    MUL             reduce using rule 86 (exp_lv5 -> ID .)
+    DIV             reduce using rule 86 (exp_lv5 -> ID .)
+    RESD            reduce using rule 86 (exp_lv5 -> ID .)
+    SUMA            reduce using rule 86 (exp_lv5 -> ID .)
+    SUB             reduce using rule 86 (exp_lv5 -> ID .)
+    LESST           reduce using rule 86 (exp_lv5 -> ID .)
+    MORET           reduce using rule 86 (exp_lv5 -> ID .)
+    LESSEQUAL       reduce using rule 86 (exp_lv5 -> ID .)
+    MOREEQUAL       reduce using rule 86 (exp_lv5 -> ID .)
+    EQUALTO         reduce using rule 86 (exp_lv5 -> ID .)
+    NOTEQUALTO      reduce using rule 86 (exp_lv5 -> ID .)
+    AND             reduce using rule 86 (exp_lv5 -> ID .)
+    OR              reduce using rule 86 (exp_lv5 -> ID .)
+    ID              reduce using rule 86 (exp_lv5 -> ID .)
+    PRINT           reduce using rule 86 (exp_lv5 -> ID .)
+    IF              reduce using rule 86 (exp_lv5 -> ID .)
+    WHILE           reduce using rule 86 (exp_lv5 -> ID .)
+    DO              reduce using rule 86 (exp_lv5 -> ID .)
+    FOR             reduce using rule 86 (exp_lv5 -> ID .)
+    RBRACK          reduce using rule 86 (exp_lv5 -> ID .)
+    RPAREN          reduce using rule 86 (exp_lv5 -> ID .)
+    LPAREN          reduce using rule 86 (exp_lv5 -> ID .)
+    SCOLO           reduce using rule 86 (exp_lv5 -> ID .)
+    DOT             shift and go to state 116
+
+
+state 92
+
+    (45) assignation -> ID EQL expression .
+
+    ID              reduce using rule 45 (assignation -> ID EQL expression .)
+    PRINT           reduce using rule 45 (assignation -> ID EQL expression .)
+    IF              reduce using rule 45 (assignation -> ID EQL expression .)
+    WHILE           reduce using rule 45 (assignation -> ID EQL expression .)
+    DO              reduce using rule 45 (assignation -> ID EQL expression .)
+    FOR             reduce using rule 45 (assignation -> ID EQL expression .)
+    RBRACK          reduce using rule 45 (assignation -> ID EQL expression .)
+    RPAREN          reduce using rule 45 (assignation -> ID EQL expression .)
+
+
+state 93
+
+    (63) expression -> exp_lv1 .
+    (64) expression -> exp_lv1 . AND expression
+    (65) expression -> exp_lv1 . OR expression
+
+    ID              reduce using rule 63 (expression -> exp_lv1 .)
+    PRINT           reduce using rule 63 (expression -> exp_lv1 .)
+    IF              reduce using rule 63 (expression -> exp_lv1 .)
+    WHILE           reduce using rule 63 (expression -> exp_lv1 .)
+    DO              reduce using rule 63 (expression -> exp_lv1 .)
+    FOR             reduce using rule 63 (expression -> exp_lv1 .)
+    RBRACK          reduce using rule 63 (expression -> exp_lv1 .)
+    RPAREN          reduce using rule 63 (expression -> exp_lv1 .)
+    SUMA            reduce using rule 63 (expression -> exp_lv1 .)
+    LPAREN          reduce using rule 63 (expression -> exp_lv1 .)
+    SCOLO           reduce using rule 63 (expression -> exp_lv1 .)
+    AND             shift and go to state 117
+    OR              shift and go to state 118
+
+
+state 94
+
+    (66) exp_lv1 -> exp_lv2 . exp_lv1_1
+    (67) exp_lv1_1 -> . LESST exp_lv2
+    (68) exp_lv1_1 -> . MORET exp_lv2
+    (69) exp_lv1_1 -> . LESSEQUAL exp_lv2
+    (70) exp_lv1_1 -> . MOREEQUAL exp_lv2
+    (71) exp_lv1_1 -> . EQUALTO exp_lv2
+    (72) exp_lv1_1 -> . NOTEQUALTO exp_lv2
+    (73) exp_lv1_1 -> . empty
+    (105) empty -> .
+
+    LESST           shift and go to state 120
+    MORET           shift and go to state 121
+    LESSEQUAL       shift and go to state 122
+    MOREEQUAL       shift and go to state 123
+    EQUALTO         shift and go to state 124
+    NOTEQUALTO      shift and go to state 125
+    AND             reduce using rule 105 (empty -> .)
+    OR              reduce using rule 105 (empty -> .)
+    ID              reduce using rule 105 (empty -> .)
+    PRINT           reduce using rule 105 (empty -> .)
+    IF              reduce using rule 105 (empty -> .)
+    WHILE           reduce using rule 105 (empty -> .)
+    DO              reduce using rule 105 (empty -> .)
+    FOR             reduce using rule 105 (empty -> .)
+    RBRACK          reduce using rule 105 (empty -> .)
+    RPAREN          reduce using rule 105 (empty -> .)
+    SUMA            reduce using rule 105 (empty -> .)
+    LPAREN          reduce using rule 105 (empty -> .)
+    SCOLO           reduce using rule 105 (empty -> .)
+
+    exp_lv1_1                      shift and go to state 119
+    empty                          shift and go to state 126
+
+state 95
+
+    (74) exp_lv2 -> exp_lv3 .
+    (75) exp_lv2 -> exp_lv3 . SUMA exp_lv2
+    (76) exp_lv2 -> exp_lv3 . SUB exp_lv2
+
+  ! shift/reduce conflict for SUMA resolved as shift
+    LESST           reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    MORET           reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    LESSEQUAL       reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    MOREEQUAL       reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    EQUALTO         reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    NOTEQUALTO      reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    AND             reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    OR              reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    ID              reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    PRINT           reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    IF              reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    WHILE           reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    DO              reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    FOR             reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    RBRACK          reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    RPAREN          reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    LPAREN          reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    SCOLO           reduce using rule 74 (exp_lv2 -> exp_lv3 .)
+    SUMA            shift and go to state 127
+    SUB             shift and go to state 128
+
+  ! SUMA            [ reduce using rule 74 (exp_lv2 -> exp_lv3 .) ]
+
+
+state 96
+
+    (77) exp_lv3 -> exp_lv4 .
+    (78) exp_lv3 -> exp_lv4 . MUL exp_lv3
+    (79) exp_lv3 -> exp_lv4 . DIV exp_lv3
+    (80) exp_lv3 -> exp_lv4 . RESD exp_lv3
+
+    SUMA            reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    SUB             reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    LESST           reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    MORET           reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    LESSEQUAL       reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    MOREEQUAL       reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    EQUALTO         reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    NOTEQUALTO      reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    AND             reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    OR              reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    ID              reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    PRINT           reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    IF              reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    WHILE           reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    DO              reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    FOR             reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    RBRACK          reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    RPAREN          reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    LPAREN          reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    SCOLO           reduce using rule 77 (exp_lv3 -> exp_lv4 .)
+    MUL             shift and go to state 129
+    DIV             shift and go to state 130
+    RESD            shift and go to state 131
+
+
+state 97
+
+    (81) exp_lv4 -> exp_lv5 .
+
+    MUL             reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    DIV             reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    RESD            reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    SUMA            reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    SUB             reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    LESST           reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    MORET           reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    LESSEQUAL       reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    MOREEQUAL       reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    EQUALTO         reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    NOTEQUALTO      reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    AND             reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    OR              reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    ID              reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    PRINT           reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    IF              reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    WHILE           reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    DO              reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    FOR             reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    RBRACK          reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    RPAREN          reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    LPAREN          reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+    SCOLO           reduce using rule 81 (exp_lv4 -> exp_lv5 .)
+
+
+state 98
+
+    (82) exp_lv4 -> NOT . exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv5                        shift and go to state 132
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 99
+
+    (83) exp_lv5 -> RPAREN . expression LPAREN
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    expression                     shift and go to state 133
+    exp_lv1                        shift and go to state 93
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 100
+
+    (84) exp_lv5 -> var_cte .
+
+    MUL             reduce using rule 84 (exp_lv5 -> var_cte .)
+    DIV             reduce using rule 84 (exp_lv5 -> var_cte .)
+    RESD            reduce using rule 84 (exp_lv5 -> var_cte .)
+    SUMA            reduce using rule 84 (exp_lv5 -> var_cte .)
+    SUB             reduce using rule 84 (exp_lv5 -> var_cte .)
+    LESST           reduce using rule 84 (exp_lv5 -> var_cte .)
+    MORET           reduce using rule 84 (exp_lv5 -> var_cte .)
+    LESSEQUAL       reduce using rule 84 (exp_lv5 -> var_cte .)
+    MOREEQUAL       reduce using rule 84 (exp_lv5 -> var_cte .)
+    EQUALTO         reduce using rule 84 (exp_lv5 -> var_cte .)
+    NOTEQUALTO      reduce using rule 84 (exp_lv5 -> var_cte .)
+    AND             reduce using rule 84 (exp_lv5 -> var_cte .)
+    OR              reduce using rule 84 (exp_lv5 -> var_cte .)
+    ID              reduce using rule 84 (exp_lv5 -> var_cte .)
+    PRINT           reduce using rule 84 (exp_lv5 -> var_cte .)
+    IF              reduce using rule 84 (exp_lv5 -> var_cte .)
+    WHILE           reduce using rule 84 (exp_lv5 -> var_cte .)
+    DO              reduce using rule 84 (exp_lv5 -> var_cte .)
+    FOR             reduce using rule 84 (exp_lv5 -> var_cte .)
+    RBRACK          reduce using rule 84 (exp_lv5 -> var_cte .)
+    RPAREN          reduce using rule 84 (exp_lv5 -> var_cte .)
+    LPAREN          reduce using rule 84 (exp_lv5 -> var_cte .)
+    SCOLO           reduce using rule 84 (exp_lv5 -> var_cte .)
+
+
+state 101
+
+    (85) exp_lv5 -> method .
+
+    MUL             reduce using rule 85 (exp_lv5 -> method .)
+    DIV             reduce using rule 85 (exp_lv5 -> method .)
+    RESD            reduce using rule 85 (exp_lv5 -> method .)
+    SUMA            reduce using rule 85 (exp_lv5 -> method .)
+    SUB             reduce using rule 85 (exp_lv5 -> method .)
+    LESST           reduce using rule 85 (exp_lv5 -> method .)
+    MORET           reduce using rule 85 (exp_lv5 -> method .)
+    LESSEQUAL       reduce using rule 85 (exp_lv5 -> method .)
+    MOREEQUAL       reduce using rule 85 (exp_lv5 -> method .)
+    EQUALTO         reduce using rule 85 (exp_lv5 -> method .)
+    NOTEQUALTO      reduce using rule 85 (exp_lv5 -> method .)
+    AND             reduce using rule 85 (exp_lv5 -> method .)
+    OR              reduce using rule 85 (exp_lv5 -> method .)
+    ID              reduce using rule 85 (exp_lv5 -> method .)
+    PRINT           reduce using rule 85 (exp_lv5 -> method .)
+    IF              reduce using rule 85 (exp_lv5 -> method .)
+    WHILE           reduce using rule 85 (exp_lv5 -> method .)
+    DO              reduce using rule 85 (exp_lv5 -> method .)
+    FOR             reduce using rule 85 (exp_lv5 -> method .)
+    RBRACK          reduce using rule 85 (exp_lv5 -> method .)
+    RPAREN          reduce using rule 85 (exp_lv5 -> method .)
+    LPAREN          reduce using rule 85 (exp_lv5 -> method .)
+    SCOLO           reduce using rule 85 (exp_lv5 -> method .)
+
+
+state 102
+
+    (87) var_cte -> CTE_INT .
+
+    MUL             reduce using rule 87 (var_cte -> CTE_INT .)
+    DIV             reduce using rule 87 (var_cte -> CTE_INT .)
+    RESD            reduce using rule 87 (var_cte -> CTE_INT .)
+    SUMA            reduce using rule 87 (var_cte -> CTE_INT .)
+    SUB             reduce using rule 87 (var_cte -> CTE_INT .)
+    LESST           reduce using rule 87 (var_cte -> CTE_INT .)
+    MORET           reduce using rule 87 (var_cte -> CTE_INT .)
+    LESSEQUAL       reduce using rule 87 (var_cte -> CTE_INT .)
+    MOREEQUAL       reduce using rule 87 (var_cte -> CTE_INT .)
+    EQUALTO         reduce using rule 87 (var_cte -> CTE_INT .)
+    NOTEQUALTO      reduce using rule 87 (var_cte -> CTE_INT .)
+    AND             reduce using rule 87 (var_cte -> CTE_INT .)
+    OR              reduce using rule 87 (var_cte -> CTE_INT .)
+    ID              reduce using rule 87 (var_cte -> CTE_INT .)
+    PRINT           reduce using rule 87 (var_cte -> CTE_INT .)
+    IF              reduce using rule 87 (var_cte -> CTE_INT .)
+    WHILE           reduce using rule 87 (var_cte -> CTE_INT .)
+    DO              reduce using rule 87 (var_cte -> CTE_INT .)
+    FOR             reduce using rule 87 (var_cte -> CTE_INT .)
+    RBRACK          reduce using rule 87 (var_cte -> CTE_INT .)
+    RPAREN          reduce using rule 87 (var_cte -> CTE_INT .)
+    LPAREN          reduce using rule 87 (var_cte -> CTE_INT .)
+    SCOLO           reduce using rule 87 (var_cte -> CTE_INT .)
+
+
+state 103
+
+    (88) var_cte -> CTE_FLO .
+
+    MUL             reduce using rule 88 (var_cte -> CTE_FLO .)
+    DIV             reduce using rule 88 (var_cte -> CTE_FLO .)
+    RESD            reduce using rule 88 (var_cte -> CTE_FLO .)
+    SUMA            reduce using rule 88 (var_cte -> CTE_FLO .)
+    SUB             reduce using rule 88 (var_cte -> CTE_FLO .)
+    LESST           reduce using rule 88 (var_cte -> CTE_FLO .)
+    MORET           reduce using rule 88 (var_cte -> CTE_FLO .)
+    LESSEQUAL       reduce using rule 88 (var_cte -> CTE_FLO .)
+    MOREEQUAL       reduce using rule 88 (var_cte -> CTE_FLO .)
+    EQUALTO         reduce using rule 88 (var_cte -> CTE_FLO .)
+    NOTEQUALTO      reduce using rule 88 (var_cte -> CTE_FLO .)
+    AND             reduce using rule 88 (var_cte -> CTE_FLO .)
+    OR              reduce using rule 88 (var_cte -> CTE_FLO .)
+    ID              reduce using rule 88 (var_cte -> CTE_FLO .)
+    PRINT           reduce using rule 88 (var_cte -> CTE_FLO .)
+    IF              reduce using rule 88 (var_cte -> CTE_FLO .)
+    WHILE           reduce using rule 88 (var_cte -> CTE_FLO .)
+    DO              reduce using rule 88 (var_cte -> CTE_FLO .)
+    FOR             reduce using rule 88 (var_cte -> CTE_FLO .)
+    RBRACK          reduce using rule 88 (var_cte -> CTE_FLO .)
+    RPAREN          reduce using rule 88 (var_cte -> CTE_FLO .)
+    LPAREN          reduce using rule 88 (var_cte -> CTE_FLO .)
+    SCOLO           reduce using rule 88 (var_cte -> CTE_FLO .)
+
+
+state 104
+
+    (89) var_cte -> CTE_BOO .
+
+    MUL             reduce using rule 89 (var_cte -> CTE_BOO .)
+    DIV             reduce using rule 89 (var_cte -> CTE_BOO .)
+    RESD            reduce using rule 89 (var_cte -> CTE_BOO .)
+    SUMA            reduce using rule 89 (var_cte -> CTE_BOO .)
+    SUB             reduce using rule 89 (var_cte -> CTE_BOO .)
+    LESST           reduce using rule 89 (var_cte -> CTE_BOO .)
+    MORET           reduce using rule 89 (var_cte -> CTE_BOO .)
+    LESSEQUAL       reduce using rule 89 (var_cte -> CTE_BOO .)
+    MOREEQUAL       reduce using rule 89 (var_cte -> CTE_BOO .)
+    EQUALTO         reduce using rule 89 (var_cte -> CTE_BOO .)
+    NOTEQUALTO      reduce using rule 89 (var_cte -> CTE_BOO .)
+    AND             reduce using rule 89 (var_cte -> CTE_BOO .)
+    OR              reduce using rule 89 (var_cte -> CTE_BOO .)
+    ID              reduce using rule 89 (var_cte -> CTE_BOO .)
+    PRINT           reduce using rule 89 (var_cte -> CTE_BOO .)
+    IF              reduce using rule 89 (var_cte -> CTE_BOO .)
+    WHILE           reduce using rule 89 (var_cte -> CTE_BOO .)
+    DO              reduce using rule 89 (var_cte -> CTE_BOO .)
+    FOR             reduce using rule 89 (var_cte -> CTE_BOO .)
+    RBRACK          reduce using rule 89 (var_cte -> CTE_BOO .)
+    RPAREN          reduce using rule 89 (var_cte -> CTE_BOO .)
+    LPAREN          reduce using rule 89 (var_cte -> CTE_BOO .)
+    SCOLO           reduce using rule 89 (var_cte -> CTE_BOO .)
+
+
+state 105
+
+    (90) var_cte -> CTE_STRING .
+
+    MUL             reduce using rule 90 (var_cte -> CTE_STRING .)
+    DIV             reduce using rule 90 (var_cte -> CTE_STRING .)
+    RESD            reduce using rule 90 (var_cte -> CTE_STRING .)
+    SUMA            reduce using rule 90 (var_cte -> CTE_STRING .)
+    SUB             reduce using rule 90 (var_cte -> CTE_STRING .)
+    LESST           reduce using rule 90 (var_cte -> CTE_STRING .)
+    MORET           reduce using rule 90 (var_cte -> CTE_STRING .)
+    LESSEQUAL       reduce using rule 90 (var_cte -> CTE_STRING .)
+    MOREEQUAL       reduce using rule 90 (var_cte -> CTE_STRING .)
+    EQUALTO         reduce using rule 90 (var_cte -> CTE_STRING .)
+    NOTEQUALTO      reduce using rule 90 (var_cte -> CTE_STRING .)
+    AND             reduce using rule 90 (var_cte -> CTE_STRING .)
+    OR              reduce using rule 90 (var_cte -> CTE_STRING .)
+    ID              reduce using rule 90 (var_cte -> CTE_STRING .)
+    PRINT           reduce using rule 90 (var_cte -> CTE_STRING .)
+    IF              reduce using rule 90 (var_cte -> CTE_STRING .)
+    WHILE           reduce using rule 90 (var_cte -> CTE_STRING .)
+    DO              reduce using rule 90 (var_cte -> CTE_STRING .)
+    FOR             reduce using rule 90 (var_cte -> CTE_STRING .)
+    RBRACK          reduce using rule 90 (var_cte -> CTE_STRING .)
+    RPAREN          reduce using rule 90 (var_cte -> CTE_STRING .)
+    LPAREN          reduce using rule 90 (var_cte -> CTE_STRING .)
+    SCOLO           reduce using rule 90 (var_cte -> CTE_STRING .)
+
+
+state 106
+
+    (91) var_cte -> CTE_CHAR .
+
+    MUL             reduce using rule 91 (var_cte -> CTE_CHAR .)
+    DIV             reduce using rule 91 (var_cte -> CTE_CHAR .)
+    RESD            reduce using rule 91 (var_cte -> CTE_CHAR .)
+    SUMA            reduce using rule 91 (var_cte -> CTE_CHAR .)
+    SUB             reduce using rule 91 (var_cte -> CTE_CHAR .)
+    LESST           reduce using rule 91 (var_cte -> CTE_CHAR .)
+    MORET           reduce using rule 91 (var_cte -> CTE_CHAR .)
+    LESSEQUAL       reduce using rule 91 (var_cte -> CTE_CHAR .)
+    MOREEQUAL       reduce using rule 91 (var_cte -> CTE_CHAR .)
+    EQUALTO         reduce using rule 91 (var_cte -> CTE_CHAR .)
+    NOTEQUALTO      reduce using rule 91 (var_cte -> CTE_CHAR .)
+    AND             reduce using rule 91 (var_cte -> CTE_CHAR .)
+    OR              reduce using rule 91 (var_cte -> CTE_CHAR .)
+    ID              reduce using rule 91 (var_cte -> CTE_CHAR .)
+    PRINT           reduce using rule 91 (var_cte -> CTE_CHAR .)
+    IF              reduce using rule 91 (var_cte -> CTE_CHAR .)
+    WHILE           reduce using rule 91 (var_cte -> CTE_CHAR .)
+    DO              reduce using rule 91 (var_cte -> CTE_CHAR .)
+    FOR             reduce using rule 91 (var_cte -> CTE_CHAR .)
+    RBRACK          reduce using rule 91 (var_cte -> CTE_CHAR .)
+    RPAREN          reduce using rule 91 (var_cte -> CTE_CHAR .)
+    LPAREN          reduce using rule 91 (var_cte -> CTE_CHAR .)
+    SCOLO           reduce using rule 91 (var_cte -> CTE_CHAR .)
+
+
+state 107
+
+    (46) writing -> PRINT LPAREN writing_1 . RPAREN SCOLO
+
+    RPAREN          shift and go to state 134
+
+
+state 108
+
+    (47) writing_1 -> expression .
+    (50) writing_2 -> expression . SUMA writing_1
+
+    RPAREN          reduce using rule 47 (writing_1 -> expression .)
+    SUMA            shift and go to state 135
+
+
+state 109
+
+    (48) writing_1 -> CTE_STRING .
+    (51) writing_2 -> CTE_STRING . SUMA writing_1
+    (90) var_cte -> CTE_STRING .
+
+  ! shift/reduce conflict for SUMA resolved as shift
+  ! reduce/reduce conflict for RPAREN resolved using rule 48 (writing_1 -> CTE_STRING .)
+    RPAREN          reduce using rule 48 (writing_1 -> CTE_STRING .)
+    SUMA            shift and go to state 136
+    MUL             reduce using rule 90 (var_cte -> CTE_STRING .)
+    DIV             reduce using rule 90 (var_cte -> CTE_STRING .)
+    RESD            reduce using rule 90 (var_cte -> CTE_STRING .)
+    SUB             reduce using rule 90 (var_cte -> CTE_STRING .)
+    LESST           reduce using rule 90 (var_cte -> CTE_STRING .)
+    MORET           reduce using rule 90 (var_cte -> CTE_STRING .)
+    LESSEQUAL       reduce using rule 90 (var_cte -> CTE_STRING .)
+    MOREEQUAL       reduce using rule 90 (var_cte -> CTE_STRING .)
+    EQUALTO         reduce using rule 90 (var_cte -> CTE_STRING .)
+    NOTEQUALTO      reduce using rule 90 (var_cte -> CTE_STRING .)
+    AND             reduce using rule 90 (var_cte -> CTE_STRING .)
+    OR              reduce using rule 90 (var_cte -> CTE_STRING .)
+
+  ! SUMA            [ reduce using rule 90 (var_cte -> CTE_STRING .) ]
+  ! RPAREN          [ reduce using rule 90 (var_cte -> CTE_STRING .) ]
+
+
+state 110
+
+    (49) writing_1 -> writing_2 .
+
+    RPAREN          reduce using rule 49 (writing_1 -> writing_2 .)
+
+
+state 111
+
+    (52) condition -> IF LPAREN expression . RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+
+    RPAREN          shift and go to state 137
+
+
+state 112
+
+    (59) c_while -> WHILE LPAREN expression . RPAREN LBRACK statutes RBRACK
+
+    RPAREN          shift and go to state 138
+
+
+state 113
+
+    (60) c_do -> DO LBRACK statutes . RBRACK WHILE LPAREN expression RPAREN
+
+    RBRACK          shift and go to state 139
+
+
+state 114
+
+    (61) c_for -> FOR LPAREN ID . SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> FOR LPAREN ID . IN ID RPAREN LBRACK statutes RBRACK
+
+    SCOLO           shift and go to state 140
+    IN              shift and go to state 141
+
+
+state 115
+
+    (6) function -> function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK . function
+    (6) function -> . function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
+    (7) function -> . empty
+    (8) function_t -> . VOID
+    (9) function_t -> . t_number
+    (10) function_t -> . t_string
+    (11) function_t -> . t_bool
+    (12) function_t -> . t_graph
+    (105) empty -> .
+    (23) t_number -> . INT
+    (24) t_number -> . FLOAT
+    (25) t_string -> . STRING
+    (26) t_string -> . CHAR
+    (27) t_bool -> . BOOL
+    (28) t_graph -> . NODE
+    (29) t_graph -> . ARC
+    (30) t_graph -> . UNDIRECTED
+    (31) t_graph -> . DIRECTED
+
+    VOID            shift and go to state 11
+    MAIN            reduce using rule 105 (empty -> .)
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    STRING          shift and go to state 18
+    CHAR            shift and go to state 19
+    BOOL            shift and go to state 20
+    NODE            shift and go to state 21
+    ARC             shift and go to state 22
+    UNDIRECTED      shift and go to state 23
+    DIRECTED        shift and go to state 24
+
+    function_t                     shift and go to state 9
+    function                       shift and go to state 142
+    empty                          shift and go to state 10
+    t_number                       shift and go to state 12
+    t_string                       shift and go to state 13
+    t_bool                         shift and go to state 14
+    t_graph                        shift and go to state 15
+
+state 116
+
+    (92) method -> ID DOT . method_t LPAREN method_1 RPAREN
+    (97) method_t -> . DEG
+    (98) method_t -> . SHORTPATH
+    (99) method_t -> . DIAMETER
+    (100) method_t -> . ADD
+    (101) method_t -> . DELETE
+    (102) method_t -> . ARC
+
+    DEG             shift and go to state 144
+    SHORTPATH       shift and go to state 145
+    DIAMETER        shift and go to state 146
+    ADD             shift and go to state 147
+    DELETE          shift and go to state 148
+    ARC             shift and go to state 149
+
+    method_t                       shift and go to state 143
+
+state 117
+
+    (64) expression -> exp_lv1 AND . expression
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv1                        shift and go to state 93
+    expression                     shift and go to state 150
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 118
+
+    (65) expression -> exp_lv1 OR . expression
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv1                        shift and go to state 93
+    expression                     shift and go to state 151
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 119
+
+    (66) exp_lv1 -> exp_lv2 exp_lv1_1 .
+
+    AND             reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    OR              reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    ID              reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    PRINT           reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    IF              reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    WHILE           reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    DO              reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    FOR             reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    RBRACK          reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    RPAREN          reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    SUMA            reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    LPAREN          reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+    SCOLO           reduce using rule 66 (exp_lv1 -> exp_lv2 exp_lv1_1 .)
+
+
+state 120
+
+    (67) exp_lv1_1 -> LESST . exp_lv2
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv2                        shift and go to state 152
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 121
+
+    (68) exp_lv1_1 -> MORET . exp_lv2
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv2                        shift and go to state 153
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 122
+
+    (69) exp_lv1_1 -> LESSEQUAL . exp_lv2
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv2                        shift and go to state 154
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 123
+
+    (70) exp_lv1_1 -> MOREEQUAL . exp_lv2
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv2                        shift and go to state 155
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 124
+
+    (71) exp_lv1_1 -> EQUALTO . exp_lv2
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv2                        shift and go to state 156
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 125
+
+    (72) exp_lv1_1 -> NOTEQUALTO . exp_lv2
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv2                        shift and go to state 157
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 126
+
+    (73) exp_lv1_1 -> empty .
+
+    AND             reduce using rule 73 (exp_lv1_1 -> empty .)
+    OR              reduce using rule 73 (exp_lv1_1 -> empty .)
+    ID              reduce using rule 73 (exp_lv1_1 -> empty .)
+    PRINT           reduce using rule 73 (exp_lv1_1 -> empty .)
+    IF              reduce using rule 73 (exp_lv1_1 -> empty .)
+    WHILE           reduce using rule 73 (exp_lv1_1 -> empty .)
+    DO              reduce using rule 73 (exp_lv1_1 -> empty .)
+    FOR             reduce using rule 73 (exp_lv1_1 -> empty .)
+    RBRACK          reduce using rule 73 (exp_lv1_1 -> empty .)
+    RPAREN          reduce using rule 73 (exp_lv1_1 -> empty .)
+    SUMA            reduce using rule 73 (exp_lv1_1 -> empty .)
+    LPAREN          reduce using rule 73 (exp_lv1_1 -> empty .)
+    SCOLO           reduce using rule 73 (exp_lv1_1 -> empty .)
+
+
+state 127
+
+    (75) exp_lv2 -> exp_lv3 SUMA . exp_lv2
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv3                        shift and go to state 95
+    exp_lv2                        shift and go to state 158
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 128
+
+    (76) exp_lv2 -> exp_lv3 SUB . exp_lv2
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv3                        shift and go to state 95
+    exp_lv2                        shift and go to state 159
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 129
+
+    (78) exp_lv3 -> exp_lv4 MUL . exp_lv3
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv4                        shift and go to state 96
+    exp_lv3                        shift and go to state 160
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 130
+
+    (79) exp_lv3 -> exp_lv4 DIV . exp_lv3
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv4                        shift and go to state 96
+    exp_lv3                        shift and go to state 161
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 131
+
+    (80) exp_lv3 -> exp_lv4 RESD . exp_lv3
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    exp_lv4                        shift and go to state 96
+    exp_lv3                        shift and go to state 162
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 132
+
+    (82) exp_lv4 -> NOT exp_lv5 .
+
+    MUL             reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    DIV             reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    RESD            reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    SUMA            reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    SUB             reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    LESST           reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    MORET           reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    LESSEQUAL       reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    MOREEQUAL       reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    EQUALTO         reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    NOTEQUALTO      reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    AND             reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    OR              reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    ID              reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    PRINT           reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    IF              reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    WHILE           reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    DO              reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    FOR             reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    RBRACK          reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    RPAREN          reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    LPAREN          reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+    SCOLO           reduce using rule 82 (exp_lv4 -> NOT exp_lv5 .)
+
+
+state 133
+
+    (83) exp_lv5 -> RPAREN expression . LPAREN
+
+    LPAREN          shift and go to state 163
+
+
+state 134
+
+    (46) writing -> PRINT LPAREN writing_1 RPAREN . SCOLO
+
+    SCOLO           shift and go to state 164
+
+
+state 135
+
+    (50) writing_2 -> expression SUMA . writing_1
+    (47) writing_1 -> . expression
+    (48) writing_1 -> . CTE_STRING
+    (49) writing_1 -> . writing_2
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (50) writing_2 -> . expression SUMA writing_1
+    (51) writing_2 -> . CTE_STRING SUMA writing_1
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    CTE_STRING      shift and go to state 109
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_CHAR        shift and go to state 106
+
+    expression                     shift and go to state 108
+    writing_1                      shift and go to state 165
+    writing_2                      shift and go to state 110
+    exp_lv1                        shift and go to state 93
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 136
+
+    (51) writing_2 -> CTE_STRING SUMA . writing_1
+    (47) writing_1 -> . expression
+    (48) writing_1 -> . CTE_STRING
+    (49) writing_1 -> . writing_2
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (50) writing_2 -> . expression SUMA writing_1
+    (51) writing_2 -> . CTE_STRING SUMA writing_1
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    CTE_STRING      shift and go to state 109
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_CHAR        shift and go to state 106
+
+    writing_1                      shift and go to state 166
+    expression                     shift and go to state 108
+    writing_2                      shift and go to state 110
+    exp_lv1                        shift and go to state 93
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 137
+
+    (52) condition -> IF LPAREN expression RPAREN . LBRACK statutes RBRACK condition_1 SCOLO
+
+    LBRACK          shift and go to state 167
+
+
+state 138
+
+    (59) c_while -> WHILE LPAREN expression RPAREN . LBRACK statutes RBRACK
+
+    LBRACK          shift and go to state 168
+
+
+state 139
+
+    (60) c_do -> DO LBRACK statutes RBRACK . WHILE LPAREN expression RPAREN
+
+    WHILE           shift and go to state 169
+
+
+state 140
+
+    (61) c_for -> FOR LPAREN ID SCOLO . expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    expression                     shift and go to state 170
+    exp_lv1                        shift and go to state 93
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 141
+
+    (62) c_forin -> FOR LPAREN ID IN . ID RPAREN LBRACK statutes RBRACK
+
+    ID              shift and go to state 171
+
+
+state 142
+
+    (6) function -> function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK function .
+
+    MAIN            reduce using rule 6 (function -> function_t ID LPAREN function_v RPAREN LBRACK vars statutes RBRACK function .)
+
+
+state 143
+
+    (92) method -> ID DOT method_t . LPAREN method_1 RPAREN
+
+    LPAREN          shift and go to state 172
+
+
+state 144
+
+    (97) method_t -> DEG .
+
+    LPAREN          reduce using rule 97 (method_t -> DEG .)
+
+
+state 145
+
+    (98) method_t -> SHORTPATH .
+
+    LPAREN          reduce using rule 98 (method_t -> SHORTPATH .)
+
+
+state 146
+
+    (99) method_t -> DIAMETER .
+
+    LPAREN          reduce using rule 99 (method_t -> DIAMETER .)
+
+
+state 147
+
+    (100) method_t -> ADD .
+
+    LPAREN          reduce using rule 100 (method_t -> ADD .)
+
+
+state 148
+
+    (101) method_t -> DELETE .
+
+    LPAREN          reduce using rule 101 (method_t -> DELETE .)
+
+
+state 149
+
+    (102) method_t -> ARC .
+
+    LPAREN          reduce using rule 102 (method_t -> ARC .)
+
+
+state 150
+
+    (64) expression -> exp_lv1 AND expression .
+
+    ID              reduce using rule 64 (expression -> exp_lv1 AND expression .)
+    PRINT           reduce using rule 64 (expression -> exp_lv1 AND expression .)
+    IF              reduce using rule 64 (expression -> exp_lv1 AND expression .)
+    WHILE           reduce using rule 64 (expression -> exp_lv1 AND expression .)
+    DO              reduce using rule 64 (expression -> exp_lv1 AND expression .)
+    FOR             reduce using rule 64 (expression -> exp_lv1 AND expression .)
+    RBRACK          reduce using rule 64 (expression -> exp_lv1 AND expression .)
+    RPAREN          reduce using rule 64 (expression -> exp_lv1 AND expression .)
+    SUMA            reduce using rule 64 (expression -> exp_lv1 AND expression .)
+    LPAREN          reduce using rule 64 (expression -> exp_lv1 AND expression .)
+    SCOLO           reduce using rule 64 (expression -> exp_lv1 AND expression .)
+
+
+state 151
+
+    (65) expression -> exp_lv1 OR expression .
+
+    ID              reduce using rule 65 (expression -> exp_lv1 OR expression .)
+    PRINT           reduce using rule 65 (expression -> exp_lv1 OR expression .)
+    IF              reduce using rule 65 (expression -> exp_lv1 OR expression .)
+    WHILE           reduce using rule 65 (expression -> exp_lv1 OR expression .)
+    DO              reduce using rule 65 (expression -> exp_lv1 OR expression .)
+    FOR             reduce using rule 65 (expression -> exp_lv1 OR expression .)
+    RBRACK          reduce using rule 65 (expression -> exp_lv1 OR expression .)
+    RPAREN          reduce using rule 65 (expression -> exp_lv1 OR expression .)
+    SUMA            reduce using rule 65 (expression -> exp_lv1 OR expression .)
+    LPAREN          reduce using rule 65 (expression -> exp_lv1 OR expression .)
+    SCOLO           reduce using rule 65 (expression -> exp_lv1 OR expression .)
+
+
+state 152
+
+    (67) exp_lv1_1 -> LESST exp_lv2 .
+
+    AND             reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    OR              reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    ID              reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    PRINT           reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    IF              reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    WHILE           reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    DO              reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    FOR             reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    RBRACK          reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    RPAREN          reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    SUMA            reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    LPAREN          reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+    SCOLO           reduce using rule 67 (exp_lv1_1 -> LESST exp_lv2 .)
+
+
+state 153
+
+    (68) exp_lv1_1 -> MORET exp_lv2 .
+
+    AND             reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    OR              reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    ID              reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    PRINT           reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    IF              reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    WHILE           reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    DO              reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    FOR             reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    RBRACK          reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    RPAREN          reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    SUMA            reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    LPAREN          reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+    SCOLO           reduce using rule 68 (exp_lv1_1 -> MORET exp_lv2 .)
+
+
+state 154
+
+    (69) exp_lv1_1 -> LESSEQUAL exp_lv2 .
+
+    AND             reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    OR              reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    ID              reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    PRINT           reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    IF              reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    WHILE           reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    DO              reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    FOR             reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    RBRACK          reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    RPAREN          reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    SUMA            reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    LPAREN          reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+    SCOLO           reduce using rule 69 (exp_lv1_1 -> LESSEQUAL exp_lv2 .)
+
+
+state 155
+
+    (70) exp_lv1_1 -> MOREEQUAL exp_lv2 .
+
+    AND             reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    OR              reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    ID              reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    PRINT           reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    IF              reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    WHILE           reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    DO              reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    FOR             reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    RBRACK          reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    RPAREN          reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    SUMA            reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    LPAREN          reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+    SCOLO           reduce using rule 70 (exp_lv1_1 -> MOREEQUAL exp_lv2 .)
+
+
+state 156
+
+    (71) exp_lv1_1 -> EQUALTO exp_lv2 .
+
+    AND             reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    OR              reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    ID              reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    PRINT           reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    IF              reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    WHILE           reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    DO              reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    FOR             reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    RBRACK          reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    RPAREN          reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    SUMA            reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    LPAREN          reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+    SCOLO           reduce using rule 71 (exp_lv1_1 -> EQUALTO exp_lv2 .)
+
+
+state 157
+
+    (72) exp_lv1_1 -> NOTEQUALTO exp_lv2 .
+
+    AND             reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    OR              reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    ID              reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    PRINT           reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    IF              reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    WHILE           reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    DO              reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    FOR             reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    RBRACK          reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    RPAREN          reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    SUMA            reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    LPAREN          reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+    SCOLO           reduce using rule 72 (exp_lv1_1 -> NOTEQUALTO exp_lv2 .)
+
+
+state 158
+
+    (75) exp_lv2 -> exp_lv3 SUMA exp_lv2 .
+
+    LESST           reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    MORET           reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    LESSEQUAL       reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    MOREEQUAL       reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    EQUALTO         reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    NOTEQUALTO      reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    AND             reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    OR              reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    ID              reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    PRINT           reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    IF              reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    WHILE           reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    DO              reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    FOR             reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    RBRACK          reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    RPAREN          reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    SUMA            reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    LPAREN          reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+    SCOLO           reduce using rule 75 (exp_lv2 -> exp_lv3 SUMA exp_lv2 .)
+
+
+state 159
+
+    (76) exp_lv2 -> exp_lv3 SUB exp_lv2 .
+
+    LESST           reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    MORET           reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    LESSEQUAL       reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    MOREEQUAL       reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    EQUALTO         reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    NOTEQUALTO      reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    AND             reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    OR              reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    ID              reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    PRINT           reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    IF              reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    WHILE           reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    DO              reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    FOR             reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    RBRACK          reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    RPAREN          reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    SUMA            reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    LPAREN          reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+    SCOLO           reduce using rule 76 (exp_lv2 -> exp_lv3 SUB exp_lv2 .)
+
+
+state 160
+
+    (78) exp_lv3 -> exp_lv4 MUL exp_lv3 .
+
+    SUMA            reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    SUB             reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    LESST           reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    MORET           reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    LESSEQUAL       reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    MOREEQUAL       reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    EQUALTO         reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    NOTEQUALTO      reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    AND             reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    OR              reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    ID              reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    PRINT           reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    IF              reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    WHILE           reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    DO              reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    FOR             reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    RBRACK          reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    RPAREN          reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    LPAREN          reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+    SCOLO           reduce using rule 78 (exp_lv3 -> exp_lv4 MUL exp_lv3 .)
+
+
+state 161
+
+    (79) exp_lv3 -> exp_lv4 DIV exp_lv3 .
+
+    SUMA            reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    SUB             reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    LESST           reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    MORET           reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    LESSEQUAL       reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    MOREEQUAL       reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    EQUALTO         reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    NOTEQUALTO      reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    AND             reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    OR              reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    ID              reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    PRINT           reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    IF              reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    WHILE           reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    DO              reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    FOR             reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    RBRACK          reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    RPAREN          reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    LPAREN          reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+    SCOLO           reduce using rule 79 (exp_lv3 -> exp_lv4 DIV exp_lv3 .)
+
+
+state 162
+
+    (80) exp_lv3 -> exp_lv4 RESD exp_lv3 .
+
+    SUMA            reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    SUB             reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    LESST           reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    MORET           reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    LESSEQUAL       reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    MOREEQUAL       reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    EQUALTO         reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    NOTEQUALTO      reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    AND             reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    OR              reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    ID              reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    PRINT           reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    IF              reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    WHILE           reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    DO              reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    FOR             reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    RBRACK          reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    RPAREN          reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    LPAREN          reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+    SCOLO           reduce using rule 80 (exp_lv3 -> exp_lv4 RESD exp_lv3 .)
+
+
+state 163
+
+    (83) exp_lv5 -> RPAREN expression LPAREN .
+
+    MUL             reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    DIV             reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    RESD            reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    SUMA            reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    SUB             reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    LESST           reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    MORET           reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    LESSEQUAL       reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    MOREEQUAL       reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    EQUALTO         reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    NOTEQUALTO      reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    AND             reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    OR              reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    ID              reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    PRINT           reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    IF              reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    WHILE           reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    DO              reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    FOR             reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    RBRACK          reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    RPAREN          reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    LPAREN          reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+    SCOLO           reduce using rule 83 (exp_lv5 -> RPAREN expression LPAREN .)
+
+
+state 164
+
+    (46) writing -> PRINT LPAREN writing_1 RPAREN SCOLO .
+
+    ID              reduce using rule 46 (writing -> PRINT LPAREN writing_1 RPAREN SCOLO .)
+    PRINT           reduce using rule 46 (writing -> PRINT LPAREN writing_1 RPAREN SCOLO .)
+    IF              reduce using rule 46 (writing -> PRINT LPAREN writing_1 RPAREN SCOLO .)
+    WHILE           reduce using rule 46 (writing -> PRINT LPAREN writing_1 RPAREN SCOLO .)
+    DO              reduce using rule 46 (writing -> PRINT LPAREN writing_1 RPAREN SCOLO .)
+    FOR             reduce using rule 46 (writing -> PRINT LPAREN writing_1 RPAREN SCOLO .)
+    RBRACK          reduce using rule 46 (writing -> PRINT LPAREN writing_1 RPAREN SCOLO .)
+
+
+state 165
+
+    (50) writing_2 -> expression SUMA writing_1 .
+
+    RPAREN          reduce using rule 50 (writing_2 -> expression SUMA writing_1 .)
+
+
+state 166
+
+    (51) writing_2 -> CTE_STRING SUMA writing_1 .
+
+    RPAREN          reduce using rule 51 (writing_2 -> CTE_STRING SUMA writing_1 .)
+
+
+state 167
+
+    (52) condition -> IF LPAREN expression RPAREN LBRACK . statutes RBRACK condition_1 SCOLO
+    (39) statutes -> . statutes_1 statutes
+    (40) statutes -> . empty
+    (41) statutes_1 -> . assignation
+    (42) statutes_1 -> . writing
+    (43) statutes_1 -> . condition
+    (44) statutes_1 -> . cycle
+    (105) empty -> .
+    (45) assignation -> . ID EQL expression
+    (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
+    (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+    (55) cycle -> . c_while
+    (56) cycle -> . c_do
+    (57) cycle -> . c_for
+    (58) cycle -> . c_forin
+    (59) c_while -> . WHILE LPAREN expression RPAREN LBRACK statutes RBRACK
+    (60) c_do -> . DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN
+    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+
+    RBRACK          reduce using rule 105 (empty -> .)
+    ID              shift and go to state 68
+    PRINT           shift and go to state 69
+    IF              shift and go to state 70
+    WHILE           shift and go to state 75
+    DO              shift and go to state 76
+    FOR             shift and go to state 77
+
+    statutes                       shift and go to state 173
+    statutes_1                     shift and go to state 62
+    empty                          shift and go to state 63
+    assignation                    shift and go to state 64
+    writing                        shift and go to state 65
+    condition                      shift and go to state 66
+    cycle                          shift and go to state 67
+    c_while                        shift and go to state 71
+    c_do                           shift and go to state 72
+    c_for                          shift and go to state 73
+    c_forin                        shift and go to state 74
+
+state 168
+
+    (59) c_while -> WHILE LPAREN expression RPAREN LBRACK . statutes RBRACK
+    (39) statutes -> . statutes_1 statutes
+    (40) statutes -> . empty
+    (41) statutes_1 -> . assignation
+    (42) statutes_1 -> . writing
+    (43) statutes_1 -> . condition
+    (44) statutes_1 -> . cycle
+    (105) empty -> .
+    (45) assignation -> . ID EQL expression
+    (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
+    (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+    (55) cycle -> . c_while
+    (56) cycle -> . c_do
+    (57) cycle -> . c_for
+    (58) cycle -> . c_forin
+    (59) c_while -> . WHILE LPAREN expression RPAREN LBRACK statutes RBRACK
+    (60) c_do -> . DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN
+    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+
+    RBRACK          reduce using rule 105 (empty -> .)
+    ID              shift and go to state 68
+    PRINT           shift and go to state 69
+    IF              shift and go to state 70
+    WHILE           shift and go to state 75
+    DO              shift and go to state 76
+    FOR             shift and go to state 77
+
+    statutes                       shift and go to state 174
+    statutes_1                     shift and go to state 62
+    empty                          shift and go to state 63
+    assignation                    shift and go to state 64
+    writing                        shift and go to state 65
+    condition                      shift and go to state 66
+    cycle                          shift and go to state 67
+    c_while                        shift and go to state 71
+    c_do                           shift and go to state 72
+    c_for                          shift and go to state 73
+    c_forin                        shift and go to state 74
+
+state 169
+
+    (60) c_do -> DO LBRACK statutes RBRACK WHILE . LPAREN expression RPAREN
+
+    LPAREN          shift and go to state 175
+
+
+state 170
+
+    (61) c_for -> FOR LPAREN ID SCOLO expression . SCOLO assignation RPAREN LBRACK statutes RBRACK
+
+    SCOLO           shift and go to state 176
+
+
+state 171
+
+    (62) c_forin -> FOR LPAREN ID IN ID . RPAREN LBRACK statutes RBRACK
+
+    RPAREN          shift and go to state 177
+
+
+state 172
+
+    (92) method -> ID DOT method_t LPAREN . method_1 RPAREN
+    (93) method_1 -> . method_1_1
+    (94) method_1 -> . empty
+    (95) method_1_1 -> . method_v
+    (96) method_1_1 -> . method_v COMA method_1_1
+    (105) empty -> .
+    (103) method_v -> . ID
+    (104) method_v -> . LBRACK ID COMA ID RBRACK
+
+    RPAREN          reduce using rule 105 (empty -> .)
+    ID              shift and go to state 178
+    LBRACK          shift and go to state 183
+
+    method_1                       shift and go to state 179
+    method_1_1                     shift and go to state 180
+    empty                          shift and go to state 181
+    method_v                       shift and go to state 182
+
+state 173
+
+    (52) condition -> IF LPAREN expression RPAREN LBRACK statutes . RBRACK condition_1 SCOLO
+
+    RBRACK          shift and go to state 184
+
+
+state 174
+
+    (59) c_while -> WHILE LPAREN expression RPAREN LBRACK statutes . RBRACK
+
+    RBRACK          shift and go to state 185
+
+
+state 175
+
+    (60) c_do -> DO LBRACK statutes RBRACK WHILE LPAREN . expression RPAREN
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    expression                     shift and go to state 186
+    exp_lv1                        shift and go to state 93
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 176
+
+    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO . assignation RPAREN LBRACK statutes RBRACK
+    (45) assignation -> . ID EQL expression
+
+    ID              shift and go to state 68
+
+    assignation                    shift and go to state 187
+
+state 177
+
+    (62) c_forin -> FOR LPAREN ID IN ID RPAREN . LBRACK statutes RBRACK
+
+    LBRACK          shift and go to state 188
+
+
+state 178
+
+    (103) method_v -> ID .
+
+    COMA            reduce using rule 103 (method_v -> ID .)
+    RPAREN          reduce using rule 103 (method_v -> ID .)
+
+
+state 179
+
+    (92) method -> ID DOT method_t LPAREN method_1 . RPAREN
+
+    RPAREN          shift and go to state 189
+
+
+state 180
+
+    (93) method_1 -> method_1_1 .
+
+    RPAREN          reduce using rule 93 (method_1 -> method_1_1 .)
+
+
+state 181
+
+    (94) method_1 -> empty .
+
+    RPAREN          reduce using rule 94 (method_1 -> empty .)
+
+
+state 182
+
+    (95) method_1_1 -> method_v .
+    (96) method_1_1 -> method_v . COMA method_1_1
+
+    RPAREN          reduce using rule 95 (method_1_1 -> method_v .)
+    COMA            shift and go to state 190
+
+
+state 183
+
+    (104) method_v -> LBRACK . ID COMA ID RBRACK
+
+    ID              shift and go to state 191
+
+
+state 184
+
+    (52) condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK . condition_1 SCOLO
+    (53) condition_1 -> . ELSE LBRACK expression RBRACK
+    (54) condition_1 -> . empty
+    (105) empty -> .
+
+    ELSE            shift and go to state 193
+    SCOLO           reduce using rule 105 (empty -> .)
+
+    condition_1                    shift and go to state 192
+    empty                          shift and go to state 194
+
+state 185
+
+    (59) c_while -> WHILE LPAREN expression RPAREN LBRACK statutes RBRACK .
+
+    ID              reduce using rule 59 (c_while -> WHILE LPAREN expression RPAREN LBRACK statutes RBRACK .)
+    PRINT           reduce using rule 59 (c_while -> WHILE LPAREN expression RPAREN LBRACK statutes RBRACK .)
+    IF              reduce using rule 59 (c_while -> WHILE LPAREN expression RPAREN LBRACK statutes RBRACK .)
+    WHILE           reduce using rule 59 (c_while -> WHILE LPAREN expression RPAREN LBRACK statutes RBRACK .)
+    DO              reduce using rule 59 (c_while -> WHILE LPAREN expression RPAREN LBRACK statutes RBRACK .)
+    FOR             reduce using rule 59 (c_while -> WHILE LPAREN expression RPAREN LBRACK statutes RBRACK .)
+    RBRACK          reduce using rule 59 (c_while -> WHILE LPAREN expression RPAREN LBRACK statutes RBRACK .)
+
+
+state 186
+
+    (60) c_do -> DO LBRACK statutes RBRACK WHILE LPAREN expression . RPAREN
+
+    RPAREN          shift and go to state 195
+
+
+state 187
+
+    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation . RPAREN LBRACK statutes RBRACK
+
+    RPAREN          shift and go to state 196
+
+
+state 188
+
+    (62) c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK . statutes RBRACK
+    (39) statutes -> . statutes_1 statutes
+    (40) statutes -> . empty
+    (41) statutes_1 -> . assignation
+    (42) statutes_1 -> . writing
+    (43) statutes_1 -> . condition
+    (44) statutes_1 -> . cycle
+    (105) empty -> .
+    (45) assignation -> . ID EQL expression
+    (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
+    (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+    (55) cycle -> . c_while
+    (56) cycle -> . c_do
+    (57) cycle -> . c_for
+    (58) cycle -> . c_forin
+    (59) c_while -> . WHILE LPAREN expression RPAREN LBRACK statutes RBRACK
+    (60) c_do -> . DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN
+    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+
+    RBRACK          reduce using rule 105 (empty -> .)
+    ID              shift and go to state 68
+    PRINT           shift and go to state 69
+    IF              shift and go to state 70
+    WHILE           shift and go to state 75
+    DO              shift and go to state 76
+    FOR             shift and go to state 77
+
+    statutes                       shift and go to state 197
+    statutes_1                     shift and go to state 62
+    empty                          shift and go to state 63
+    assignation                    shift and go to state 64
+    writing                        shift and go to state 65
+    condition                      shift and go to state 66
+    cycle                          shift and go to state 67
+    c_while                        shift and go to state 71
+    c_do                           shift and go to state 72
+    c_for                          shift and go to state 73
+    c_forin                        shift and go to state 74
+
+state 189
+
+    (92) method -> ID DOT method_t LPAREN method_1 RPAREN .
+
+    MUL             reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    DIV             reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    RESD            reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    SUMA            reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    SUB             reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    LESST           reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    MORET           reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    LESSEQUAL       reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    MOREEQUAL       reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    EQUALTO         reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    NOTEQUALTO      reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    AND             reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    OR              reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    ID              reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    PRINT           reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    IF              reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    WHILE           reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    DO              reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    FOR             reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    RBRACK          reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    RPAREN          reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    LPAREN          reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+    SCOLO           reduce using rule 92 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
+
+
+state 190
+
+    (96) method_1_1 -> method_v COMA . method_1_1
+    (95) method_1_1 -> . method_v
+    (96) method_1_1 -> . method_v COMA method_1_1
+    (103) method_v -> . ID
+    (104) method_v -> . LBRACK ID COMA ID RBRACK
+
+    ID              shift and go to state 178
+    LBRACK          shift and go to state 183
+
+    method_v                       shift and go to state 182
+    method_1_1                     shift and go to state 198
+
+state 191
+
+    (104) method_v -> LBRACK ID . COMA ID RBRACK
+
+    COMA            shift and go to state 199
+
+
+state 192
+
+    (52) condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 . SCOLO
+
+    SCOLO           shift and go to state 200
+
+
+state 193
+
+    (53) condition_1 -> ELSE . LBRACK expression RBRACK
+
+    LBRACK          shift and go to state 201
+
+
+state 194
+
+    (54) condition_1 -> empty .
+
+    SCOLO           reduce using rule 54 (condition_1 -> empty .)
+
+
+state 195
+
+    (60) c_do -> DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN .
+
+    ID              reduce using rule 60 (c_do -> DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN .)
+    PRINT           reduce using rule 60 (c_do -> DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN .)
+    IF              reduce using rule 60 (c_do -> DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN .)
+    WHILE           reduce using rule 60 (c_do -> DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN .)
+    DO              reduce using rule 60 (c_do -> DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN .)
+    FOR             reduce using rule 60 (c_do -> DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN .)
+    RBRACK          reduce using rule 60 (c_do -> DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN .)
+
+
+state 196
+
+    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN . LBRACK statutes RBRACK
+
+    LBRACK          shift and go to state 202
+
+
+state 197
+
+    (62) c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes . RBRACK
+
+    RBRACK          shift and go to state 203
+
+
+state 198
+
+    (96) method_1_1 -> method_v COMA method_1_1 .
+
+    RPAREN          reduce using rule 96 (method_1_1 -> method_v COMA method_1_1 .)
+
+
+state 199
+
+    (104) method_v -> LBRACK ID COMA . ID RBRACK
+
+    ID              shift and go to state 204
+
+
+state 200
+
+    (52) condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO .
+
+    ID              reduce using rule 52 (condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO .)
+    PRINT           reduce using rule 52 (condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO .)
+    IF              reduce using rule 52 (condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO .)
+    WHILE           reduce using rule 52 (condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO .)
+    DO              reduce using rule 52 (condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO .)
+    FOR             reduce using rule 52 (condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO .)
+    RBRACK          reduce using rule 52 (condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO .)
+
+
+state 201
+
+    (53) condition_1 -> ELSE LBRACK . expression RBRACK
+    (63) expression -> . exp_lv1
+    (64) expression -> . exp_lv1 AND expression
+    (65) expression -> . exp_lv1 OR expression
+    (66) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (74) exp_lv2 -> . exp_lv3
+    (75) exp_lv2 -> . exp_lv3 SUMA exp_lv2
+    (76) exp_lv2 -> . exp_lv3 SUB exp_lv2
+    (77) exp_lv3 -> . exp_lv4
+    (78) exp_lv3 -> . exp_lv4 MUL exp_lv3
+    (79) exp_lv3 -> . exp_lv4 DIV exp_lv3
+    (80) exp_lv3 -> . exp_lv4 RESD exp_lv3
+    (81) exp_lv4 -> . exp_lv5
+    (82) exp_lv4 -> . NOT exp_lv5
+    (83) exp_lv5 -> . RPAREN expression LPAREN
+    (84) exp_lv5 -> . var_cte
+    (85) exp_lv5 -> . method
+    (86) exp_lv5 -> . ID
+    (87) var_cte -> . CTE_INT
+    (88) var_cte -> . CTE_FLO
+    (89) var_cte -> . CTE_BOO
+    (90) var_cte -> . CTE_STRING
+    (91) var_cte -> . CTE_CHAR
+    (92) method -> . ID DOT method_t LPAREN method_1 RPAREN
+
+    NOT             shift and go to state 98
+    RPAREN          shift and go to state 99
+    ID              shift and go to state 91
+    CTE_INT         shift and go to state 102
+    CTE_FLO         shift and go to state 103
+    CTE_BOO         shift and go to state 104
+    CTE_STRING      shift and go to state 105
+    CTE_CHAR        shift and go to state 106
+
+    expression                     shift and go to state 205
+    exp_lv1                        shift and go to state 93
+    exp_lv2                        shift and go to state 94
+    exp_lv3                        shift and go to state 95
+    exp_lv4                        shift and go to state 96
+    exp_lv5                        shift and go to state 97
+    var_cte                        shift and go to state 100
+    method                         shift and go to state 101
+
+state 202
+
+    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK . statutes RBRACK
+    (39) statutes -> . statutes_1 statutes
+    (40) statutes -> . empty
+    (41) statutes_1 -> . assignation
+    (42) statutes_1 -> . writing
+    (43) statutes_1 -> . condition
+    (44) statutes_1 -> . cycle
+    (105) empty -> .
+    (45) assignation -> . ID EQL expression
+    (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
+    (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1 SCOLO
+    (55) cycle -> . c_while
+    (56) cycle -> . c_do
+    (57) cycle -> . c_for
+    (58) cycle -> . c_forin
+    (59) c_while -> . WHILE LPAREN expression RPAREN LBRACK statutes RBRACK
+    (60) c_do -> . DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN
+    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+
+    RBRACK          reduce using rule 105 (empty -> .)
+    ID              shift and go to state 68
+    PRINT           shift and go to state 69
+    IF              shift and go to state 70
+    WHILE           shift and go to state 75
+    DO              shift and go to state 76
+    FOR             shift and go to state 77
+
+    assignation                    shift and go to state 64
+    statutes                       shift and go to state 206
+    statutes_1                     shift and go to state 62
+    empty                          shift and go to state 63
+    writing                        shift and go to state 65
+    condition                      shift and go to state 66
+    cycle                          shift and go to state 67
+    c_while                        shift and go to state 71
+    c_do                           shift and go to state 72
+    c_for                          shift and go to state 73
+    c_forin                        shift and go to state 74
+
+state 203
+
+    (62) c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK .
+
+    ID              reduce using rule 62 (c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK .)
+    PRINT           reduce using rule 62 (c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK .)
+    IF              reduce using rule 62 (c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK .)
+    WHILE           reduce using rule 62 (c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK .)
+    DO              reduce using rule 62 (c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK .)
+    FOR             reduce using rule 62 (c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK .)
+    RBRACK          reduce using rule 62 (c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK .)
+
+
+state 204
+
+    (104) method_v -> LBRACK ID COMA ID . RBRACK
+
+    RBRACK          shift and go to state 207
+
+
+state 205
+
+    (53) condition_1 -> ELSE LBRACK expression . RBRACK
+
+    RBRACK          shift and go to state 208
+
+
+state 206
+
+    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes . RBRACK
+
+    RBRACK          shift and go to state 209
+
+
+state 207
+
+    (104) method_v -> LBRACK ID COMA ID RBRACK .
+
+    COMA            reduce using rule 104 (method_v -> LBRACK ID COMA ID RBRACK .)
+    RPAREN          reduce using rule 104 (method_v -> LBRACK ID COMA ID RBRACK .)
+
+
+state 208
+
+    (53) condition_1 -> ELSE LBRACK expression RBRACK .
+
+    SCOLO           reduce using rule 53 (condition_1 -> ELSE LBRACK expression RBRACK .)
+
+
+state 209
+
+    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .
+
+    ID              reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
+    PRINT           reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
+    IF              reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
+    WHILE           reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
+    DO              reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
+    FOR             reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
+    RBRACK          reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for SUMA in state 95 resolved as shift
+WARNING: shift/reduce conflict for SUMA in state 109 resolved as shift
+WARNING: reduce/reduce conflict in state 109 resolved using rule (writing_1 -> CTE_STRING)
+WARNING: rejected rule (var_cte -> CTE_STRING) in state 109

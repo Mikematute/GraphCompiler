@@ -29,6 +29,8 @@ reserved = {
     'else'      : 'ELSE',
     'while'     : 'WHILE',
     'do'        : 'DO',
+    'for'       : 'FOR',
+    'in'        : 'IN',
     'deg'       : 'DEG',
     'shortpath' : 'SHORTPATH',
     'diameter'  : 'DIAMETER',
@@ -132,7 +134,7 @@ import ply.yacc as yacc
 
 ################################ P R O G R A M ################################
 def p_program(t):
-    'program : ID SCOLO vars function body'
+    'program : PROGRAM ID SCOLO vars function body'
     # print("enters program")
 ################################### V A R S ####################################
 def p_vars(t):
@@ -249,16 +251,16 @@ def p_cycle(t):
              | c_for
              | c_forin'''
 
-def p_while(t):
+def p_c_while(t):
     'c_while : WHILE LPAREN expression RPAREN LBRACK statutes RBRACK'
 
-def p_do(t):
+def p_c_do(t):
     'c_do : DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN'
 
-def p_for(t):
+def p_c_for(t):
     'c_for : FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK'
 
-def p_forin(t):
+def p_c_forin(t):
     'c_forin : FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK'
 
 ############################## E X P R E S S I O N #############################
@@ -343,7 +345,7 @@ parser = yacc.yacc()
 
 while True:
     try:
-        s = input('calc > ')   # Use raw_input on Python 2
+        s = input('WOOF > ')   # Use raw_input on Python 2
     except EOFError:
         break
     parser.parse(s)
