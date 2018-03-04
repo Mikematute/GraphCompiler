@@ -311,8 +311,19 @@ def p_exp_lv5(t):
     '''exp_lv5 : RPAREN expression LPAREN
                | var_cte
                | method
-               | ID'''
+               | ID
+               | ID array_access'''
+############################ A R R A Y _ A C C E S S ###########################
+def p_array_access(t):
+    'array_access : LCORCH arrary_access_1 RCORCH arrary_access_2'
 
+def p_array_access_1(t):
+    '''arrary_access_1 : CTE_INT
+                       | ID'''
+
+def p_array_access_2(t):
+    '''arrary_access_2 : LCORCH arrary_access_1 RCORCH arrary_access_2
+                       | empty'''
 ################################# V A R _ C T E ################################
 def p_var_cte(t):
     '''var_cte : CTE_INT
