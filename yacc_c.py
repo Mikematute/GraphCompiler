@@ -83,7 +83,7 @@ t_NOTEQUALTO =  r'!='
 t_NOT =         r'!'
 t_DOT =         r'\.'
 t_COLON =       r':'
-t_CTE_STRING =  r'\".*\"'
+t_CTE_STRING =  r'\"[^"]*\"'
 t_CTE_FLO =     r'[0-9]+\.[0-9]+'
 t_CTE_BOO =     r'true|false'
 t_CTE_CHAR =    r'\'.\''
@@ -235,6 +235,7 @@ def p_writing_1(t):
                  | CTE_STRING
                  | writing_2'''
 
+
 def p_writing_2(t):
     '''writing_2 : expression SUMA writing_1
                  | CTE_STRING SUMA writing_1'''
@@ -315,6 +316,7 @@ def p_exp_lv5(t):
                | method
                | ID
                | ID array_access'''
+
 ############################ A R R A Y _ A C C E S S ###########################
 def p_array_access(t):
     'array_access : LCORCH arrary_access_1 RCORCH arrary_access_2'
@@ -333,6 +335,8 @@ def p_var_cte(t):
                | CTE_BOO
                | CTE_STRING
                | CTE_CHAR'''
+    print("var_cte")
+    print(t[1])
 
 ################################## M E T H O D #################################
 def p_method(t):

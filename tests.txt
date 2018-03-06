@@ -13,12 +13,23 @@ program cats; void myFunction1 () { } int myFunction2 (int iVar1) { } float myFu
 program cats; void myFunction1 () {var int iNum1; var float fNum1, iNum2; var string sCats; var char cDogs; var bool bFoo; var node myNode; var arc myArc; var directed myGraph1; var undirected myGraph2; var int iArray[10]; var float fArray1[10], fArray2[10]; var string sArray[10][10]; var char cArray1[10][10], cArray2[10][10]; var bool bArray1[10], bArray2[10][10], bArray3[10][10][10]; var node myNode1, myNode2[10]; var arc myArc1[10], myArc2; var directed myArrayGraph1[10][10]; var undirected myArrayGraph2[10][10][10];}  main () {}
 
 
-program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (“Woof”); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9) for (iFoo; iFoo == 9; iFoo = iFoo + 1) { } for (iFoo in iFoo) { } myFunction1();} main () { }
+program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (“Woof”); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9) for (iFoo; iFoo == 9; iFoo = iFoo + 1;) { } for (iFoo in iFoo) { } myFunction1();} main () { }
 
 program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (“Woof”); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9) for (iFoo; iFoo == 9; iFoo = iFoo + 1) { } for (iFoo in iFoo) { } myFunction1();} main () { }
 
 program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (“Woof”); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9); for (iFoo; iFoo == 9; iFoo = iFoo + 1) { } for (iFoo in iFoo) { } myFunction1();} main () { }
 
+
+#################################### W I L L
+####################################
+
+program cats; main () {var int iBark; var char cSnuggle; cSnuggle = "GIVEMESNUGGLESGIVEMESNUGGLES";}
+
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES");}
+
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" + "I WANT MORE SNUGGLES");}
+
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" && "I WANT MORE SNUGGLES");}
 
 # modificadas:
 	- vars
@@ -34,3 +45,5 @@ program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo =
 	- Vars
 	- Array --> Array_Declare
 	- Function
+
+
