@@ -17,20 +17,4 @@ program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo =
 
 program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (“Woof”); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9) for (iFoo; iFoo == 9; iFoo = iFoo + 1) { } for (iFoo in iFoo) { } myFunction1();} main () { }
 
-program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (“Woof”); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9); for (iFoo; iFoo == 9; iFoo = iFoo + 1) { } for (iFoo in iFoo) { } myFunction1();} main () { }
-
-
-# modificadas:
-	- vars
-	- Type
-	- t_Array   ---> array
-
-# modificadas:
-	- Exp_lv5
-	- Array_Access
-
-
-# modificadas:
-	- Vars
-	- Array --> Array_Declare
-	- Function
+program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (“Woof”); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9); for (iFoo; iFoo == 9; iFoo = iFoo + 1;) { } for (iFoo in iFoo) { } myFunction1();} main () { }
