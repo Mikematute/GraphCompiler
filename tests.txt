@@ -1,4 +1,4 @@
-########################## D E C L A R A C I Ó N  D E  V A R I A B L E S  G L O B A L E S #########################
+########################## D E C L A R A C I Ã“ N  D E  V A R I A B L E S  G L O B A L E S #########################
 program cats; var int iNum1; var float fNum1, iNum2; var string sCats; var char cDogs; var bool bFoo; var node myNode; var arc myArc; var directed myGraph1; var undirected myGraph2; main () {}
 
 
@@ -6,15 +6,66 @@ program cats; var int iArray[10]; var float fArray1[10], fArray2[10]; var string
 
 program cats; var node myNode1, myNode2[10]; var arc myArc1[10], myArc2; var directed myArrayGraph1[10][10]; var undirected myArrayGraph2[10][10][10];  main () {}
 
-################################## D E C L A R A C I Ó N  D E  F U N C I O N E S ##################################
+################################## D E C L A R A C I Ã“ N  D E  F U N C I O N E S ##################################
 program cats; void myFunction1 () { } int myFunction2 (int iVar1) { } float myFunction3 (char cVar1, string sVar2) { } string myFunction4 (float fVar1[10]) { } char myFunction5 (bool bVar1[10][10]) { } bool myFunction6 (arc aVar1[10], node nVar2) { } directed myFunction7 (directed dVar1[10], undirected uVar2[10][10]){ } main () { }
 
 #################################### V A R I A B L E S  E N  F U N C I O N E S ####################################
 program cats; void myFunction1 () {var int iNum1; var float fNum1, iNum2; var string sCats; var char cDogs; var bool bFoo; var node myNode; var arc myArc; var directed myGraph1; var undirected myGraph2; var int iArray[10]; var float fArray1[10], fArray2[10]; var string sArray[10][10]; var char cArray1[10][10], cArray2[10][10]; var bool bArray1[10], bArray2[10][10], bArray3[10][10][10]; var node myNode1, myNode2[10]; var arc myArc1[10], myArc2; var directed myArrayGraph1[10][10]; var undirected myArrayGraph2[10][10][10];}  main () {}
 
 
-program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (“Woof”); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9) for (iFoo; iFoo == 9; iFoo = iFoo + 1) { } for (iFoo in iFoo) { } myFunction1();} main () { }
+program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (â€œWoofâ€); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9) for (iFoo; iFoo == 9; iFoo = iFoo + 1;) { } for (iFoo in iFoo) { } myFunction1();} main () { }
 
-program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (“Woof”); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9) for (iFoo; iFoo == 9; iFoo = iFoo + 1) { } for (iFoo in iFoo) { } myFunction1();} main () { }
+program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (â€œWoofâ€); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9) for (iFoo; iFoo == 9; iFoo = iFoo + 1) { } for (iFoo in iFoo) { } myFunction1();} main () { }
 
+<<<<<<< HEAD
 program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (“Woof”); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9); for (iFoo; iFoo == 9; iFoo = iFoo + 1;) { } for (iFoo in iFoo) { } myFunction1();} main () { }
+=======
+program cats; void myFunction1 () { } void myFunction2 () { var int iFoo; iFoo = 9; print (â€œWoofâ€); if (iFoo > 9) { } else { } while(iFoo >= 9) { } do { } while (iFoo <= 9); for (iFoo; iFoo == 9; iFoo = iFoo + 1) { } for (iFoo in iFoo) { } myFunction1();} main () { }
+
+
+#################################### W I L L
+####################################
+
+program cats; main () {var int iBark; var char cSnuggle; cSnuggle = "GIVEMESNUGGLESGIVEMESNUGGLES";}
+
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES");}
+
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" + "I WANT MORE SNUGGLES");}
+
+# we can && on any expression?
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" && "I WANT MORE SNUGGLES");}
+
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" < "I WANT MORE SNUGGLES");}
+
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" > "I WANT MORE SNUGGLES");}
+
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" + "I WANT MORE SNUGGLES");}
+
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" - "I WANT MORE SNUGGLES");}
+
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" * "I WANT MORE SNUGGLES");}
+
+#This should fail. Doesnt
+# on further inspection, it is taking "I WANT SNUGGLES" \ "I WANT MORE SNUGGLES" as one complete string
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" \ "I WANT MORE SNUGGLES");}
+
+#Doesnt work
+program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" "I WANT MORE SNUGGLES");}
+
+# modificadas:
+	- vars
+	- Type
+	- t_Array   ---> array
+
+# modificadas:
+	- Exp_lv5
+	- Array_Access
+
+
+# modificadas:
+	- Vars
+	- Array --> Array_Declare
+	- Function
+
+
+>>>>>>> 8f990c1a43d9601735f813a03382426a2325fa77
