@@ -1,4 +1,23 @@
 ################################################################################
+#                         G L O B A L  H A N D L E R S                         #
+################################################################################
+class Global:
+    dicDirections = {};
+    currentContext = "";
+    globalContext = "";
+    auxID = "";
+    auxType = "";
+
+    def __init__(self):
+        dicDirections = {};
+        currentContext = "";
+        globalContext = "";
+        auxID = "";
+        auxType = "";
+
+globalVars = Global();
+
+################################################################################
 #                                 T O K E N S                                  #
 ################################################################################
 
@@ -39,16 +58,6 @@ tokens = [
     'NOT',      'CTE_FLO',      'CTE_BOO',      'CTE_CHAR', 'DOT',
     'COLON'
     ] + list(reserved.values())
-
-# Tokens
-# t_ADD    = r'\+'
-# t_SUB   = r'-'
-# t_TIMES   = r'\*'
-# t_DIVIDE  = r'/'
-# t_EQL  = r'='
-# t_LPAREN  = r'\('
-# t_RPAREN  = r'\)'
-# t_NAME    = r'[a-zA-Z_][a-zA-Z0-9_]*'
 
 t_SCOLO =       r';'
 t_COMA =        r','
@@ -120,29 +129,19 @@ precedence = (
     )
 '''
 import ply.yacc as yacc
-
-# from calclex import tokens
+import time
 
 ################################ P R O G R A M ################################
 def p_program(t):
     'program : PROGRAM ID np_var_a1 SCOLO np_var_a2 vars function body'
-    # print("enters program")
 ################################### V A R S ####################################
 def p_vars(t):
-    '''vars : VAR type np_var_1 vars_1 SCOLO vars
+    '''vars : VAR type vars_1 SCOLO vars
             | empty'''
-    # if t[1] == 'VAR':
-       #  print("enter var")
-    # else:
-       #  print("enter empty")
 
 def p_vars_1(t):
     '''vars_1 : ID np_var_2 vars_2
               | ID np_var_2 vars_2 COMA vars_1'''
-    # if t[2] == 'COMA':
-        # print("enter ID COMA ID")
-    # else:
-        # print("enter ID")
 
 def p_vars_2(t):
     '''vars_2 : array_declare
@@ -150,12 +149,11 @@ def p_vars_2(t):
 
 ############################### F U N C T I O N ################################
 def p_function(t):
-    '''function : function_t np_var_b1 ID np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
+    '''function : function_t ID np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
                 | empty'''
-    # print("enters function")
 
 def p_function_t(t):
-    '''function_t : VOID
+    '''function_t : VOID np_var_1
                   | t_number
                   | t_string
                   | t_bool
@@ -172,7 +170,7 @@ def p_function_v1(t):
                    | type np_var_b4 ID np_var_b5 array_declare COMA function_v1'''
 #################################### B O D Y ###################################
 def p_body(t):
-    'body : MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK'
+    'body : MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK debug np_var_c3'
 #################################### T Y P E ###################################
 def p_type(t):
     '''type : t_number
@@ -181,21 +179,21 @@ def p_type(t):
             | t_graph'''
 
 def p_t_number(t):
-    '''t_number : INT
-                | FLOAT'''
+    '''t_number : INT np_var_1
+                | FLOAT np_var_1'''
 
 def p_t_string(t):
-    '''t_string : STRING
-                | CHAR'''
+    '''t_string : STRING np_var_1
+                | CHAR np_var_1'''
 
 def p_t_bool(t):
-    't_bool : BOOL'
+    't_bool : BOOL np_var_1'
 
 def p_t_graph(t):
-    '''t_graph : NODE
-               | ARC
-               | UNDIRECTED
-               | DIRECTED'''
+    '''t_graph : NODE np_var_1
+               | ARC np_var_1
+               | UNDIRECTED np_var_1
+               | DIRECTED np_var_1'''
 ########################### A R R A Y _ D E C L A R E ##########################
 def p_array_declare(t):
     'array_declare : LCORCH CTE_INT RCORCH array_declare_1'
@@ -353,90 +351,129 @@ def p_method_v(t):
     '''method_v : ID
                 | LBRACK ID COMA ID RBRACK'''
 
+################################################################################
+#                        N E U R A L T I C   P O I N T S                       #
+################################################################################
+
 ######################## A D D I N G  V A R I A B L E S ########################
 
 #-------------------------------- g l o b a l ----------------------------------
 def p_np_var_a1(t):
-    'np_var_a1:'
+    'np_var_a1 : empty'
     # Save the name of the global context (program ID)
-    globalContext = t[-1];
+    globalVars.globalContext = t[-1];
     # Stablish the current context to global
-    currentContext = globalContext;
+    globalVars.currentContext = globalVars.globalContext;
     # Add the ID to the directions table with its details
-    dicDirections[globalContext] = {'type': "void"};
+    globalVars.dicDirections[globalVars.globalContext] = {'type': "void"};
 
 def p_np_var_a2(t):
-    'np_var_a2:'
+    'np_var_a2 : empty'
     # Create the table of global variables
-    dicDirections[globalContext]['vars'] = {};
+    globalVars.dicDirections[globalVars.globalContext]['vars'] = {};
 
 #----------------------------- f u n c t i o n s -------------------------------
 def p_np_var_b1(t):
-    'np_var_b1:'
+    'np_var_b1 : empty'
     # Store the function type
-    auxType = t[-1];
+    globalVars.auxType = t[-1];
 
 def p_np_var_b2(t):
-    'np_var_b2:'
+    'np_var_b2 : empty'
     # Store the function ID
-    auxID = t[-1];
+    globalVars.auxID = t[-1];
     # Add the function ID and function TYPE to the directions table as long as it
     # doesn't exist
-    if auxID not in dicDirections:
-        dicDirections[auxID] = {'type': auxType};
-    # Stablish the current context to the function ID
-    currentContext = auxID;
+    if globalVars.auxID not in globalVars.dicDirections:
+        globalVars.dicDirections[globalVars.auxID] = {'type': globalVars.auxType};
+        # Stablish the current context to the function ID
+        globalVars.currentContext = globalVars.auxID;
+    else:
+        print ('ERROR: Function: <{0}>, already declared'.format(globalVars.auxID));
 
 def p_np_var_b3(t):
-    'np_var_b3:'
+    'np_var_b3 : empty'
     # Create the table of function variables
-    dicDirections[currentContext]['vars'] = {};
+    globalVars.dicDirections[globalVars.currentContext]['vars'] = {};
 
 def p_np_var_b4(t):
-    'np_var_b4:'
+    'np_var_b4 : empty'
     # Saves the variable type
-    auxType = t[-1];
+    globalVars.auxType = t[-1];
 
 def p_np_var_b5(t):
-    'np_var_b5:'
+    'np_var_b5 : empty'
     # Saves the variable ID
-    auxID = t[-1];
+    globalVars.auxID = t[-1];
     # If the variable ID doesn't exists in the current context variable table,
     # nor in the global variable table...
-    if auxID not in dicDirections[currentContext]['vars'] && auxID not in dicDirections[globalContext]['vars']:
-        # ... then adds a new entry
-        dicDirections[currentContext]['vars'][auxID] = {'type': auxType};
+    if globalVars.auxID not in globalVars.dicDirections[globalVars.globalContext]['vars']:
+        if globalVars.auxID not in globalVars.dicDirections[globalVars.currentContext]['vars']:
+            # ... then adds a new entry
+            globalVars.dicDirections[globalVars.currentContext]['vars'][globalVars.auxID] = {'type': globalVars.auxType};
+        else:
+            print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
+    else:
+        print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.auxID, globalVars.currentContext));
 
 #---------------------------------- m a i n ------------------------------------
 def p_np_var_c1(t):
-    'np_var_c1:'
+    'np_var_c1 : empty'
     # adds MAIN to the direction table
-    dicDirections['main'] = {'type': "void"};
+    globalVars.dicDirections['main'] = {'type': "void"};
     # sets the current context to MAIN
-    currentContext = "main";
+    globalVars.currentContext = "main";
 
 def p_np_var_c2(t):
-    'np_var_c2:'
+    'np_var_c2 : empty'
     # Creates the table of main variables
-    dicDirections['main']['vars'] = {};
+    globalVars.dicDirections['main']['vars'] = {};
+
+def p_np_var_c3(t):
+    'np_var_c3 : empty'
+    # Erases the table of direction and variables generated
+    globalVars.currentContext = "";
+    globalVars.globalContext = "";
+    globalVars.auxID = "";
+    globalVars.auxType = "";
+    globalVars.dicDirections = {};
+    print ("ERASING ALL TABLES\n");
+    time.sleep(1.5);
 
 #------------------------------ v a r s  r u l e -------------------------------
 def p_np_var_1(t):
-    'np_var_1:'
+    'np_var_1 : empty'
     # Store the type of the variable
-    auxType = t[-1];
+    globalVars.auxType = t[-1];
 
 def p_np_var_2(t):
-    'np_var_2:'
+    'np_var_2 : empty'
     # Store the ID of the variable
-    auxID = t[-1];
+    globalVars.auxID = t[-1];
     # If the variable ID doesn't exists in the current context variable table,
     # nor in the global variable table...
-    if auxID not in dicDirections[currentContext]['vars'] && auxID not in dicDirections[globalContext]['vars']:
-        # ... then adds a new entry
-        dicDirections[currentContext]['vars'][auxID] = {'type': auxType};
-
+    if globalVars.auxID not in globalVars.dicDirections[globalVars.globalContext]['vars']:
+        if globalVars.auxID not in globalVars.dicDirections[globalVars.currentContext]['vars']:
+            # ... then adds a new entry
+            globalVars.dicDirections[globalVars.currentContext]['vars'][globalVars.auxID] = {'type': globalVars.auxType};
+        else:
+            print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
+    else:
+        print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.auxID, globalVars.currentContext));
 ################################## O T H E R S #################################
+def p_debug(t):
+    'debug : empty'
+    print("\n" + "DEBUGGING TABLES" + "\n");
+    time.sleep(1.5);
+    for direction in globalVars.dicDirections:
+        print(direction);
+        print("\tType:" + globalVars.dicDirections[direction]['type']);
+        for varID in globalVars.dicDirections[direction]['vars']:
+            print("\t\tVar: " + varID + "\t");
+            #for varType in globalVars.dicDirections[direction]['vars'][varID]['type']:
+            #    print("\t\tVar: " + varID + "\t" + "Type: " + varType);
+    print("\n" + "END OF DEBBUGGER" + "\n");
+
 def p_empty(p):
     'empty :'
     pass
@@ -444,11 +481,15 @@ def p_empty(p):
 def p_error(t):
     print("Syntax error at '%s'" % t.value)
 
+################################################################################
+#                            M A I N  P R O G R A M                            #
+################################################################################
 parser = yacc.yacc()
 
 while True:
     try:
         s = input('WOOF > ')   # Use raw_input on Python 2
+        print ("\n");
     except EOFError:
         break
     parser.parse(s)
