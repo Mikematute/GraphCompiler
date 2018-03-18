@@ -1,35 +1,9 @@
 ################################################################################
 #                         G L O B A L  H A N D L E R S                         #
 ################################################################################
-class Global:
-    dicDirections = {};
-    currentContext = "";
-    globalContext = "";
-    auxID = "";
-    auxType = "";
 
-    def __init__(self):
-        dicDirections = {};
-        currentContext = "";
-        globalContext = "";
-        auxID = "";
-        auxType = "";
-
-    def exists_in_global(variable):
-        variable in self.dicDirections[self.globalContext]['vars'];
-
-    def exists_in_local(variable, local):
-        variable in self.dicDirections[local]['vars'];
-        #variable in self.dicDirections[self.currentContext]['vars'];
-
-    def add_var(variable, type, context):
-        self.dicDirections[context]['vars'][variable] = {'type': type};
-
-    def add_dir(direction, type):
-        self.dicDirections[direction] = {'type': type};
-
-
-globalVars = Global();
+from tables import Tables
+globalVars = Tables();
 
 ################################################################################
 #                                 T O K E N S                                  #
@@ -379,7 +353,8 @@ def p_np_var_a1(t):
     # Stablish the current context to global
     globalVars.currentContext = globalVars.globalContext;
     # Add the ID to the directions table with its details
-    globalVars.dicDirections[globalVars.globalContext] = {'type': "void"};
+    globalVars.auxType = "void";
+    globalVars.add_dir();
 
 def p_np_var_a2(t):
     'np_var_a2 : empty'
@@ -399,9 +374,10 @@ def p_np_var_b2(t):
     # Add the function ID and function TYPE to the directions table as long as it
     # doesn't exist
     if globalVars.auxID not in globalVars.dicDirections:
-        globalVars.dicDirections[globalVars.auxID] = {'type': globalVars.auxType};
         # Stablish the current context to the function ID
         globalVars.currentContext = globalVars.auxID;
+        globalVars.add_dir();
+
     else:
         print ('ERROR: Function: <{0}>, already declared'.format(globalVars.auxID));
 
@@ -421,10 +397,10 @@ def p_np_var_b5(t):
     globalVars.auxID = t[-1];
     # If the variable ID doesn't exists in the current context variable table,
     # nor in the global variable table...
-    if globalVars.auxID not in globalVars.dicDirections[globalVars.globalContext]['vars']:
-        if globalVars.auxID not in globalVars.dicDirections[globalVars.currentContext]['vars']:
+    if not globalVars.exists_in_global():
+        if not globalVars.exists_in_local():
             # ... then adds a new entry
-            globalVars.dicDirections[globalVars.currentContext]['vars'][globalVars.auxID] = {'type': globalVars.auxType};
+            globalVars.add_var();
         else:
             print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
     else:
@@ -433,10 +409,12 @@ def p_np_var_b5(t):
 #---------------------------------- m a i n ------------------------------------
 def p_np_var_c1(t):
     'np_var_c1 : empty'
-    # adds MAIN to the direction table
-    globalVars.dicDirections['main'] = {'type': "void"};
     # sets the current context to MAIN
     globalVars.currentContext = "main";
+    # sets the current type of MAIN to VOID
+    globalVars.auxType = "void";
+    # adds MAIN to the direction table
+    globalVars.add_dir();
 
 def p_np_var_c2(t):
     'np_var_c2 : empty'
@@ -446,11 +424,7 @@ def p_np_var_c2(t):
 def p_np_var_c3(t):
     'np_var_c3 : empty'
     # Erases the table of direction and variables generated
-    globalVars.currentContext = "";
-    globalVars.globalContext = "";
-    globalVars.auxID = "";
-    globalVars.auxType = "";
-    globalVars.dicDirections = {};
+    globalVars.reset_tables();
     print ("ERASING ALL TABLES\n");
     time.sleep(1.5);
 
@@ -466,10 +440,10 @@ def p_np_var_2(t):
     globalVars.auxID = t[-1];
     # If the variable ID doesn't exists in the current context variable table,
     # nor in the global variable table...
-    if globalVars.auxID not in globalVars.dicDirections[globalVars.globalContext]['vars']:
-        if globalVars.auxID not in globalVars.dicDirections[globalVars.currentContext]['vars']:
+    if not globalVars.exists_in_global():
+        if not globalVars.exists_in_local():
             # ... then adds a new entry
-            globalVars.dicDirections[globalVars.currentContext]['vars'][globalVars.auxID] = {'type': globalVars.auxType};
+            globalVars.add_var();
         else:
             print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
     else:
@@ -479,13 +453,7 @@ def p_debug(t):
     'debug : empty'
     print("\n" + "DEBUGGING TABLES" + "\n");
     time.sleep(1.5);
-    for direction in globalVars.dicDirections:
-        print(direction);
-        print("\tType:" + globalVars.dicDirections[direction]['type']);
-        for varID in globalVars.dicDirections[direction]['vars']:
-            print("\t\tVar: " + varID + "\t");
-            #for varType in globalVars.dicDirections[direction]['vars'][varID]['type']:
-            #    print("\t\tVar: " + varID + "\t" + "Type: " + varType);
+    globalVars.print_tables();
     print("\n" + "END OF DEBBUGGER" + "\n");
 
 def p_empty(p):
