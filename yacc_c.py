@@ -15,6 +15,20 @@ class Global:
         auxID = "";
         auxType = "";
 
+    def exists_in_global(variable):
+        variable in self.dicDirections[self.globalContext]['vars'];
+
+    def exists_in_local(variable, local):
+        variable in self.dicDirections[local]['vars'];
+        #variable in self.dicDirections[self.currentContext]['vars'];
+
+    def add_var(variable, type, context):
+        self.dicDirections[context]['vars'][variable] = {'type': type};
+
+    def add_dir(direction, type):
+        self.dicDirections[direction] = {'type': type};
+
+
 globalVars = Global();
 
 ################################################################################
