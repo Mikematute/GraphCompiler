@@ -14,4 +14,11 @@ from memory import Memory
 print("Declaring Global memory")
 global_Mem = Memory(1)
 print("printing current counters for Global memorry")
-global_Mem.p_counters()
+global_Mem.print_counters()
+
+print()
+print("assigning a new float pos: ")
+print(global_Mem.get_counter_id("float"))
+print()
+print("printing current counters for Global memorry")
+global_Mem.print_counters()

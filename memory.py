@@ -32,7 +32,7 @@ class Memory:
 		self.directed_cont = start + 7000
 		self.undirected_cont = start + 8000
 
-	def p_counters(self):
+	def print_counters(self):
 		print("int: " + str(self.int_cont))
 		print("flt: " + str(self.float_cont))
 		print("chr: " + str(self.char_cont))
@@ -42,4 +42,46 @@ class Memory:
 		print("arc: " + str(self.arc_cont))
 		print("dir: " + str(self.directed_cont))
 		print("und: " + str(self.undirected_cont))
+
+	def get_counter_id(self, counter_id):
+		if counter_id == "int":
+			to_return = self.int_cont
+			self.int_cont = self.int_cont + 1
+			return to_return
+		elif counter_id == "float":
+			to_return = self.float_cont
+			self.float_cont = self.float_cont + 1
+			return to_return
+		elif counter_id == "char":
+			to_return = self.char_cont
+			self.char_cont = self.char_cont + 1
+			return to_return
+		elif counter_id == "string":
+			to_return = self.string_cont
+			self.string_cont = self.string_cont + 1
+			return to_return
+		elif counter_id == "bool":
+			to_return = self.bool_cont
+			self.bool_cont = self.bool_cont + 1
+			return to_return
+		elif counter_id == "node":
+			to_return = self.nodes_cont
+			self.nodes_cont = self.nodes_cont + 1
+			return to_return
+		elif counter_id == "arc":
+			to_return = self.arc_cont
+			self.arc_cont = self.arc_cont + 1
+			return to_return
+		elif counter_id == "directed":
+			to_return = self.directed_cont
+			self.directed_cont = self.directed_cont + 1
+			return to_return
+		elif counter_id == "undirected":
+			to_return = self.undirected_cont
+			self.undirected_cont = self.undirected_cont + 1
+			return to_return
+		else:
+			return -1
+
+
 
