@@ -4,6 +4,14 @@
 # Not to be evaluated
 ################################################################################
 
-from oracle import consult
+# tests for oracle
+# from oracle import consult
+# print(consult(0,7,1))
 
-print(consult(0,7,1))
+# tests for memory class
+from memory import Memory
+
+print("Declaring Global memory")
+global_Mem = Memory(1)
+print("printing current counters for Global memorry")
+global_Mem.p_counters()
