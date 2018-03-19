@@ -8,14 +8,20 @@ class Algorithm_Quadruple:
         self.s_operator = []
         self.s_operand = []
         self.s_type = []
+        self.avail = -1
 
     def add_quadruple(self, op, el1, el2, res):
         temp_quad = Quadruple(op, el1, el2, res)
         self.lst_quadruples.append(temp_quad)
         self.instruction_pointer += 1;
 
+
     def fill_jump(self, quad_location):
         self.lst_quadruples[quad_location].result = instruction_pointer
+
+    def next_avail(self):
+        self.avail += 1
+        return self.avail
 
     # .print method
     # prints the value of the specified variable
