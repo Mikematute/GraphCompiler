@@ -5,6 +5,8 @@
 from tables import Tables
 globalVars = Tables();
 from oracle import consult
+from memory import Memory
+local_mem = Memory(2)
 from algorithmQuadruple import Algorithm_Quadruple
 alg_quad = Algorithm_Quadruple()
 operator_conv = { '+': 0,
@@ -297,10 +299,10 @@ def p_exp_lv2(t):
                | exp_lv3 SUB exp_lv2'''
 
 def p_exp_lv3(t):
-    '''exp_lv3 : exp_lv4
-               | exp_lv4 MUL exp_lv3
-               | exp_lv4 DIV exp_lv3
-               | exp_lv4 RESD exp_lv3'''
+    '''exp_lv3 : exp_lv4 np_quad_1
+               | exp_lv4 np_quad_1 MUL np_operator_stack exp_lv3
+               | exp_lv4 np_quad_1 DIV np_operator_stack exp_lv3
+               | exp_lv4 np_quad_1 RESD np_operator_stack exp_lv3'''
 
 def p_exp_lv4(t):
     '''exp_lv4 : exp_lv5
@@ -326,13 +328,11 @@ def p_array_access_2(t):
                        | empty'''
 ################################# V A R _ C T E ################################
 def p_var_cte(t):
-    '''var_cte : CTE_INT
-               | CTE_FLO
-               | CTE_BOO
-               | CTE_STRING
-               | CTE_CHAR'''
-    print("var_cte")
-    print(t[1])
+    '''var_cte : CTE_INT np_operand_cte_int
+               | CTE_FLO np_operand_cte_flt
+               | CTE_BOO np_operand_cte_bol
+               | CTE_STRING np_operand_cte_str
+               | CTE_CHAR np_operand_cte_chr'''
 
 ################################## M E T H O D #################################
 def p_method(t):
@@ -469,11 +469,55 @@ def p_np_var_2(t):
         print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.auxID, globalVars.currentContext));
 
 #------------------------------ Q u a d r u p l e -------------------------------
-def p_np_operand_stack(t):
-    'np_operand_stack : empty'
-    # grab the operator and search for the table for its assigned memory
-    # push memory for operator into the stack
-    alg_quad.push_operand(t[-1])
+def p_np_operand_cte_int(t):
+    'np_operand_cte_int : empty'
+    # int
+    # grab the operand, since we have the type, we request an assigned space on memory
+    # push type on stack
+
+    mem_act = local_mem.get_counter_num(0)
+    alg_quad.push_operand(mem_act)
+    alg_quad.push_type(0)
+
+def p_np_operand_cte_flt(t):
+    'np_operand_cte_flt : empty'
+    # float
+    # grab the operand, since we have the type, we request an assigned space on memory
+    # push type on stack
+
+    mem_act = local_mem.get_counter_num(1)
+    alg_quad.push_operand(mem_act)
+    alg_quad.push_type(1)
+
+def p_np_operand_cte_chr(t):
+    'np_operand_cte_chr : empty'
+    # char
+    # grab the operand, since we have the type, we request an assigned space on memory
+    # push type on stack
+
+    mem_act = local_mem.get_counter_num(2)
+    alg_quad.push_operand(mem_act)
+    alg_quad.push_type(2)
+
+def p_np_operand_cte_str(t):
+    'np_operand_cte_str : empty'
+    # string
+    # grab the operand, since we have the type, we request an assigned space on memory
+    # push type on stack
+
+    mem_act = local_mem.get_counter_num(3)
+    alg_quad.push_operand(mem_act)
+    alg_quad.push_type(3)
+
+def p_np_operand_cte_bol(t):
+    'np_operand_cte_bol : empty'
+    # bool
+    # grab the operand, since we have the type, we request an assigned space on memory
+    # push type on stack
+
+    mem_act = local_mem.get_counter_num(4)
+    alg_quad.push_operand(mem_act)
+    alg_quad.push_type(4)
 
 def p_np_operator_stack(t):
     'np_operator_stack : empty'
@@ -487,7 +531,7 @@ def p_np_quad_1(t):
     # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
     # checking * / %
     peek_o = alg_quad.peek_operator()
-    if (peek_o == 2 || peek_o == 3 || peek_o == 5):
+    if (peek_o == 2 or peek_o == 3 or peek_o == 5):
       operand_right = alg_quad.pop_operand()
       operand_left = alg_quad.pop_operand()
       op = alg_quad.pop_operator()
@@ -495,11 +539,12 @@ def p_np_quad_1(t):
       t_left = alg_quad.pop_type()
       # check new type. if -1, type mis match
       n_type = consult(op, t_left, t_right)
-      if (n_type != -1)
-        ####### URGENT: GETTING NEW TEMP BASED ON NEW TYPE
-        n_temp = testing_temp
-        testing_temp = testing_temp + 1
+      if (n_type != -1):
+        # new temp based on oracle
+        n_temp = local_mem.get_counter_num(n_type)
+  
         alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
+        alg_quad.push_operand(n_temp)
         alg_quad.push_type(n_type)
 
 
@@ -509,7 +554,10 @@ def p_debug(t):
     'debug : empty'
     print("\n" + "DEBUGGING TABLES" + "\n");
     time.sleep(1.5);
+    print("#Tables")
     globalVars.print_tables();
+    print("#Quadruples")
+    alg_quad.print_quadruples();
     print("\n" + "END OF DEBBUGGER" + "\n");
 
 def p_empty(p):

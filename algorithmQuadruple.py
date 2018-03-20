@@ -81,13 +81,25 @@ class Algorithm_Quadruple:
     # .peek method
     # returns the first element from the specified stack without poping it
     def peek_jump(self):
-        return self.s_jump[-1]
+        if self.s_jump:
+            return self.s_jump[-1]
+        else:
+            return -1
 
     def peek_operator(self):
-        return self.s_operator[-1]
+        if self.s_operator:
+            return self.s_operator[-1]
+        else:
+            return -1
 
     def peek_operand(self):
-        return self.s_operand[-1]
+        if self.s_operand:
+            return self.s_operand[-1]
+        else:
+            return -1
 
     def peek_type(self):
-        return self.s_type[-1]
+        if self.s_type:
+            return self.s_type[-1]
+        else:
+            return -1

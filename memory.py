@@ -83,5 +83,45 @@ class Memory:
 		else:
 			return -1
 
+	def get_counter_num(self, counter_num):
+		if counter_num == 0:
+			to_return = self.int_cont
+			self.int_cont = self.int_cont + 1
+			return to_return
+		elif counter_num == 1:
+			to_return = self.float_cont
+			self.float_cont = self.float_cont + 1
+			return to_return
+		elif counter_num == 2:
+			to_return = self.char_cont
+			self.char_cont = self.char_cont + 1
+			return to_return
+		elif counter_num == 3:
+			to_return = self.string_cont
+			self.string_cont = self.string_cont + 1
+			return to_return
+		elif counter_num == 4:
+			to_return = self.bool_cont
+			self.bool_cont = self.bool_cont + 1
+			return to_return
+		elif counter_num == 5:
+			to_return = self.nodes_cont
+			self.nodes_cont = self.nodes_cont + 1
+			return to_return
+		elif counter_num == 6:
+			to_return = self.arc_cont
+			self.arc_cont = self.arc_cont + 1
+			return to_return
+		elif counter_num == 7:
+			to_return = self.directed_cont
+			self.directed_cont = self.directed_cont + 1
+			return to_return
+		elif counter_num == 8:
+			to_return = self.undirected_cont
+			self.undirected_cont = self.undirected_cont + 1
+			return to_return
+		else:
+			return -1
+
 
 

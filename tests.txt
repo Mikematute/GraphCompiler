@@ -52,6 +52,9 @@ program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES
 #Doesnt work
 program cats; main () {var int iBark; var char cSnuggle; print ("I WANT SNUGGLES" "I WANT MORE SNUGGLES");}
 
+#### quadruples will #####
+program cats; main () {print("Hola")}
+
 # modificadas:
 	- vars
 	- Type
