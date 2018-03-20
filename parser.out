@@ -1,4 +1,4 @@
-Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+Created by PLY version 3.9 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
@@ -136,8 +136,10 @@ Rule 126   np_var_c2 -> empty
 Rule 127   np_var_c3 -> empty
 Rule 128   np_var_1 -> empty
 Rule 129   np_var_2 -> empty
-Rule 130   debug -> empty
-Rule 131   empty -> <empty>
+Rule 130   np_operator_stack -> empty
+Rule 131   np_operation_stack -> empty
+Rule 132   debug -> empty
+Rule 133   empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -216,7 +218,7 @@ condition            : 42
 condition_1          : 52
 cycle                : 43
 debug                : 21
-empty                : 3 7 9 16 37 39 54 65 80 99 107 118 119 120 121 122 123 124 125 126 127 128 129 130
+empty                : 3 7 9 16 37 39 54 65 80 99 107 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132
 exp_lv1              : 70 71 72
 exp_lv1_1            : 73
 exp_lv2              : 73 74 75 76 77 78 79 82 83
@@ -236,6 +238,8 @@ method_1             : 105
 method_1_1           : 106 109
 method_t             : 105
 method_v             : 108 109
+np_operation_stack   : 
+np_operator_stack    : 
 np_var_1             : 10 26 27 28 29 30 31 32 33 34
 np_var_2             : 4 5
 np_var_a1            : 1
@@ -292,9 +296,9 @@ state 3
 
     (1) program -> PROGRAM ID . np_var_a1 SCOLO np_var_a2 vars function body
     (118) np_var_a1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    SCOLO           reduce using rule 131 (empty -> .)
+    SCOLO           reduce using rule 133 (empty -> .)
 
     np_var_a1                      shift and go to state 4
     empty                          shift and go to state 5
@@ -317,20 +321,20 @@ state 6
 
     (1) program -> PROGRAM ID np_var_a1 SCOLO . np_var_a2 vars function body
     (119) np_var_a2 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    VAR             reduce using rule 131 (empty -> .)
-    VOID            reduce using rule 131 (empty -> .)
-    INT             reduce using rule 131 (empty -> .)
-    FLOAT           reduce using rule 131 (empty -> .)
-    STRING          reduce using rule 131 (empty -> .)
-    CHAR            reduce using rule 131 (empty -> .)
-    BOOL            reduce using rule 131 (empty -> .)
-    NODE            reduce using rule 131 (empty -> .)
-    ARC             reduce using rule 131 (empty -> .)
-    UNDIRECTED      reduce using rule 131 (empty -> .)
-    DIRECTED        reduce using rule 131 (empty -> .)
-    MAIN            reduce using rule 131 (empty -> .)
+    VAR             reduce using rule 133 (empty -> .)
+    VOID            reduce using rule 133 (empty -> .)
+    INT             reduce using rule 133 (empty -> .)
+    FLOAT           reduce using rule 133 (empty -> .)
+    STRING          reduce using rule 133 (empty -> .)
+    CHAR            reduce using rule 133 (empty -> .)
+    BOOL            reduce using rule 133 (empty -> .)
+    NODE            reduce using rule 133 (empty -> .)
+    ARC             reduce using rule 133 (empty -> .)
+    UNDIRECTED      reduce using rule 133 (empty -> .)
+    DIRECTED        reduce using rule 133 (empty -> .)
+    MAIN            reduce using rule 133 (empty -> .)
 
     np_var_a2                      shift and go to state 7
     empty                          shift and go to state 8
@@ -340,20 +344,20 @@ state 7
     (1) program -> PROGRAM ID np_var_a1 SCOLO np_var_a2 . vars function body
     (2) vars -> . VAR type vars_1 SCOLO vars
     (3) vars -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
     VAR             shift and go to state 10
-    VOID            reduce using rule 131 (empty -> .)
-    INT             reduce using rule 131 (empty -> .)
-    FLOAT           reduce using rule 131 (empty -> .)
-    STRING          reduce using rule 131 (empty -> .)
-    CHAR            reduce using rule 131 (empty -> .)
-    BOOL            reduce using rule 131 (empty -> .)
-    NODE            reduce using rule 131 (empty -> .)
-    ARC             reduce using rule 131 (empty -> .)
-    UNDIRECTED      reduce using rule 131 (empty -> .)
-    DIRECTED        reduce using rule 131 (empty -> .)
-    MAIN            reduce using rule 131 (empty -> .)
+    VOID            reduce using rule 133 (empty -> .)
+    INT             reduce using rule 133 (empty -> .)
+    FLOAT           reduce using rule 133 (empty -> .)
+    STRING          reduce using rule 133 (empty -> .)
+    CHAR            reduce using rule 133 (empty -> .)
+    BOOL            reduce using rule 133 (empty -> .)
+    NODE            reduce using rule 133 (empty -> .)
+    ARC             reduce using rule 133 (empty -> .)
+    UNDIRECTED      reduce using rule 133 (empty -> .)
+    DIRECTED        reduce using rule 133 (empty -> .)
+    MAIN            reduce using rule 133 (empty -> .)
 
     vars                           shift and go to state 9
     empty                          shift and go to state 11
@@ -386,7 +390,7 @@ state 9
     (12) function_t -> . t_string
     (13) function_t -> . t_bool
     (14) function_t -> . t_graph
-    (131) empty -> .
+    (133) empty -> .
     (26) t_number -> . INT np_var_1
     (27) t_number -> . FLOAT np_var_1
     (28) t_string -> . STRING np_var_1
@@ -398,7 +402,7 @@ state 9
     (34) t_graph -> . DIRECTED np_var_1
 
     VOID            shift and go to state 15
-    MAIN            reduce using rule 131 (empty -> .)
+    MAIN            reduce using rule 133 (empty -> .)
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
     STRING          shift and go to state 22
@@ -501,9 +505,9 @@ state 15
 
     (10) function_t -> VOID . np_var_1
     (128) np_var_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_1                       shift and go to state 37
     empty                          shift and go to state 38
@@ -540,9 +544,9 @@ state 20
 
     (26) t_number -> INT . np_var_1
     (128) np_var_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_1                       shift and go to state 39
     empty                          shift and go to state 38
@@ -551,9 +555,9 @@ state 21
 
     (27) t_number -> FLOAT . np_var_1
     (128) np_var_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_1                       shift and go to state 40
     empty                          shift and go to state 38
@@ -562,9 +566,9 @@ state 22
 
     (28) t_string -> STRING . np_var_1
     (128) np_var_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_1                       shift and go to state 41
     empty                          shift and go to state 38
@@ -573,9 +577,9 @@ state 23
 
     (29) t_string -> CHAR . np_var_1
     (128) np_var_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_1                       shift and go to state 42
     empty                          shift and go to state 38
@@ -584,9 +588,9 @@ state 24
 
     (30) t_bool -> BOOL . np_var_1
     (128) np_var_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_1                       shift and go to state 43
     empty                          shift and go to state 38
@@ -595,9 +599,9 @@ state 25
 
     (31) t_graph -> NODE . np_var_1
     (128) np_var_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_1                       shift and go to state 44
     empty                          shift and go to state 38
@@ -606,9 +610,9 @@ state 26
 
     (32) t_graph -> ARC . np_var_1
     (128) np_var_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_1                       shift and go to state 45
     empty                          shift and go to state 38
@@ -617,9 +621,9 @@ state 27
 
     (33) t_graph -> UNDIRECTED . np_var_1
     (128) np_var_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_1                       shift and go to state 46
     empty                          shift and go to state 38
@@ -628,9 +632,9 @@ state 28
 
     (34) t_graph -> DIRECTED . np_var_1
     (128) np_var_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_1                       shift and go to state 47
     empty                          shift and go to state 38
@@ -684,9 +688,9 @@ state 35
 
     (21) body -> MAIN . np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK debug np_var_c3
     (125) np_var_c1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    LPAREN          reduce using rule 131 (empty -> .)
+    LPAREN          reduce using rule 133 (empty -> .)
 
     np_var_c1                      shift and go to state 50
     empty                          shift and go to state 51
@@ -695,9 +699,9 @@ state 36
 
     (8) function -> function_t ID . np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
     (121) np_var_b2 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    LPAREN          reduce using rule 131 (empty -> .)
+    LPAREN          reduce using rule 133 (empty -> .)
 
     np_var_b2                      shift and go to state 52
     empty                          shift and go to state 53
@@ -791,11 +795,11 @@ state 49
     (4) vars_1 -> ID . np_var_2 vars_2
     (5) vars_1 -> ID . np_var_2 vars_2 COMA vars_1
     (129) np_var_2 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    LCORCH          reduce using rule 131 (empty -> .)
-    COMA            reduce using rule 131 (empty -> .)
-    SCOLO           reduce using rule 131 (empty -> .)
+    LCORCH          reduce using rule 133 (empty -> .)
+    COMA            reduce using rule 133 (empty -> .)
+    SCOLO           reduce using rule 133 (empty -> .)
 
     np_var_2                       shift and go to state 55
     empty                          shift and go to state 56
@@ -818,9 +822,9 @@ state 52
 
     (8) function -> function_t ID np_var_b2 . np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
     (122) np_var_b3 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    LPAREN          reduce using rule 131 (empty -> .)
+    LPAREN          reduce using rule 133 (empty -> .)
 
     np_var_b3                      shift and go to state 58
     empty                          shift and go to state 59
@@ -837,27 +841,27 @@ state 54
     (2) vars -> VAR type vars_1 SCOLO . vars
     (2) vars -> . VAR type vars_1 SCOLO vars
     (3) vars -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
     VAR             shift and go to state 10
-    VOID            reduce using rule 131 (empty -> .)
-    INT             reduce using rule 131 (empty -> .)
-    FLOAT           reduce using rule 131 (empty -> .)
-    STRING          reduce using rule 131 (empty -> .)
-    CHAR            reduce using rule 131 (empty -> .)
-    BOOL            reduce using rule 131 (empty -> .)
-    NODE            reduce using rule 131 (empty -> .)
-    ARC             reduce using rule 131 (empty -> .)
-    UNDIRECTED      reduce using rule 131 (empty -> .)
-    DIRECTED        reduce using rule 131 (empty -> .)
-    MAIN            reduce using rule 131 (empty -> .)
-    ID              reduce using rule 131 (empty -> .)
-    PRINT           reduce using rule 131 (empty -> .)
-    IF              reduce using rule 131 (empty -> .)
-    WHILE           reduce using rule 131 (empty -> .)
-    DO              reduce using rule 131 (empty -> .)
-    FOR             reduce using rule 131 (empty -> .)
-    RBRACK          reduce using rule 131 (empty -> .)
+    VOID            reduce using rule 133 (empty -> .)
+    INT             reduce using rule 133 (empty -> .)
+    FLOAT           reduce using rule 133 (empty -> .)
+    STRING          reduce using rule 133 (empty -> .)
+    CHAR            reduce using rule 133 (empty -> .)
+    BOOL            reduce using rule 133 (empty -> .)
+    NODE            reduce using rule 133 (empty -> .)
+    ARC             reduce using rule 133 (empty -> .)
+    UNDIRECTED      reduce using rule 133 (empty -> .)
+    DIRECTED        reduce using rule 133 (empty -> .)
+    MAIN            reduce using rule 133 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
+    PRINT           reduce using rule 133 (empty -> .)
+    IF              reduce using rule 133 (empty -> .)
+    WHILE           reduce using rule 133 (empty -> .)
+    DO              reduce using rule 133 (empty -> .)
+    FOR             reduce using rule 133 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
 
     vars                           shift and go to state 60
     empty                          shift and go to state 11
@@ -869,11 +873,11 @@ state 55
     (6) vars_2 -> . array_declare
     (7) vars_2 -> . empty
     (35) array_declare -> . LCORCH CTE_INT RCORCH array_declare_1
-    (131) empty -> .
+    (133) empty -> .
 
     LCORCH          shift and go to state 64
-    COMA            reduce using rule 131 (empty -> .)
-    SCOLO           reduce using rule 131 (empty -> .)
+    COMA            reduce using rule 133 (empty -> .)
+    SCOLO           reduce using rule 133 (empty -> .)
 
     vars_2                         shift and go to state 61
     array_declare                  shift and go to state 62
@@ -981,7 +985,7 @@ state 66
     (18) function_v1 -> . type np_var_b4 ID np_var_b5 COMA function_v1
     (19) function_v1 -> . type np_var_b4 ID np_var_b5 array_declare
     (20) function_v1 -> . type np_var_b4 ID np_var_b5 array_declare COMA function_v1
-    (131) empty -> .
+    (133) empty -> .
     (22) type -> . t_number
     (23) type -> . t_string
     (24) type -> . t_bool
@@ -996,7 +1000,7 @@ state 66
     (33) t_graph -> . UNDIRECTED np_var_1
     (34) t_graph -> . DIRECTED np_var_1
 
-    RPAREN          reduce using rule 131 (empty -> .)
+    RPAREN          reduce using rule 133 (empty -> .)
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
     STRING          shift and go to state 22
@@ -1037,16 +1041,16 @@ state 69
 
     (21) body -> MAIN np_var_c1 LPAREN RPAREN LBRACK . np_var_c2 vars statutes RBRACK debug np_var_c3
     (126) np_var_c2 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    VAR             reduce using rule 131 (empty -> .)
-    ID              reduce using rule 131 (empty -> .)
-    PRINT           reduce using rule 131 (empty -> .)
-    IF              reduce using rule 131 (empty -> .)
-    WHILE           reduce using rule 131 (empty -> .)
-    DO              reduce using rule 131 (empty -> .)
-    FOR             reduce using rule 131 (empty -> .)
-    RBRACK          reduce using rule 131 (empty -> .)
+    VAR             reduce using rule 133 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
+    PRINT           reduce using rule 133 (empty -> .)
+    IF              reduce using rule 133 (empty -> .)
+    WHILE           reduce using rule 133 (empty -> .)
+    DO              reduce using rule 133 (empty -> .)
+    FOR             reduce using rule 133 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
 
     np_var_c2                      shift and go to state 76
     empty                          shift and go to state 77
@@ -1079,9 +1083,9 @@ state 73
     (19) function_v1 -> type . np_var_b4 ID np_var_b5 array_declare
     (20) function_v1 -> type . np_var_b4 ID np_var_b5 array_declare COMA function_v1
     (123) np_var_b4 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    ID              reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
 
     np_var_b4                      shift and go to state 79
     empty                          shift and go to state 80
@@ -1098,12 +1102,12 @@ state 75
     (35) array_declare -> LCORCH CTE_INT RCORCH . array_declare_1
     (36) array_declare_1 -> . LCORCH CTE_INT RCORCH array_declare_1
     (37) array_declare_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
     LCORCH          shift and go to state 81
-    COMA            reduce using rule 131 (empty -> .)
-    SCOLO           reduce using rule 131 (empty -> .)
-    RPAREN          reduce using rule 131 (empty -> .)
+    COMA            reduce using rule 133 (empty -> .)
+    SCOLO           reduce using rule 133 (empty -> .)
+    RPAREN          reduce using rule 133 (empty -> .)
 
     array_declare_1                shift and go to state 82
     empty                          shift and go to state 83
@@ -1113,16 +1117,16 @@ state 76
     (21) body -> MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 . vars statutes RBRACK debug np_var_c3
     (2) vars -> . VAR type vars_1 SCOLO vars
     (3) vars -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
     VAR             shift and go to state 10
-    ID              reduce using rule 131 (empty -> .)
-    PRINT           reduce using rule 131 (empty -> .)
-    IF              reduce using rule 131 (empty -> .)
-    WHILE           reduce using rule 131 (empty -> .)
-    DO              reduce using rule 131 (empty -> .)
-    FOR             reduce using rule 131 (empty -> .)
-    RBRACK          reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
+    PRINT           reduce using rule 133 (empty -> .)
+    IF              reduce using rule 133 (empty -> .)
+    WHILE           reduce using rule 133 (empty -> .)
+    DO              reduce using rule 133 (empty -> .)
+    FOR             reduce using rule 133 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
 
     vars                           shift and go to state 84
     empty                          shift and go to state 11
@@ -1200,7 +1204,7 @@ state 84
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (131) empty -> .
+    (133) empty -> .
     (45) assignation -> . ID EQL expression SCOLO
     (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
     (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1
@@ -1214,7 +1218,7 @@ state 84
     (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 131 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -1240,16 +1244,16 @@ state 85
     (8) function -> function_t ID np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK . vars statutes RBRACK function
     (2) vars -> . VAR type vars_1 SCOLO vars
     (3) vars -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
     VAR             shift and go to state 10
-    ID              reduce using rule 131 (empty -> .)
-    PRINT           reduce using rule 131 (empty -> .)
-    IF              reduce using rule 131 (empty -> .)
-    WHILE           reduce using rule 131 (empty -> .)
-    DO              reduce using rule 131 (empty -> .)
-    FOR             reduce using rule 131 (empty -> .)
-    RBRACK          reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
+    PRINT           reduce using rule 133 (empty -> .)
+    IF              reduce using rule 133 (empty -> .)
+    WHILE           reduce using rule 133 (empty -> .)
+    DO              reduce using rule 133 (empty -> .)
+    FOR             reduce using rule 133 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
 
     vars                           shift and go to state 106
     empty                          shift and go to state 11
@@ -1261,11 +1265,11 @@ state 86
     (19) function_v1 -> type np_var_b4 ID . np_var_b5 array_declare
     (20) function_v1 -> type np_var_b4 ID . np_var_b5 array_declare COMA function_v1
     (124) np_var_b5 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    COMA            reduce using rule 131 (empty -> .)
-    LCORCH          reduce using rule 131 (empty -> .)
-    RPAREN          reduce using rule 131 (empty -> .)
+    COMA            reduce using rule 133 (empty -> .)
+    LCORCH          reduce using rule 133 (empty -> .)
+    RPAREN          reduce using rule 133 (empty -> .)
 
     np_var_b5                      shift and go to state 107
     empty                          shift and go to state 108
@@ -1294,7 +1298,7 @@ state 89
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (131) empty -> .
+    (133) empty -> .
     (45) assignation -> . ID EQL expression SCOLO
     (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
     (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1
@@ -1308,7 +1312,7 @@ state 89
     (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 131 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -1508,7 +1512,7 @@ state 106
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (131) empty -> .
+    (133) empty -> .
     (45) assignation -> . ID EQL expression SCOLO
     (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
     (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1
@@ -1522,7 +1526,7 @@ state 106
     (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 131 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -1571,12 +1575,12 @@ state 109
     (36) array_declare_1 -> LCORCH CTE_INT RCORCH . array_declare_1
     (36) array_declare_1 -> . LCORCH CTE_INT RCORCH array_declare_1
     (37) array_declare_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
     LCORCH          shift and go to state 81
-    COMA            reduce using rule 131 (empty -> .)
-    SCOLO           reduce using rule 131 (empty -> .)
-    RPAREN          reduce using rule 131 (empty -> .)
+    COMA            reduce using rule 133 (empty -> .)
+    SCOLO           reduce using rule 133 (empty -> .)
+    RPAREN          reduce using rule 133 (empty -> .)
 
     array_declare_1                shift and go to state 122
     empty                          shift and go to state 83
@@ -1584,10 +1588,10 @@ state 109
 state 110
 
     (21) body -> MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK . debug np_var_c3
-    (130) debug -> . empty
-    (131) empty -> .
+    (132) debug -> . empty
+    (133) empty -> .
 
-    $end            reduce using rule 131 (empty -> .)
+    $end            reduce using rule 133 (empty -> .)
 
     debug                          shift and go to state 123
     empty                          shift and go to state 124
@@ -1654,7 +1658,7 @@ state 113
     (67) function_call_2 -> . ID
     (68) function_call_2 -> . expression SCOLO function_call_2
     (69) function_call_2 -> . ID SCOLO function_call_2
-    (131) empty -> .
+    (133) empty -> .
     (70) expression -> . exp_lv1
     (71) expression -> . exp_lv1 AND expression
     (72) expression -> . exp_lv1 OR expression
@@ -1690,7 +1694,7 @@ state 113
     CTE_STRING      shift and go to state 139
     CTE_CHAR        shift and go to state 140
 
-  ! RPAREN          [ reduce using rule 131 (empty -> .) ]
+  ! RPAREN          [ reduce using rule 133 (empty -> .) ]
 
     function_call_1                shift and go to state 142
     function_call_2                shift and go to state 143
@@ -1859,7 +1863,7 @@ state 117
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (131) empty -> .
+    (133) empty -> .
     (45) assignation -> . ID EQL expression SCOLO
     (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
     (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1
@@ -1873,7 +1877,7 @@ state 117
     (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 131 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -1969,18 +1973,18 @@ state 123
 
     (21) body -> MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK debug . np_var_c3
     (127) np_var_c3 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
-    $end            reduce using rule 131 (empty -> .)
+    $end            reduce using rule 133 (empty -> .)
 
     np_var_c3                      shift and go to state 157
     empty                          shift and go to state 158
 
 state 124
 
-    (130) debug -> empty .
+    (132) debug -> empty .
 
-    $end            reduce using rule 130 (debug -> empty .)
+    $end            reduce using rule 132 (debug -> empty .)
 
 
 state 125
@@ -2042,7 +2046,7 @@ state 128
     (78) exp_lv1_1 -> . EQUALTO exp_lv2
     (79) exp_lv1_1 -> . NOTEQUALTO exp_lv2
     (80) exp_lv1_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
     LESST           shift and go to state 166
     MORET           shift and go to state 167
@@ -2050,12 +2054,12 @@ state 128
     MOREEQUAL       shift and go to state 169
     EQUALTO         shift and go to state 170
     NOTEQUALTO      shift and go to state 171
-    AND             reduce using rule 131 (empty -> .)
-    OR              reduce using rule 131 (empty -> .)
-    SCOLO           reduce using rule 131 (empty -> .)
-    RPAREN          reduce using rule 131 (empty -> .)
-    SUMA            reduce using rule 131 (empty -> .)
-    LPAREN          reduce using rule 131 (empty -> .)
+    AND             reduce using rule 133 (empty -> .)
+    OR              reduce using rule 133 (empty -> .)
+    SCOLO           reduce using rule 133 (empty -> .)
+    RPAREN          reduce using rule 133 (empty -> .)
+    SUMA            reduce using rule 133 (empty -> .)
+    LPAREN          reduce using rule 133 (empty -> .)
 
     exp_lv1_1                      shift and go to state 165
     empty                          shift and go to state 172
@@ -2512,7 +2516,7 @@ state 154
     (12) function_t -> . t_string
     (13) function_t -> . t_bool
     (14) function_t -> . t_graph
-    (131) empty -> .
+    (133) empty -> .
     (26) t_number -> . INT np_var_1
     (27) t_number -> . FLOAT np_var_1
     (28) t_string -> . STRING np_var_1
@@ -2524,7 +2528,7 @@ state 154
     (34) t_graph -> . DIRECTED np_var_1
 
     VOID            shift and go to state 15
-    MAIN            reduce using rule 131 (empty -> .)
+    MAIN            reduce using rule 133 (empty -> .)
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
     STRING          shift and go to state 22
@@ -3892,7 +3896,7 @@ state 223
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (131) empty -> .
+    (133) empty -> .
     (45) assignation -> . ID EQL expression SCOLO
     (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
     (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1
@@ -3906,7 +3910,7 @@ state 223
     (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 131 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -3937,7 +3941,7 @@ state 224
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (131) empty -> .
+    (133) empty -> .
     (45) assignation -> . ID EQL expression SCOLO
     (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
     (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1
@@ -3951,7 +3955,7 @@ state 224
     (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 131 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -4000,11 +4004,11 @@ state 228
     (107) method_1 -> . empty
     (108) method_1_1 -> . method_v
     (109) method_1_1 -> . method_v COMA method_1_1
-    (131) empty -> .
+    (133) empty -> .
     (116) method_v -> . ID
     (117) method_v -> . LBRACK ID COMA ID RBRACK
 
-    RPAREN          reduce using rule 131 (empty -> .)
+    RPAREN          reduce using rule 133 (empty -> .)
     ID              shift and go to state 235
     LBRACK          shift and go to state 240
 
@@ -4018,25 +4022,25 @@ state 229
     (95) array_access -> LCORCH arrary_access_1 RCORCH . arrary_access_2
     (98) arrary_access_2 -> . LCORCH arrary_access_1 RCORCH arrary_access_2
     (99) arrary_access_2 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
     LCORCH          shift and go to state 241
-    MUL             reduce using rule 131 (empty -> .)
-    DIV             reduce using rule 131 (empty -> .)
-    RESD            reduce using rule 131 (empty -> .)
-    SUMA            reduce using rule 131 (empty -> .)
-    SUB             reduce using rule 131 (empty -> .)
-    LESST           reduce using rule 131 (empty -> .)
-    MORET           reduce using rule 131 (empty -> .)
-    LESSEQUAL       reduce using rule 131 (empty -> .)
-    MOREEQUAL       reduce using rule 131 (empty -> .)
-    EQUALTO         reduce using rule 131 (empty -> .)
-    NOTEQUALTO      reduce using rule 131 (empty -> .)
-    AND             reduce using rule 131 (empty -> .)
-    OR              reduce using rule 131 (empty -> .)
-    SCOLO           reduce using rule 131 (empty -> .)
-    RPAREN          reduce using rule 131 (empty -> .)
-    LPAREN          reduce using rule 131 (empty -> .)
+    MUL             reduce using rule 133 (empty -> .)
+    DIV             reduce using rule 133 (empty -> .)
+    RESD            reduce using rule 133 (empty -> .)
+    SUMA            reduce using rule 133 (empty -> .)
+    SUB             reduce using rule 133 (empty -> .)
+    LESST           reduce using rule 133 (empty -> .)
+    MORET           reduce using rule 133 (empty -> .)
+    LESSEQUAL       reduce using rule 133 (empty -> .)
+    MOREEQUAL       reduce using rule 133 (empty -> .)
+    EQUALTO         reduce using rule 133 (empty -> .)
+    NOTEQUALTO      reduce using rule 133 (empty -> .)
+    AND             reduce using rule 133 (empty -> .)
+    OR              reduce using rule 133 (empty -> .)
+    SCOLO           reduce using rule 133 (empty -> .)
+    RPAREN          reduce using rule 133 (empty -> .)
+    LPAREN          reduce using rule 133 (empty -> .)
 
     arrary_access_2                shift and go to state 242
     empty                          shift and go to state 243
@@ -4222,16 +4226,16 @@ state 244
     (52) condition -> IF LPAREN expression RPAREN LBRACK statutes RBRACK . condition_1
     (53) condition_1 -> . ELSE LBRACK statutes RBRACK
     (54) condition_1 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
     ELSE            shift and go to state 255
-    ID              reduce using rule 131 (empty -> .)
-    PRINT           reduce using rule 131 (empty -> .)
-    IF              reduce using rule 131 (empty -> .)
-    WHILE           reduce using rule 131 (empty -> .)
-    DO              reduce using rule 131 (empty -> .)
-    FOR             reduce using rule 131 (empty -> .)
-    RBRACK          reduce using rule 131 (empty -> .)
+    ID              reduce using rule 133 (empty -> .)
+    PRINT           reduce using rule 133 (empty -> .)
+    IF              reduce using rule 133 (empty -> .)
+    WHILE           reduce using rule 133 (empty -> .)
+    DO              reduce using rule 133 (empty -> .)
+    FOR             reduce using rule 133 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
 
     condition_1                    shift and go to state 254
     empty                          shift and go to state 256
@@ -4280,7 +4284,7 @@ state 249
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (131) empty -> .
+    (133) empty -> .
     (45) assignation -> . ID EQL expression SCOLO
     (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
     (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1
@@ -4294,7 +4298,7 @@ state 249
     (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 131 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -4438,25 +4442,25 @@ state 262
     (98) arrary_access_2 -> LCORCH arrary_access_1 RCORCH . arrary_access_2
     (98) arrary_access_2 -> . LCORCH arrary_access_1 RCORCH arrary_access_2
     (99) arrary_access_2 -> . empty
-    (131) empty -> .
+    (133) empty -> .
 
     LCORCH          shift and go to state 241
-    MUL             reduce using rule 131 (empty -> .)
-    DIV             reduce using rule 131 (empty -> .)
-    RESD            reduce using rule 131 (empty -> .)
-    SUMA            reduce using rule 131 (empty -> .)
-    SUB             reduce using rule 131 (empty -> .)
-    LESST           reduce using rule 131 (empty -> .)
-    MORET           reduce using rule 131 (empty -> .)
-    LESSEQUAL       reduce using rule 131 (empty -> .)
-    MOREEQUAL       reduce using rule 131 (empty -> .)
-    EQUALTO         reduce using rule 131 (empty -> .)
-    NOTEQUALTO      reduce using rule 131 (empty -> .)
-    AND             reduce using rule 131 (empty -> .)
-    OR              reduce using rule 131 (empty -> .)
-    SCOLO           reduce using rule 131 (empty -> .)
-    RPAREN          reduce using rule 131 (empty -> .)
-    LPAREN          reduce using rule 131 (empty -> .)
+    MUL             reduce using rule 133 (empty -> .)
+    DIV             reduce using rule 133 (empty -> .)
+    RESD            reduce using rule 133 (empty -> .)
+    SUMA            reduce using rule 133 (empty -> .)
+    SUB             reduce using rule 133 (empty -> .)
+    LESST           reduce using rule 133 (empty -> .)
+    MORET           reduce using rule 133 (empty -> .)
+    LESSEQUAL       reduce using rule 133 (empty -> .)
+    MOREEQUAL       reduce using rule 133 (empty -> .)
+    EQUALTO         reduce using rule 133 (empty -> .)
+    NOTEQUALTO      reduce using rule 133 (empty -> .)
+    AND             reduce using rule 133 (empty -> .)
+    OR              reduce using rule 133 (empty -> .)
+    SCOLO           reduce using rule 133 (empty -> .)
+    RPAREN          reduce using rule 133 (empty -> .)
+    LPAREN          reduce using rule 133 (empty -> .)
 
     arrary_access_2                shift and go to state 268
     empty                          shift and go to state 243
@@ -4471,7 +4475,7 @@ state 263
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (131) empty -> .
+    (133) empty -> .
     (45) assignation -> . ID EQL expression SCOLO
     (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
     (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1
@@ -4485,7 +4489,7 @@ state 263
     (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 131 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -4529,7 +4533,7 @@ state 265
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (131) empty -> .
+    (133) empty -> .
     (45) assignation -> . ID EQL expression SCOLO
     (46) writing -> . PRINT LPAREN writing_1 RPAREN SCOLO
     (52) condition -> . IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1
@@ -4543,7 +4547,7 @@ state 265
     (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 131 (empty -> .)
+    RBRACK          reduce using rule 133 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98

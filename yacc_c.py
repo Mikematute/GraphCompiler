@@ -4,7 +4,26 @@
 
 from tables import Tables
 globalVars = Tables();
+from oracle import consult
+from algorithmQuadruple import Algorithm_Quadruple
+alg_quad = Algorithm_Quadruple()
+operator_conv = { '+': 0,
+                  '-': 1,
+                  '*': 2,
+                  '/': 3,
+                  '=': 4,
+                  '%': 5,
+                  '&&': 6,
+                  '||': 7,
+                  '<': 8,
+                  '>': 9,
+                  '<=': 10,
+                  '>=': 11,
+                  '!=': 12,
+                  '==': 13,
+                  '!': 14}
 
+testing_temp = 0
 ################################################################################
 #                                 T O K E N S                                  #
 ################################################################################
@@ -448,6 +467,43 @@ def p_np_var_2(t):
             print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
     else:
         print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.auxID, globalVars.currentContext));
+
+#------------------------------ Q u a d r u p l e -------------------------------
+def p_np_operand_stack(t):
+    'np_operand_stack : empty'
+    # grab the operator and search for the table for its assigned memory
+    # push memory for operator into the stack
+    alg_quad.push_operand(t[-1])
+
+def p_np_operator_stack(t):
+    'np_operator_stack : empty'
+    # grab the operand and place it on the stack
+    # convert operand into its numeric value
+    current_operator = operator_conv.get(t[-1])
+    alg_quad.push_operator(current_operator)
+
+def p_np_quad_1(t):
+    'np_quad_1 : empty'
+    # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
+    # checking * / %
+    peek_o = alg_quad.peek_operator()
+    if (peek_o == 2 || peek_o == 3 || peek_o == 5):
+      operand_right = alg_quad.pop_operand()
+      operand_left = alg_quad.pop_operand()
+      op = alg_quad.pop_operator()
+      t_right = alg_quad.pop_type()
+      t_left = alg_quad.pop_type()
+      # check new type. if -1, type mis match
+      n_type = consult(op, t_left, t_right)
+      if (n_type != -1)
+        ####### URGENT: GETTING NEW TEMP BASED ON NEW TYPE
+        n_temp = testing_temp
+        testing_temp = testing_temp + 1
+        alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
+        alg_quad.push_type(n_type)
+
+
+
 ################################## O T H E R S #################################
 def p_debug(t):
     'debug : empty'

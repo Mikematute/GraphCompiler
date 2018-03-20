@@ -9,6 +9,7 @@
 # print(consult(0,7,1))
 
 #--------------------------- tests for memory class ----------------------------
+'''
 from memory import Memory
 
 print("Declaring Global memory")
@@ -23,8 +24,10 @@ print()
 print("printing current counters for Global memorry")
 global_Mem.print_counters
 print()
+'''
 
 #------------------------- tests for quadruple class ---------------------------
+'''
 from quadruple import Quadruple
 print("###################### QUADRUPLE TEST ######################")
 print("Declaring Quadruple")
@@ -35,8 +38,10 @@ print("Printing constructor with variables")
 my_quad = Quadruple(1,2,3,4);
 my_quad.print_quadruple();
 print()
+'''
 
 #---------------------- tests for list_Quadruples class ------------------------
+'''
 from algorithmQuadruple import Algorithm_Quadruple
 print("################# QUADRUPLE ALGORITHM TEST #################")
 print("Declaring List of Quadruples")
@@ -78,3 +83,24 @@ my_quad_list.push_type("string")
 my_quad_list.push_type("bool")
 my_quad_list.print_types()
 print()
+'''
+
+#------------------------- Test Mike Shananigans ---------------------------
+operand_conv = { '+': 0,
+                  '-': 1,
+                  '*': 2,
+                  '/': 3,
+                  '=': 4,
+                  '%': 5,
+                  '&&': 6,
+                  '||': 7,
+                  '<': 8,
+                  '>': 9,
+                  '<=': 10,
+                  '>=': 11,
+                  '!=': 12,
+                  '==': 13,
+                  '!': 14}
+
+current_operand = operand_conv.get('<')
+print(current_operand)
