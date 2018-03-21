@@ -29,7 +29,8 @@ operator_conv = { '+': 0,
                   '>=': 11,
                   '!=': 12,
                   '==': 13,
-                  '!': 14}
+                  '!': 14,
+                  'print': 15}
 
 testing_temp = 0
 ################################################################################
@@ -101,7 +102,7 @@ t_DOT =         r'\.'
 t_COLON =       r':'
 t_CTE_STRING =  r'\"[^"]*\"'
 t_CTE_FLO =     r'[0-9]+\.[0-9]+'
-t_CTE_BOO =     r'true|false'
+t_CTE_BOO =     r'True|False'
 t_CTE_CHAR =    r'\'.\''
 
 def t_ID(t):
@@ -230,19 +231,20 @@ def p_statutes_1(t):
 #---------------------------- a s s i g n a t i o n ----------------------------
 def p_assignation(t):
     'assignation : ID EQL expression SCOLO'
+
 #------------------------------- w r i t i n g ---------------------------------
 def p_writing(t):
-    'writing : PRINT LPAREN writing_1 RPAREN SCOLO'
+    'writing : PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO'
 
 def p_writing_1(t):
     '''writing_1 : expression
-                 | CTE_STRING
+                 | CTE_STRING np_quad_a1_str
                  | writing_2'''
 
 
 def p_writing_2(t):
-    '''writing_2 : expression SUMA writing_1
-                 | CTE_STRING SUMA writing_1'''
+    '''writing_2 : expression SUMA np_quad_b writing_1 np_quad_c2
+                 | CTE_STRING np_quad_a1_str SUMA np_quad_b writing_1 np_quad_c2'''
 #------------------------------ c o n d i t i o n ------------------------------
 def p_condition(t):
     'condition : IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1'
@@ -284,19 +286,19 @@ def p_function_call_2(t):
 
 ############################## E X P R E S S I O N #############################
 def p_expression(t):
-    '''expression : exp_lv1
-                  | exp_lv1 np_quad_c0 AND np_quad_b expression
-                  | exp_lv1 np_quad_c0 OR np_quad_b expression'''
+    '''expression : exp_lv1 
+                  | exp_lv1 AND np_quad_b expression np_quad_c0
+                  | exp_lv1 OR np_quad_b expression np_quad_c0'''
 
 def p_exp_lv1(t):
     'exp_lv1 : exp_lv2 exp_lv1_1'
 def p_exp_lv1_1(t):
-    '''exp_lv1_1 : LESST exp_lv2
-                 | MORET exp_lv2
-                 | LESSEQUAL exp_lv2
-                 | MOREEQUAL exp_lv2
-                 | EQUALTO exp_lv2
-                 | NOTEQUALTO exp_lv2
+    '''exp_lv1_1 : LESST np_quad_b exp_lv2 np_quad_c1
+                 | MORET np_quad_b exp_lv2 np_quad_c1
+                 | LESSEQUAL np_quad_b exp_lv2 np_quad_c1
+                 | MOREEQUAL np_quad_b exp_lv2 np_quad_c1
+                 | EQUALTO np_quad_b exp_lv2 np_quad_c1
+                 | NOTEQUALTO np_quad_b exp_lv2 np_quad_c1
                  | empty'''
 
 def p_exp_lv2(t):
@@ -312,7 +314,7 @@ def p_exp_lv3(t):
 
 def p_exp_lv4(t):
     '''exp_lv4 : exp_lv5
-               | NOT exp_lv5'''
+               | NOT np_quad_b exp_lv5 np_quad_c4'''
 
 def p_exp_lv5(t):
     '''exp_lv5 : RPAREN expression LPAREN
@@ -339,6 +341,7 @@ def p_var_cte(t):
                | CTE_BOO np_quad_a1_bol
                | CTE_STRING np_quad_a1_str
                | CTE_CHAR np_quad_a1_chr'''
+    # print("enters cons")
 
 ################################## M E T H O D #################################
 def p_method(t):
@@ -559,6 +562,39 @@ def p_np_quad_c0(t):
         alg_quad.push_operand(n_temp)
         alg_quad.push_type(n_type)
 
+def p_np_quad_c1(t):
+    'np_quad_c1 : empty'
+    # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
+    # checking + -
+    peek_o = alg_quad.peek_operator()
+    opLESST = operator_conv.get('<')
+    opMORET = operator_conv.get('>')
+    opLESSEQUAL = operator_conv.get('<=')
+    opMOREEQUAL = operator_conv.get('>=')
+    opEQUALTO = operator_conv.get('==')
+    opNOTEQUALTO = operator_conv.get('!=')
+
+
+    if (peek_o == opLESST or peek_o == opMORET or peek_o == opLESSEQUAL or peek_o == opMOREEQUAL or peek_o == opEQUALTO or peek_o == opNOTEQUALTO):
+      # saves the operands
+    
+      operand_right = alg_quad.pop_operand()
+      operand_left = alg_quad.pop_operand()
+      # saves the operator
+      op = alg_quad.pop_operator()
+      # saves the types of the operation
+      type_right = alg_quad.pop_type()
+      type_left = alg_quad.pop_type()
+      # check new type. if result is not "-1", then types match
+      n_type = consult(op, type_left, type_right)
+      if (n_type != -1):
+        # new temp based on oracle
+        n_temp = local_mem.get_counter_num(n_type)
+
+        alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
+        alg_quad.push_operand(n_temp)
+        alg_quad.push_type(n_type)
+
 def p_np_quad_c2(t):
     'np_quad_c2 : empty'
     # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
@@ -611,7 +647,57 @@ def p_np_quad_c3(t):
         alg_quad.push_operand(n_temp)
         alg_quad.push_type(n_type)
 
+def p_np_quad_c4(t):
+    'np_quad_c4 : empty'
+    # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
+    # checking + -
+    peek_o = alg_quad.peek_operator()
+    opNOT = operator_conv.get('!')
 
+    if (peek_o == opNOT):
+      # saves the operands
+      operand_right = alg_quad.pop_operand()
+      # saves the operator
+      op = alg_quad.pop_operator()
+      # saves the types of the operation
+      type_right = alg_quad.pop_type()
+      # check new type. if result is not "-1", then types match
+      n_type = consult(op, type_right, 4)
+      if (n_type != -1):
+        # new temp based on oracle
+        n_temp = local_mem.get_counter_num(n_type)
+
+        alg_quad.add_quadruple(op, operand_right, "", n_temp)
+        alg_quad.push_operand(n_temp)
+        alg_quad.push_type(n_type)
+
+############################# P R I N T # Q U A D ##############################
+def p_np_quad_print(t):
+    'np_quad_print : empty'
+    # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
+    # checking + -
+    peek_o = alg_quad.peek_operator()
+    opPrint = operator_conv.get('print')
+
+    if (peek_o == opPrint):
+      # saves the operands
+      # operand_right = alg_quad.pop_operand()
+      operand_right = alg_quad.pop_operand()
+      # saves the operator
+      op = alg_quad.pop_operator()
+      # saves the types of the operation
+      type_right = alg_quad.pop_type()
+      # check new type. if result is not "-1", then types match
+      # n_type = consult(op, type_right, 4)
+      # if (n_type != -1):
+      # print not yet added to oracle
+      # new temp based on oracle
+      # n_temp = local_mem.get_counter_num(n_type)
+
+      alg_quad.add_quadruple(op, operand_right, "", "")
+      # things are consumed. not pushed back
+      # alg_quad.push_operand(n_temp)
+      # alg_quad.push_type(n_type)
 
 ################################## O T H E R S #################################
 def p_debug(t):
@@ -623,6 +709,12 @@ def p_debug(t):
     print()
     print("###### Quadruples ######")
     alg_quad.print_quadruples()
+    print()
+    print("###### stack operators ######")
+    alg_quad.print_operators()
+    print()
+    print("###### stack operands ######")
+    alg_quad.print_operands()
     print("\n" + "END OF DEBBUGGER" + "\n");
 
 def p_empty(p):
