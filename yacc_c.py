@@ -3,12 +3,18 @@
 ################################################################################
 
 from tables import Tables
-globalVars = Tables();
 from oracle import consult
 from memory import Memory
-local_mem = Memory(2)
 from algorithmQuadruple import Algorithm_Quadruple
-alg_quad = Algorithm_Quadruple()
+
+
+global_mem   = Memory(1)
+local_mem    = Memory(2)
+temporal_mem = Memory(3)
+constant_mem = Memory(4)
+globalVars   = Tables()
+alg_quad     = Algorithm_Quadruple()
+
 operator_conv = { '+': 0,
                   '-': 1,
                   '*': 2,
@@ -279,8 +285,8 @@ def p_function_call_2(t):
 ############################## E X P R E S S I O N #############################
 def p_expression(t):
     '''expression : exp_lv1
-                  | exp_lv1 AND expression
-                  | exp_lv1 OR expression'''
+                  | exp_lv1 np_quad_c0 AND np_quad_b expression
+                  | exp_lv1 np_quad_c0 OR np_quad_b expression'''
 
 def p_exp_lv1(t):
     'exp_lv1 : exp_lv2 exp_lv1_1'
@@ -295,14 +301,14 @@ def p_exp_lv1_1(t):
 
 def p_exp_lv2(t):
     '''exp_lv2 : exp_lv3
-               | exp_lv3 SUMA exp_lv2
-               | exp_lv3 SUB exp_lv2'''
+               | exp_lv3 SUMA np_quad_b exp_lv2 np_quad_c2
+               | exp_lv3 SUB np_quad_b exp_lv2 np_quad_c2'''
 
 def p_exp_lv3(t):
-    '''exp_lv3 : exp_lv4 np_quad_1
-               | exp_lv4 np_quad_1 MUL np_operator_stack exp_lv3
-               | exp_lv4 np_quad_1 DIV np_operator_stack exp_lv3
-               | exp_lv4 np_quad_1 RESD np_operator_stack exp_lv3'''
+    '''exp_lv3 : exp_lv4
+               | exp_lv4 MUL np_quad_b exp_lv3 np_quad_c3
+               | exp_lv4 DIV np_quad_b exp_lv3 np_quad_c3
+               | exp_lv4 RESD np_quad_b exp_lv3 np_quad_c3'''
 
 def p_exp_lv4(t):
     '''exp_lv4 : exp_lv5
@@ -328,11 +334,11 @@ def p_array_access_2(t):
                        | empty'''
 ################################# V A R _ C T E ################################
 def p_var_cte(t):
-    '''var_cte : CTE_INT np_operand_cte_int
-               | CTE_FLO np_operand_cte_flt
-               | CTE_BOO np_operand_cte_bol
-               | CTE_STRING np_operand_cte_str
-               | CTE_CHAR np_operand_cte_chr'''
+    '''var_cte : CTE_INT np_quad_a1_int
+               | CTE_FLO np_quad_a1_flt
+               | CTE_BOO np_quad_a1_bol
+               | CTE_STRING np_quad_a1_str
+               | CTE_CHAR np_quad_a1_chr'''
 
 ################################## M E T H O D #################################
 def p_method(t):
@@ -468,9 +474,9 @@ def p_np_var_2(t):
     else:
         print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.auxID, globalVars.currentContext));
 
-#------------------------------ Q u a d r u p l e -------------------------------
-def p_np_operand_cte_int(t):
-    'np_operand_cte_int : empty'
+###################### M A K I N G    Q U A D R U P L E S ######################
+def p_np_quad_a1_int(t):
+    'np_quad_a1_int : empty'
     # int
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
@@ -479,8 +485,8 @@ def p_np_operand_cte_int(t):
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(0)
 
-def p_np_operand_cte_flt(t):
-    'np_operand_cte_flt : empty'
+def p_np_quad_a1_flt(t):
+    'np_quad_a1_flt : empty'
     # float
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
@@ -489,8 +495,8 @@ def p_np_operand_cte_flt(t):
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(1)
 
-def p_np_operand_cte_chr(t):
-    'np_operand_cte_chr : empty'
+def p_np_quad_a1_chr(t):
+    'np_quad_a1_chr : empty'
     # char
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
@@ -499,8 +505,8 @@ def p_np_operand_cte_chr(t):
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(2)
 
-def p_np_operand_cte_str(t):
-    'np_operand_cte_str : empty'
+def p_np_quad_a1_str(t):
+    'np_quad_a1_str : empty'
     # string
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
@@ -509,8 +515,8 @@ def p_np_operand_cte_str(t):
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(3)
 
-def p_np_operand_cte_bol(t):
-    'np_operand_cte_bol : empty'
+def p_np_quad_a1_bol(t):
+    'np_quad_a1_bol : empty'
     # bool
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
@@ -519,19 +525,77 @@ def p_np_operand_cte_bol(t):
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(4)
 
-def p_np_operator_stack(t):
-    'np_operator_stack : empty'
+def p_np_quad_b(t):
+    'np_quad_b : empty'
     # grab the operand and place it on the stack
     # convert operand into its numeric value
     current_operator = operator_conv.get(t[-1])
     alg_quad.push_operator(current_operator)
 
-def p_np_quad_1(t):
-    'np_quad_1 : empty'
+def p_np_quad_c0(t):
+    'np_quad_c0 : empty'
+    # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
+    # checking + -
+    peek_o = alg_quad.peek_operator()
+    opAND = operator_conv.get('&&')
+    opOR = operator_conv.get('||')
+
+    if (peek_o == opAND or peek_o == opOR):
+      # saves the operands
+      operand_right = alg_quad.pop_operand()
+      operand_left = alg_quad.pop_operand()
+      # saves the operator
+      op = alg_quad.pop_operator()
+      # saves the types of the operation
+      type_right = alg_quad.pop_type()
+      type_left = alg_quad.pop_type()
+      # check new type. if result is not "-1", then types match
+      n_type = consult(op, type_left, type_right)
+      if (n_type != -1):
+        # new temp based on oracle
+        n_temp = local_mem.get_counter_num(n_type)
+
+        alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
+        alg_quad.push_operand(n_temp)
+        alg_quad.push_type(n_type)
+
+def p_np_quad_c2(t):
+    'np_quad_c2 : empty'
+    # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
+    # checking + -
+    peek_o = alg_quad.peek_operator()
+    opADD = operator_conv.get('+')
+    opSUB = operator_conv.get('-')
+
+    if (peek_o == opADD or peek_o == opSUB):
+      # saves the operands
+      operand_right = alg_quad.pop_operand()
+      operand_left = alg_quad.pop_operand()
+      # saves the operator
+      op = alg_quad.pop_operator()
+      # saves the types of the operation
+      type_right = alg_quad.pop_type()
+      type_left = alg_quad.pop_type()
+      # check new type. if result is not "-1", then types match
+      n_type = consult(op, type_left, type_right)
+      if (n_type != -1):
+        # new temp based on oracle
+        n_temp = local_mem.get_counter_num(n_type)
+
+        alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
+        alg_quad.push_operand(n_temp)
+        alg_quad.push_type(n_type)
+
+def p_np_quad_c3(t):
+    'np_quad_c3 : empty'
     # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
     # checking * / %
     peek_o = alg_quad.peek_operator()
-    if (peek_o == 2 or peek_o == 3 or peek_o == 5):
+    opDIV = operator_conv.get('/')
+    opMUL = operator_conv.get('*')
+    opMOD = operator_conv.get('%')
+
+    if (peek_o == opDIV or peek_o == opMUL or peek_o == opMOD):
       operand_right = alg_quad.pop_operand()
       operand_left = alg_quad.pop_operand()
       op = alg_quad.pop_operator()
@@ -542,7 +606,7 @@ def p_np_quad_1(t):
       if (n_type != -1):
         # new temp based on oracle
         n_temp = local_mem.get_counter_num(n_type)
-  
+
         alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
         alg_quad.push_operand(n_temp)
         alg_quad.push_type(n_type)
@@ -552,12 +616,13 @@ def p_np_quad_1(t):
 ################################## O T H E R S #################################
 def p_debug(t):
     'debug : empty'
-    print("\n" + "DEBUGGING TABLES" + "\n");
+    print("\n" + "START DEBUGGER" + "\n");
     time.sleep(1.5);
-    print("#Tables")
-    globalVars.print_tables();
-    print("#Quadruples")
-    alg_quad.print_quadruples();
+    print("######## Tables ########")
+    globalVars.print_tables()
+    print()
+    print("###### Quadruples ######")
+    alg_quad.print_quadruples()
     print("\n" + "END OF DEBBUGGER" + "\n");
 
 def p_empty(p):

@@ -10,3 +10,4 @@ class Quadruple:
               "Element 1:\t" + str(self.element_1) + "\n" +
               "Element 2:\t" + str(self.element_2) + "\n" +
               "Result:\t\t" + str(self.result));
+        print()
