@@ -19,18 +19,28 @@ class Tables:
         return self.auxID in self.dicDirections[self.currentContext]['vars'];
         #variable in self.dicDirections[self.currentContext]['vars'];
 
-    def add_var(self):
-        self.dicDirections[self.currentContext]['vars'][self.auxID] = {'type': self.auxType};
+    def variable_in_global(self, variable):
+        return variable in self.dicDirections[self.globalContext]['vars'];
+
+    def variable_in_local(self, variable):
+        return variable in self.dicDirections[self.currentContext]['vars'];
+
+    def add_var(self, mem):
+        self.dicDirections[self.currentContext]['vars'][self.auxID] = {'type': self.auxType, 'memory': mem};
 
     def add_dir(self):
         self.dicDirections[self.currentContext] = {'type': self.auxType};
+
+    def delete_dir(self, directory):
+        del self.dicDirections[directory]
 
     def print_tables(self):
         for direction in self.dicDirections:
             print(direction);
             print("\tType:" + self.dicDirections[direction]['type']);
             for varID in self.dicDirections[direction]['vars']:
-                print("\t\tVar: " + varID + "\t");
+                memory_ID = self.dicDirections[direction]['vars'][varID]['memory']
+                print("\t\tVar: " + varID + "\t" + "Memory: " + str(memory_ID));
                 #for varType in globalVars.dicDirections[direction]['vars'][varID]['type']:
                 #    print("\t\tVar: " + varID + "\t" + "Type: " + varType);
 

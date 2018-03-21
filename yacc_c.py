@@ -15,22 +15,32 @@ constant_mem = Memory(4)
 globalVars   = Tables()
 alg_quad     = Algorithm_Quadruple()
 
-operator_conv = { '+': 0,
-                  '-': 1,
-                  '*': 2,
-                  '/': 3,
-                  '=': 4,
-                  '%': 5,
-                  '&&': 6,
-                  '||': 7,
-                  '<': 8,
-                  '>': 9,
-                  '<=': 10,
-                  '>=': 11,
-                  '!=': 12,
-                  '==': 13,
-                  '!': 14,
+operator_conv = { '+'   : 0,
+                  '-'   : 1,
+                  '*'   : 2,
+                  '/'   : 3,
+                  '='   : 4,
+                  '%'   : 5,
+                  '&&'  : 6,
+                  '||'  : 7,
+                  '<'   : 8,
+                  '>'   : 9,
+                  '<='  : 10,
+                  '>='  : 11,
+                  '!='  : 12,
+                  '=='  : 13,
+                  '!'   : 14,
                   'print': 15}
+
+type_conv = {     'int'     : 0,
+                  'float'   : 1,
+                  'char'    : 2,
+                  'string'  : 3,
+                  'bool'    : 4,
+                  'node'    : 5,
+                  'arc'     : 6,
+                  'directed': 7,
+                  'undirected': 8}
 
 testing_temp = 0
 ################################################################################
@@ -165,7 +175,7 @@ def p_vars_2(t):
 
 ############################### F U N C T I O N ################################
 def p_function(t):
-    '''function : function_t ID np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK function
+    '''function : function_t ID np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK np_var_b6 function
                 | empty'''
 
 def p_function_t(t):
@@ -230,7 +240,7 @@ def p_statutes_1(t):
                   | function_call'''
 #---------------------------- a s s i g n a t i o n ----------------------------
 def p_assignation(t):
-    'assignation : ID EQL expression SCOLO'
+    'assignation : ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO'
 
 #------------------------------- w r i t i n g ---------------------------------
 def p_writing(t):
@@ -240,7 +250,6 @@ def p_writing_1(t):
     '''writing_1 : expression
                  | CTE_STRING np_quad_a1_str
                  | writing_2'''
-
 
 def p_writing_2(t):
     '''writing_2 : expression SUMA np_quad_b writing_1 np_quad_c2
@@ -286,7 +295,7 @@ def p_function_call_2(t):
 
 ############################## E X P R E S S I O N #############################
 def p_expression(t):
-    '''expression : exp_lv1 
+    '''expression : exp_lv1
                   | exp_lv1 AND np_quad_b expression np_quad_c0
                   | exp_lv1 OR np_quad_b expression np_quad_c0'''
 
@@ -320,8 +329,8 @@ def p_exp_lv5(t):
     '''exp_lv5 : RPAREN expression LPAREN
                | var_cte
                | method
-               | ID
-               | ID array_access'''
+               | ID np_quad_a2
+               | ID np_quad_a2 array_access'''
 
 ############################ A R R A Y _ A C C E S S ###########################
 def p_array_access(t):
@@ -427,12 +436,26 @@ def p_np_var_b5(t):
     # nor in the global variable table...
     if not globalVars.exists_in_global():
         if not globalVars.exists_in_local():
-            # ... then adds a new entry
-            globalVars.add_var();
+            if globalVars.currentContext == globalVars.globalContext:
+                # ... then ask for a "memory id" from the "global memory"
+                temp_memID = global_mem.get_counter_id(globalVars.auxType)
+            else:
+                # ... then ask for a "memory id" from the "local memory"
+                temp_memID = local_mem.get_counter_id(globalVars.auxType)
+
+            # Adds a new entry to the table
+            globalVars.add_var(temp_memID);
         else:
             print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
     else:
         print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.auxID, globalVars.currentContext));
+
+def p_np_var_b6(t):
+    'np_var_b6 : empty'
+    # Erease the current vars-table
+    globalVars.delete_dir(globalVars.currentContext)
+    # Reset the "memory ID counter" from the "local memory"
+    local_mem.reset_cont()
 
 #---------------------------------- m a i n ------------------------------------
 def p_np_var_c1(t):
@@ -470,8 +493,15 @@ def p_np_var_2(t):
     # nor in the global variable table...
     if not globalVars.exists_in_global():
         if not globalVars.exists_in_local():
-            # ... then adds a new entry
-            globalVars.add_var();
+            if globalVars.currentContext == globalVars.globalContext:
+                # ... then ask for a "memory id" from the "global memory"
+                temp_memID = global_mem.get_counter_id(globalVars.auxType)
+            else:
+                # ... then ask for a "memory id" from the "local memory"
+                temp_memID = local_mem.get_counter_id(globalVars.auxType)
+
+            # Adds a new entry to the table
+            globalVars.add_var(temp_memID);
         else:
             print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
     else:
@@ -484,7 +514,7 @@ def p_np_quad_a1_int(t):
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
 
-    mem_act = local_mem.get_counter_num(0)
+    mem_act = constant_mem.get_counter_num(0)
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(0)
 
@@ -494,7 +524,7 @@ def p_np_quad_a1_flt(t):
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
 
-    mem_act = local_mem.get_counter_num(1)
+    mem_act = constant_mem.get_counter_num(1)
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(1)
 
@@ -504,7 +534,7 @@ def p_np_quad_a1_chr(t):
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
 
-    mem_act = local_mem.get_counter_num(2)
+    mem_act = constant_mem.get_counter_num(2)
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(2)
 
@@ -514,7 +544,7 @@ def p_np_quad_a1_str(t):
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
 
-    mem_act = local_mem.get_counter_num(3)
+    mem_act = constant_mem.get_counter_num(3)
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(3)
 
@@ -524,9 +554,44 @@ def p_np_quad_a1_bol(t):
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
 
-    mem_act = local_mem.get_counter_num(4)
+    mem_act = constant_mem.get_counter_num(4)
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(4)
+
+def p_np_quad_a2(t):
+    'np_quad_a2 : empty'
+    # Get the id from the variable
+    id_var = t[-1]
+
+    # Check if the "id" exists in the global variable table
+    if globalVars.variable_in_global(id_var) :
+        # Capture the value of the "memory ID" assigned to that variable
+        temp_memID = globalVars.dicDirections[globalVars.globalContext]['vars'][id_var]['memory']
+        # Capture the value of the "type" that belongs to that variable
+        temp_type = globalVars.dicDirections[globalVars.globalContext]['vars'][id_var]['type']
+        # Change the type to its equivalent integer
+        temp_type = type_conv.get(temp_type)
+        # Store the values "memory ID" and "type" in the corresponding stacks
+        #   of the "alg_quad" object
+        alg_quad.push_operand(temp_memID)
+        alg_quad.push_type(temp_type)
+
+    # If it doesn't exist as global. Check if the "id" exists in the local variable table
+    elif globalVars.variable_in_local(id_var) :
+        # Capture the value of the "memory ID" assigned to that variable
+        temp_memID = globalVars.dicDirections[globalVars.currentContext]['vars'][id_var]['memory']
+        # Capture the value of the "type" that belongs to that variable
+        temp_type = globalVars.dicDirections[globalVars.currentContext]['vars'][id_var]['type']
+        # Change the type to its equivalent integer
+        temp_type = type_conv.get(temp_type)
+        # Store the values "memory ID" and "type" in the corresponding stacks
+        #   of the "alg_quad" object
+        alg_quad.push_operand(temp_memID)
+        alg_quad.push_type(temp_type)
+
+    # The variable specified was not declared
+    else:
+        print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.currentContext));
 
 def p_np_quad_b(t):
     'np_quad_b : empty'
@@ -556,7 +621,7 @@ def p_np_quad_c0(t):
       n_type = consult(op, type_left, type_right)
       if (n_type != -1):
         # new temp based on oracle
-        n_temp = local_mem.get_counter_num(n_type)
+        n_temp = temporal_mem.get_counter_num(n_type)
 
         alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
         alg_quad.push_operand(n_temp)
@@ -577,7 +642,7 @@ def p_np_quad_c1(t):
 
     if (peek_o == opLESST or peek_o == opMORET or peek_o == opLESSEQUAL or peek_o == opMOREEQUAL or peek_o == opEQUALTO or peek_o == opNOTEQUALTO):
       # saves the operands
-    
+
       operand_right = alg_quad.pop_operand()
       operand_left = alg_quad.pop_operand()
       # saves the operator
@@ -589,7 +654,7 @@ def p_np_quad_c1(t):
       n_type = consult(op, type_left, type_right)
       if (n_type != -1):
         # new temp based on oracle
-        n_temp = local_mem.get_counter_num(n_type)
+        n_temp = temporal_mem.get_counter_num(n_type)
 
         alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
         alg_quad.push_operand(n_temp)
@@ -616,7 +681,7 @@ def p_np_quad_c2(t):
       n_type = consult(op, type_left, type_right)
       if (n_type != -1):
         # new temp based on oracle
-        n_temp = local_mem.get_counter_num(n_type)
+        n_temp = temporal_mem.get_counter_num(n_type)
 
         alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
         alg_quad.push_operand(n_temp)
@@ -641,7 +706,7 @@ def p_np_quad_c3(t):
       n_type = consult(op, t_left, t_right)
       if (n_type != -1):
         # new temp based on oracle
-        n_temp = local_mem.get_counter_num(n_type)
+        n_temp = temporal_mem.get_counter_num(n_type)
 
         alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
         alg_quad.push_operand(n_temp)
@@ -665,13 +730,13 @@ def p_np_quad_c4(t):
       n_type = consult(op, type_right, 4)
       if (n_type != -1):
         # new temp based on oracle
-        n_temp = local_mem.get_counter_num(n_type)
+        n_temp = temporal_mem.get_counter_num(n_type)
 
         alg_quad.add_quadruple(op, operand_right, "", n_temp)
         alg_quad.push_operand(n_temp)
         alg_quad.push_type(n_type)
 
-############################# P R I N T # Q U A D ##############################
+#---------------------------- p r i n t    q u a d -----------------------------
 def p_np_quad_print(t):
     'np_quad_print : empty'
     # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
@@ -692,14 +757,46 @@ def p_np_quad_print(t):
       # if (n_type != -1):
       # print not yet added to oracle
       # new temp based on oracle
-      # n_temp = local_mem.get_counter_num(n_type)
+      # n_temp = temporal_mem.get_counter_num(n_type)
 
       alg_quad.add_quadruple(op, operand_right, "", "")
       # things are consumed. not pushed back
       # alg_quad.push_operand(n_temp)
       # alg_quad.push_type(n_type)
 
-################################## O T H E R S #################################
+#---------------------- a s s i g n a t i o n    q u a d -----------------------
+
+def p_np_quad_assign(t):
+    'np_quad_assign : empty'
+    # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
+    # checking + -
+    peek_o = alg_quad.peek_operator()
+    op_assign = operator_conv.get('=')
+
+    if (peek_o == op_assign):
+      # saves the operands
+      operand_right = alg_quad.pop_operand()
+      operand_left = alg_quad.pop_operand()
+
+      # saves the operator
+      op = alg_quad.pop_operator()
+
+      # saves the types of the operation
+      type_right = alg_quad.pop_type()
+      type_left = alg_quad.pop_type()
+
+      # Checks if the types match with the oracle
+      n_type = consult(op, type_left, type_right)
+      if (n_type != -1):
+        # Create the new cuadruple
+        alg_quad.add_quadruple(op, operand_left, "", operand_right)
+        # Change the "memory ID" of the left operand with the memory ID of the right operand
+
+
+
+################################################################################
+#                                 O T H E R S                                  #
+################################################################################
 def p_debug(t):
     'debug : empty'
     print("\n" + "START DEBUGGER" + "\n");
