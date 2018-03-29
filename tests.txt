@@ -59,6 +59,8 @@ program cats; main() {var bool myA; myA = 5 < 4 && ! True;}
 
 program cats; main() {print ( "I Want SNUUUGGGLLEEES" + "NOW");}
 
+##### adding this tests from windows ######
+
 # modificadas:
 	- vars
 	- Type
