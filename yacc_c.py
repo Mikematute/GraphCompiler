@@ -447,8 +447,10 @@ def p_np_var_b5(t):
             globalVars.add_var(temp_memID);
         else:
             print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
+            p_error(t)
     else:
         print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.auxID, globalVars.currentContext));
+        p_error(t)
 
 def p_np_var_b6(t):
     'np_var_b6 : empty'
@@ -504,8 +506,10 @@ def p_np_var_2(t):
             globalVars.add_var(temp_memID);
         else:
             print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
+            p_error(t)
     else:
         print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.auxID, globalVars.currentContext));
+        p_error(t)
 
 ###################### M A K I N G    Q U A D R U P L E S ######################
 def p_np_quad_a1_int(t):
@@ -592,6 +596,7 @@ def p_np_quad_a2(t):
     # The variable specified was not declared
     else:
         print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.currentContext));
+        p_error(t)
 
 def p_np_quad_b(t):
     'np_quad_b : empty'
@@ -609,23 +614,27 @@ def p_np_quad_c0(t):
     opOR = operator_conv.get('||')
 
     if (peek_o == opAND or peek_o == opOR):
-      # saves the operands
-      operand_right = alg_quad.pop_operand()
-      operand_left = alg_quad.pop_operand()
-      # saves the operator
-      op = alg_quad.pop_operator()
-      # saves the types of the operation
-      type_right = alg_quad.pop_type()
-      type_left = alg_quad.pop_type()
-      # check new type. if result is not "-1", then types match
-      n_type = consult(op, type_left, type_right)
-      if (n_type != -1):
-        # new temp based on oracle
-        n_temp = temporal_mem.get_counter_num(n_type)
+        # saves the operands
+        operand_right = alg_quad.pop_operand()
+        operand_left = alg_quad.pop_operand()
+        # saves the operator
+        op = alg_quad.pop_operator()
+        # saves the types of the operation
+        type_right = alg_quad.pop_type()
+        type_left = alg_quad.pop_type()
+        # check new type. if result is not "-1", then types match
+        n_type = consult(op, type_left, type_right)
 
-        alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
-        alg_quad.push_operand(n_temp)
-        alg_quad.push_type(n_type)
+        if (n_type != -1):
+            # new temp based on oracle
+            n_temp = temporal_mem.get_counter_num(n_type)
+            alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
+            alg_quad.push_operand(n_temp)
+            alg_quad.push_type(n_type)
+        else:
+            print ('ERROR: type mismatch');
+            p_error(t)
+
 
 def p_np_quad_c1(t):
     'np_quad_c1 : empty'
@@ -641,24 +650,26 @@ def p_np_quad_c1(t):
 
 
     if (peek_o == opLESST or peek_o == opMORET or peek_o == opLESSEQUAL or peek_o == opMOREEQUAL or peek_o == opEQUALTO or peek_o == opNOTEQUALTO):
-      # saves the operands
+        # saves the operands
+        operand_right = alg_quad.pop_operand()
+        operand_left = alg_quad.pop_operand()
+        # saves the operator
+        op = alg_quad.pop_operator()
+        # saves the types of the operation
+        type_right = alg_quad.pop_type()
+        type_left = alg_quad.pop_type()
+        # check new type. if result is not "-1", then types match
+        n_type = consult(op, type_left, type_right)
 
-      operand_right = alg_quad.pop_operand()
-      operand_left = alg_quad.pop_operand()
-      # saves the operator
-      op = alg_quad.pop_operator()
-      # saves the types of the operation
-      type_right = alg_quad.pop_type()
-      type_left = alg_quad.pop_type()
-      # check new type. if result is not "-1", then types match
-      n_type = consult(op, type_left, type_right)
-      if (n_type != -1):
-        # new temp based on oracle
-        n_temp = temporal_mem.get_counter_num(n_type)
-
-        alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
-        alg_quad.push_operand(n_temp)
-        alg_quad.push_type(n_type)
+        if (n_type != -1):
+            # new temp based on oracle
+            n_temp = temporal_mem.get_counter_num(n_type)
+            alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
+            alg_quad.push_operand(n_temp)
+            alg_quad.push_type(n_type)
+        else:
+            print ('ERROR: type mismatch');
+            p_error(t)
 
 def p_np_quad_c2(t):
     'np_quad_c2 : empty'
@@ -669,23 +680,27 @@ def p_np_quad_c2(t):
     opSUB = operator_conv.get('-')
 
     if (peek_o == opADD or peek_o == opSUB):
-      # saves the operands
-      operand_right = alg_quad.pop_operand()
-      operand_left = alg_quad.pop_operand()
-      # saves the operator
-      op = alg_quad.pop_operator()
-      # saves the types of the operation
-      type_right = alg_quad.pop_type()
-      type_left = alg_quad.pop_type()
-      # check new type. if result is not "-1", then types match
-      n_type = consult(op, type_left, type_right)
-      if (n_type != -1):
-        # new temp based on oracle
-        n_temp = temporal_mem.get_counter_num(n_type)
+        # saves the operands
+        operand_right = alg_quad.pop_operand()
+        operand_left = alg_quad.pop_operand()
+        # saves the operator
+        op = alg_quad.pop_operator()
+        # saves the types of the operation
+        type_right = alg_quad.pop_type()
+        type_left = alg_quad.pop_type()
+        # check new type. if result is not "-1", then types match
+        n_type = consult(op, type_left, type_right)
 
-        alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
-        alg_quad.push_operand(n_temp)
-        alg_quad.push_type(n_type)
+        if (n_type != -1):
+            # new temp based on oracle
+            n_temp = temporal_mem.get_counter_num(n_type)
+            alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
+            alg_quad.push_operand(n_temp)
+            alg_quad.push_type(n_type)
+        else:
+            print ('ERROR: type mismatch');
+            p_error(t)
+
 
 def p_np_quad_c3(t):
     'np_quad_c3 : empty'
@@ -697,20 +712,22 @@ def p_np_quad_c3(t):
     opMOD = operator_conv.get('%')
 
     if (peek_o == opDIV or peek_o == opMUL or peek_o == opMOD):
-      operand_right = alg_quad.pop_operand()
-      operand_left = alg_quad.pop_operand()
-      op = alg_quad.pop_operator()
-      t_right = alg_quad.pop_type()
-      t_left = alg_quad.pop_type()
-      # check new type. if -1, type mis match
-      n_type = consult(op, t_left, t_right)
-      if (n_type != -1):
-        # new temp based on oracle
-        n_temp = temporal_mem.get_counter_num(n_type)
-
-        alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
-        alg_quad.push_operand(n_temp)
-        alg_quad.push_type(n_type)
+        operand_right = alg_quad.pop_operand()
+        operand_left = alg_quad.pop_operand()
+        op = alg_quad.pop_operator()
+        t_right = alg_quad.pop_type()
+        t_left = alg_quad.pop_type()
+        # check new type. if -1, type mis match
+        n_type = consult(op, t_left, t_right)
+        if (n_type != -1):
+            # new temp based on oracle
+            n_temp = temporal_mem.get_counter_num(n_type)
+            alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
+            alg_quad.push_operand(n_temp)
+            alg_quad.push_type(n_type)
+        else:
+            print ('ERROR: type mismatch');
+            p_error(t)
 
 def p_np_quad_c4(t):
     'np_quad_c4 : empty'
@@ -720,21 +737,24 @@ def p_np_quad_c4(t):
     opNOT = operator_conv.get('!')
 
     if (peek_o == opNOT):
-      # saves the operands
-      operand_right = alg_quad.pop_operand()
-      # saves the operator
-      op = alg_quad.pop_operator()
-      # saves the types of the operation
-      type_right = alg_quad.pop_type()
-      # check new type. if result is not "-1", then types match
-      n_type = consult(op, type_right, 4)
-      if (n_type != -1):
-        # new temp based on oracle
-        n_temp = temporal_mem.get_counter_num(n_type)
+        # saves the operands
+        operand_right = alg_quad.pop_operand()
+        # saves the operator
+        op = alg_quad.pop_operator()
+        # saves the types of the operation
+        type_right = alg_quad.pop_type()
+        # check new type. if result is not "-1", then types match
+        n_type = consult(op, type_right, 4)
 
-        alg_quad.add_quadruple(op, operand_right, "", n_temp)
-        alg_quad.push_operand(n_temp)
-        alg_quad.push_type(n_type)
+        if (n_type != -1):
+            # new temp based on oracle
+            n_temp = temporal_mem.get_counter_num(n_type)
+            alg_quad.add_quadruple(op, operand_right, "", n_temp)
+            alg_quad.push_operand(n_temp)
+            alg_quad.push_type(n_type)
+        else:
+            print ('ERROR: type mismatch');
+            p_error(t)
 
 #---------------------------- p r i n t    q u a d -----------------------------
 def p_np_quad_print(t):
@@ -774,23 +794,27 @@ def p_np_quad_assign(t):
     op_assign = operator_conv.get('=')
 
     if (peek_o == op_assign):
-      # saves the operands
-      operand_right = alg_quad.pop_operand()
-      operand_left = alg_quad.pop_operand()
+        # saves the operands
+        operand_right = alg_quad.pop_operand()
+        operand_left = alg_quad.pop_operand()
 
-      # saves the operator
-      op = alg_quad.pop_operator()
+        # saves the operator
+        op = alg_quad.pop_operator()
 
-      # saves the types of the operation
-      type_right = alg_quad.pop_type()
-      type_left = alg_quad.pop_type()
+        # saves the types of the operation
+        type_right = alg_quad.pop_type()
+        type_left = alg_quad.pop_type()
 
-      # Checks if the types match with the oracle
-      n_type = consult(op, type_left, type_right)
-      if (n_type != -1):
-        # Create the new cuadruple
-        alg_quad.add_quadruple(op, operand_left, "", operand_right)
-        # Change the "memory ID" of the left operand with the memory ID of the right operand
+        # Checks if the types match with the oracle
+        n_type = consult(op, type_left, type_right)
+
+        if (n_type != -1):
+            # Create the new cuadruple
+            alg_quad.add_quadruple(op, operand_left, "", operand_right)
+            # Change the "memory ID" of the left operand with the memory ID of the right operand
+        else:
+            print ('ERROR: type mismatch');
+            p_error(t)
 
 
 
@@ -819,17 +843,33 @@ def p_empty(p):
     pass
 
 def p_error(t):
-    print("Syntax error at '%s'" % t.value)
+    print("Ending program due to errors")
+    
+
+# Used in MAIN, reads the data from the command line
+def read_from_console():
+    while True:
+        try:
+            s = input('WOOF > ')   # Use raw_input on Python 2
+            print ("\n");
+        except EOFError:
+            break
+        parser.parse(s)
+
+# Used in MAIN, reads the data from a file written by the user until the command
+# "END" is typed
+def read_from_file():
+    print ("Indique el nombre del archivo y su extension, escriba 'END' para terminar el programa: ")
+    fileName = input('WOOF > ')
+
+    while fileName != "END":
+        file = open(fileName,"r")
+        parser.parse(file.read())
+        print ("Indique el nombre del archivo y su extension, escriba 'END' para terminar el programa: ")
+        fileName = input('WOOF > ')
 
 ################################################################################
 #                            M A I N  P R O G R A M                            #
 ################################################################################
 parser = yacc.yacc()
-
-while True:
-    try:
-        s = input('WOOF > ')   # Use raw_input on Python 2
-        print ("\n");
-    except EOFError:
-        break
-    parser.parse(s)
+read_from_file()
