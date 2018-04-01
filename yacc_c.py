@@ -269,7 +269,7 @@ def p_cycle(t):
              | c_forin'''
 
 def p_c_while(t):
-    'c_while : WHILE LPAREN expression RPAREN LBRACK statutes RBRACK'
+    'c_while : WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3'
 
 def p_c_do(t):
     'c_do : DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2'
@@ -846,14 +846,45 @@ def p_np_statutes_a2(t):
     # Add the IP that has the  GOTO quadruple, previously generated
     alg_quad.push_jump(aux_jump)
 
-def p_np_statutes_a3 (t):
+def p_np_statutes_a3(t):
     'np_statutes_a3 : empty'
     pending_jump = alg_quad.pop_jump()
     alg_quad.fill_jump(pending_jump)
 
 #--------------------------------- w h i l e -----------------------------------
-#------------------------------ d o   w h i l e --------------------------------
+def p_np_statutes_b1(t):
+    'np_statutes_b1 : empty'
+    # Add the current IP to the "jump stack"
+    aux_ip = alg_quad.instruction_pointer
+    alg_quad.push_jump(aux_ip)
 
+def p_np_statutes_b2(t):
+    'np_statutes_b2 : empty'
+    # If the current type in the stack, is a boolean, then proceed
+    if alg_quad.peek_type():
+        # Save the current expression in the while
+        aux_exp = alg_quad.pop_operand()
+        # Save the current IP and add it to the "jump stack"
+        aux_ip = alg_quad.instruction_pointer
+        alg_quad.push_jump(aux_ip)
+        # CReate the quadruple
+        alg_quad.add_quadruple('GOTOF', aux_exp, '', '')
+    # There is a type mismatch with the statement
+    else:
+        print ('ERROR: Type mismatch in WHILE statement');
+
+def p_np_statutes_b3(t):
+    'np_statutes_b3 : empty'
+    # Save the IP from the "jump stack" that takes to the end of the While
+    aux_end_while = alg_quad.pop_jump()
+    # Save the IP from the "jump stack" that takes to the beggining of the While
+    aux_return_while = alg_quad.pop_jump()
+    # Make the cuadruple to return to the beggining of the While expression
+    alg_quad.add_quadruple('GOTO', '', '', aux_return_while)
+    # Fill the pending quadruple with the jump to the end of the While expression
+    alg_quad.fill_jump(aux_end_while)
+
+#------------------------------ d o   w h i l e --------------------------------
 def p_np_statutes_c1(t):
     'np_statutes_c1 : empty'
     aux_ip = alg_quad.instruction_pointer
@@ -869,7 +900,6 @@ def p_np_statutes_c2(t):
     # There is a type mismatch with the statement
     else:
         print ('ERROR: Type mismatch in DO-WHILE statement');
-
 
 #----------------------------------- f o r -------------------------------------
 
