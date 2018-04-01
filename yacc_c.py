@@ -272,7 +272,7 @@ def p_c_while(t):
     'c_while : WHILE LPAREN expression RPAREN LBRACK statutes RBRACK'
 
 def p_c_do(t):
-    'c_do : DO LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO'
+    'c_do : DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2'
 
 def p_c_for(t):
     'c_for : FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK'
@@ -853,6 +853,24 @@ def p_np_statutes_a3 (t):
 
 #--------------------------------- w h i l e -----------------------------------
 #------------------------------ d o   w h i l e --------------------------------
+
+def p_np_statutes_c1(t):
+    'np_statutes_c1 : empty'
+    aux_ip = alg_quad.instruction_pointer
+    alg_quad.push_jump(aux_ip)
+
+def p_np_statutes_c2(t):
+    'np_statutes_c2 : empty'
+    # If the current type in the stack, is a boolean, then proceed
+    if alg_quad.peek_type():
+        aux_jump = alg_quad.pop_jump()
+        aux_exp = alg_quad.pop_operand()
+        alg_quad.add_quadruple('GOTOV', aux_exp, '', aux_jump)
+    # There is a type mismatch with the statement
+    else:
+        print ('ERROR: Type mismatch in DO-WHILE statement');
+
+
 #----------------------------------- f o r -------------------------------------
 
 ################################################################################
