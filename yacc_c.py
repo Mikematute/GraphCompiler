@@ -276,7 +276,7 @@ def p_c_do(t):
     'c_do : DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2'
 
 def p_c_for(t):
-    'c_for : FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK'
+    'c_for : FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4'
 
 def p_c_forin(t):
     'c_forin : FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK'
@@ -897,6 +897,57 @@ def p_np_statutes_c2(t):
         sys.exit("ERROR: Type mismatch in DO-WHILE statement")
 
 #----------------------------------- f o r -------------------------------------
+def p_np_statutes_d1(t):
+    'np_statutes_d1 : empty'
+    aux_ip = alg_quad.instruction_pointer
+    alg_quad.push_jump(aux_ip)
+
+def p_np_statutes_d2(t):
+    'np_statutes_d2 : empty'
+    if alg_quad.peek_type():
+        # Save the current expression in the while
+        aux_exp = alg_quad.pop_operand()
+        # Save the current IP and add it to the "jump stack"
+        aux_ip = alg_quad.instruction_pointer
+        alg_quad.push_jump(aux_ip)
+        # CReate the quadruple
+        alg_quad.add_quadruple('GOTOF', aux_exp, '', '')
+
+        #Create GOTO when true
+        #Save the pointer
+        aux_ip2 = alg_quad.instruction_pointer
+        alg_quad.push_jump(aux_ip2)
+        # CReate the quadruple
+        alg_quad.add_quadruple('GOTO', '', '', '')
+
+        # push jump for the begining of the assignation
+        aux_ip3 = alg_quad.instruction_pointer
+        alg_quad.push_jump(aux_ip3)
+    else:
+        sys.exit("ERROR: Type mismatch in FOR statement")
+
+def p_np_statutes_d3(t):
+    'np_statutes_d3 : empty'
+    assig_jump = alg_quad.pop_jump()
+    goto_jump = alg_quad.pop_jump()
+    gotof_jump = alg_quad.pop_jump()
+    start_jump = alg_quad.pop_jump()
+    # Make the cuadruple to go directly t the evaluation of the expression of the FOR
+    alg_quad.add_quadruple('GOTO', '', '', start_jump)
+    # Since now we have the begining of the expression, we can fill out the goto jump
+    alg_quad.fill_jump(goto_jump)
+    # Push back in the start of assignation and gotof jump
+    alg_quad.push_jump(gotof_jump)
+    alg_quad.push_jump(assig_jump)
+
+def p_np_statutes_d4(t):
+    'np_statutes_d4 : empty'
+    assig_jump = alg_quad.pop_jump()
+    gotof_jump = alg_quad.pop_jump()
+    # Create a GOTO for the beginign of the assignation
+    alg_quad.add_quadruple('GOTO', '', '', assig_jump)
+    #since now we now the end of the for, we can fill the gotof jump
+    alg_quad.fill_jump(gotof_jump)
 
 ################################################################################
 #                                 O T H E R S                                  #

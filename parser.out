@@ -67,7 +67,7 @@ Rule 57    cycle -> c_for
 Rule 58    cycle -> c_forin
 Rule 59    c_while -> WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
 Rule 60    c_do -> DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
-Rule 61    c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+Rule 61    c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
 Rule 62    c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 Rule 63    function_call -> ID LPAREN function_call_1 RPAREN SCOLO
 Rule 64    function_call_1 -> function_call_2
@@ -159,8 +159,12 @@ Rule 149   np_statutes_b2 -> empty
 Rule 150   np_statutes_b3 -> empty
 Rule 151   np_statutes_c1 -> empty
 Rule 152   np_statutes_c2 -> empty
-Rule 153   debug -> empty
-Rule 154   empty -> <empty>
+Rule 153   np_statutes_d1 -> empty
+Rule 154   np_statutes_d2 -> empty
+Rule 155   np_statutes_d3 -> empty
+Rule 156   np_statutes_d4 -> empty
+Rule 157   debug -> empty
+Rule 158   empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -239,7 +243,7 @@ condition            : 42
 condition_1          : 52
 cycle                : 43
 debug                : 21
-empty                : 3 7 9 16 37 39 54 65 80 99 107 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153
+empty                : 3 7 9 16 37 39 54 65 80 99 107 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157
 exp_lv1              : 70 71 72
 exp_lv1_1            : 73
 exp_lv2              : 73 74 75 76 77 78 79 82 83
@@ -281,6 +285,10 @@ np_statutes_b2       : 59
 np_statutes_b3       : 59
 np_statutes_c1       : 60
 np_statutes_c2       : 60
+np_statutes_d1       : 61
+np_statutes_d2       : 61
+np_statutes_d3       : 61
+np_statutes_d4       : 61
 np_var_1             : 10 26 27 28 29 30 31 32 33 34
 np_var_2             : 4 5
 np_var_a1            : 1
@@ -338,9 +346,9 @@ state 3
 
     (1) program -> PROGRAM ID . np_var_a1 SCOLO np_var_a2 vars function body
     (118) np_var_a1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    SCOLO           reduce using rule 154 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
 
     np_var_a1                      shift and go to state 4
     empty                          shift and go to state 5
@@ -363,20 +371,20 @@ state 6
 
     (1) program -> PROGRAM ID np_var_a1 SCOLO . np_var_a2 vars function body
     (119) np_var_a2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    VAR             reduce using rule 154 (empty -> .)
-    VOID            reduce using rule 154 (empty -> .)
-    INT             reduce using rule 154 (empty -> .)
-    FLOAT           reduce using rule 154 (empty -> .)
-    STRING          reduce using rule 154 (empty -> .)
-    CHAR            reduce using rule 154 (empty -> .)
-    BOOL            reduce using rule 154 (empty -> .)
-    NODE            reduce using rule 154 (empty -> .)
-    ARC             reduce using rule 154 (empty -> .)
-    UNDIRECTED      reduce using rule 154 (empty -> .)
-    DIRECTED        reduce using rule 154 (empty -> .)
-    MAIN            reduce using rule 154 (empty -> .)
+    VAR             reduce using rule 158 (empty -> .)
+    VOID            reduce using rule 158 (empty -> .)
+    INT             reduce using rule 158 (empty -> .)
+    FLOAT           reduce using rule 158 (empty -> .)
+    STRING          reduce using rule 158 (empty -> .)
+    CHAR            reduce using rule 158 (empty -> .)
+    BOOL            reduce using rule 158 (empty -> .)
+    NODE            reduce using rule 158 (empty -> .)
+    ARC             reduce using rule 158 (empty -> .)
+    UNDIRECTED      reduce using rule 158 (empty -> .)
+    DIRECTED        reduce using rule 158 (empty -> .)
+    MAIN            reduce using rule 158 (empty -> .)
 
     np_var_a2                      shift and go to state 7
     empty                          shift and go to state 8
@@ -386,20 +394,20 @@ state 7
     (1) program -> PROGRAM ID np_var_a1 SCOLO np_var_a2 . vars function body
     (2) vars -> . VAR type vars_1 SCOLO vars
     (3) vars -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
     VAR             shift and go to state 10
-    VOID            reduce using rule 154 (empty -> .)
-    INT             reduce using rule 154 (empty -> .)
-    FLOAT           reduce using rule 154 (empty -> .)
-    STRING          reduce using rule 154 (empty -> .)
-    CHAR            reduce using rule 154 (empty -> .)
-    BOOL            reduce using rule 154 (empty -> .)
-    NODE            reduce using rule 154 (empty -> .)
-    ARC             reduce using rule 154 (empty -> .)
-    UNDIRECTED      reduce using rule 154 (empty -> .)
-    DIRECTED        reduce using rule 154 (empty -> .)
-    MAIN            reduce using rule 154 (empty -> .)
+    VOID            reduce using rule 158 (empty -> .)
+    INT             reduce using rule 158 (empty -> .)
+    FLOAT           reduce using rule 158 (empty -> .)
+    STRING          reduce using rule 158 (empty -> .)
+    CHAR            reduce using rule 158 (empty -> .)
+    BOOL            reduce using rule 158 (empty -> .)
+    NODE            reduce using rule 158 (empty -> .)
+    ARC             reduce using rule 158 (empty -> .)
+    UNDIRECTED      reduce using rule 158 (empty -> .)
+    DIRECTED        reduce using rule 158 (empty -> .)
+    MAIN            reduce using rule 158 (empty -> .)
 
     vars                           shift and go to state 9
     empty                          shift and go to state 11
@@ -432,7 +440,7 @@ state 9
     (12) function_t -> . t_string
     (13) function_t -> . t_bool
     (14) function_t -> . t_graph
-    (154) empty -> .
+    (158) empty -> .
     (26) t_number -> . INT np_var_1
     (27) t_number -> . FLOAT np_var_1
     (28) t_string -> . STRING np_var_1
@@ -444,7 +452,7 @@ state 9
     (34) t_graph -> . DIRECTED np_var_1
 
     VOID            shift and go to state 15
-    MAIN            reduce using rule 154 (empty -> .)
+    MAIN            reduce using rule 158 (empty -> .)
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
     STRING          shift and go to state 22
@@ -547,9 +555,9 @@ state 15
 
     (10) function_t -> VOID . np_var_1
     (129) np_var_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_1                       shift and go to state 37
     empty                          shift and go to state 38
@@ -586,9 +594,9 @@ state 20
 
     (26) t_number -> INT . np_var_1
     (129) np_var_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_1                       shift and go to state 39
     empty                          shift and go to state 38
@@ -597,9 +605,9 @@ state 21
 
     (27) t_number -> FLOAT . np_var_1
     (129) np_var_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_1                       shift and go to state 40
     empty                          shift and go to state 38
@@ -608,9 +616,9 @@ state 22
 
     (28) t_string -> STRING . np_var_1
     (129) np_var_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_1                       shift and go to state 41
     empty                          shift and go to state 38
@@ -619,9 +627,9 @@ state 23
 
     (29) t_string -> CHAR . np_var_1
     (129) np_var_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_1                       shift and go to state 42
     empty                          shift and go to state 38
@@ -630,9 +638,9 @@ state 24
 
     (30) t_bool -> BOOL . np_var_1
     (129) np_var_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_1                       shift and go to state 43
     empty                          shift and go to state 38
@@ -641,9 +649,9 @@ state 25
 
     (31) t_graph -> NODE . np_var_1
     (129) np_var_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_1                       shift and go to state 44
     empty                          shift and go to state 38
@@ -652,9 +660,9 @@ state 26
 
     (32) t_graph -> ARC . np_var_1
     (129) np_var_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_1                       shift and go to state 45
     empty                          shift and go to state 38
@@ -663,9 +671,9 @@ state 27
 
     (33) t_graph -> UNDIRECTED . np_var_1
     (129) np_var_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_1                       shift and go to state 46
     empty                          shift and go to state 38
@@ -674,9 +682,9 @@ state 28
 
     (34) t_graph -> DIRECTED . np_var_1
     (129) np_var_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_1                       shift and go to state 47
     empty                          shift and go to state 38
@@ -730,9 +738,9 @@ state 35
 
     (21) body -> MAIN . np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK debug np_var_c3
     (126) np_var_c1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LPAREN          reduce using rule 154 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_var_c1                      shift and go to state 50
     empty                          shift and go to state 51
@@ -741,9 +749,9 @@ state 36
 
     (8) function -> function_t ID . np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK np_var_b6 function
     (121) np_var_b2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LPAREN          reduce using rule 154 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_var_b2                      shift and go to state 52
     empty                          shift and go to state 53
@@ -837,11 +845,11 @@ state 49
     (4) vars_1 -> ID . np_var_2 vars_2
     (5) vars_1 -> ID . np_var_2 vars_2 COMA vars_1
     (130) np_var_2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LCORCH          reduce using rule 154 (empty -> .)
-    COMA            reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
+    LCORCH          reduce using rule 158 (empty -> .)
+    COMA            reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
 
     np_var_2                       shift and go to state 55
     empty                          shift and go to state 56
@@ -864,9 +872,9 @@ state 52
 
     (8) function -> function_t ID np_var_b2 . np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK np_var_b6 function
     (122) np_var_b3 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LPAREN          reduce using rule 154 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_var_b3                      shift and go to state 58
     empty                          shift and go to state 59
@@ -883,27 +891,27 @@ state 54
     (2) vars -> VAR type vars_1 SCOLO . vars
     (2) vars -> . VAR type vars_1 SCOLO vars
     (3) vars -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
     VAR             shift and go to state 10
-    VOID            reduce using rule 154 (empty -> .)
-    INT             reduce using rule 154 (empty -> .)
-    FLOAT           reduce using rule 154 (empty -> .)
-    STRING          reduce using rule 154 (empty -> .)
-    CHAR            reduce using rule 154 (empty -> .)
-    BOOL            reduce using rule 154 (empty -> .)
-    NODE            reduce using rule 154 (empty -> .)
-    ARC             reduce using rule 154 (empty -> .)
-    UNDIRECTED      reduce using rule 154 (empty -> .)
-    DIRECTED        reduce using rule 154 (empty -> .)
-    MAIN            reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    PRINT           reduce using rule 154 (empty -> .)
-    IF              reduce using rule 154 (empty -> .)
-    WHILE           reduce using rule 154 (empty -> .)
-    DO              reduce using rule 154 (empty -> .)
-    FOR             reduce using rule 154 (empty -> .)
-    RBRACK          reduce using rule 154 (empty -> .)
+    VOID            reduce using rule 158 (empty -> .)
+    INT             reduce using rule 158 (empty -> .)
+    FLOAT           reduce using rule 158 (empty -> .)
+    STRING          reduce using rule 158 (empty -> .)
+    CHAR            reduce using rule 158 (empty -> .)
+    BOOL            reduce using rule 158 (empty -> .)
+    NODE            reduce using rule 158 (empty -> .)
+    ARC             reduce using rule 158 (empty -> .)
+    UNDIRECTED      reduce using rule 158 (empty -> .)
+    DIRECTED        reduce using rule 158 (empty -> .)
+    MAIN            reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    PRINT           reduce using rule 158 (empty -> .)
+    IF              reduce using rule 158 (empty -> .)
+    WHILE           reduce using rule 158 (empty -> .)
+    DO              reduce using rule 158 (empty -> .)
+    FOR             reduce using rule 158 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
 
     vars                           shift and go to state 60
     empty                          shift and go to state 11
@@ -915,11 +923,11 @@ state 55
     (6) vars_2 -> . array_declare
     (7) vars_2 -> . empty
     (35) array_declare -> . LCORCH CTE_INT RCORCH array_declare_1
-    (154) empty -> .
+    (158) empty -> .
 
     LCORCH          shift and go to state 64
-    COMA            reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
+    COMA            reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
 
     vars_2                         shift and go to state 61
     array_declare                  shift and go to state 62
@@ -1027,7 +1035,7 @@ state 66
     (18) function_v1 -> . type np_var_b4 ID np_var_b5 COMA function_v1
     (19) function_v1 -> . type np_var_b4 ID np_var_b5 array_declare
     (20) function_v1 -> . type np_var_b4 ID np_var_b5 array_declare COMA function_v1
-    (154) empty -> .
+    (158) empty -> .
     (22) type -> . t_number
     (23) type -> . t_string
     (24) type -> . t_bool
@@ -1042,7 +1050,7 @@ state 66
     (33) t_graph -> . UNDIRECTED np_var_1
     (34) t_graph -> . DIRECTED np_var_1
 
-    RPAREN          reduce using rule 154 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
     STRING          shift and go to state 22
@@ -1083,16 +1091,16 @@ state 69
 
     (21) body -> MAIN np_var_c1 LPAREN RPAREN LBRACK . np_var_c2 vars statutes RBRACK debug np_var_c3
     (127) np_var_c2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    VAR             reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    PRINT           reduce using rule 154 (empty -> .)
-    IF              reduce using rule 154 (empty -> .)
-    WHILE           reduce using rule 154 (empty -> .)
-    DO              reduce using rule 154 (empty -> .)
-    FOR             reduce using rule 154 (empty -> .)
-    RBRACK          reduce using rule 154 (empty -> .)
+    VAR             reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    PRINT           reduce using rule 158 (empty -> .)
+    IF              reduce using rule 158 (empty -> .)
+    WHILE           reduce using rule 158 (empty -> .)
+    DO              reduce using rule 158 (empty -> .)
+    FOR             reduce using rule 158 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
 
     np_var_c2                      shift and go to state 76
     empty                          shift and go to state 77
@@ -1125,9 +1133,9 @@ state 73
     (19) function_v1 -> type . np_var_b4 ID np_var_b5 array_declare
     (20) function_v1 -> type . np_var_b4 ID np_var_b5 array_declare COMA function_v1
     (123) np_var_b4 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
 
     np_var_b4                      shift and go to state 79
     empty                          shift and go to state 80
@@ -1144,12 +1152,12 @@ state 75
     (35) array_declare -> LCORCH CTE_INT RCORCH . array_declare_1
     (36) array_declare_1 -> . LCORCH CTE_INT RCORCH array_declare_1
     (37) array_declare_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
     LCORCH          shift and go to state 81
-    COMA            reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
+    COMA            reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
 
     array_declare_1                shift and go to state 82
     empty                          shift and go to state 83
@@ -1159,16 +1167,16 @@ state 76
     (21) body -> MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 . vars statutes RBRACK debug np_var_c3
     (2) vars -> . VAR type vars_1 SCOLO vars
     (3) vars -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
     VAR             shift and go to state 10
-    ID              reduce using rule 154 (empty -> .)
-    PRINT           reduce using rule 154 (empty -> .)
-    IF              reduce using rule 154 (empty -> .)
-    WHILE           reduce using rule 154 (empty -> .)
-    DO              reduce using rule 154 (empty -> .)
-    FOR             reduce using rule 154 (empty -> .)
-    RBRACK          reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    PRINT           reduce using rule 158 (empty -> .)
+    IF              reduce using rule 158 (empty -> .)
+    WHILE           reduce using rule 158 (empty -> .)
+    DO              reduce using rule 158 (empty -> .)
+    FOR             reduce using rule 158 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
 
     vars                           shift and go to state 84
     empty                          shift and go to state 11
@@ -1246,7 +1254,7 @@ state 84
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (154) empty -> .
+    (158) empty -> .
     (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
     (46) writing -> . PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
     (52) condition -> . IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
@@ -1257,10 +1265,10 @@ state 84
     (63) function_call -> . ID LPAREN function_call_1 RPAREN SCOLO
     (59) c_while -> . WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
     (60) c_do -> . DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
-    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> . FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 154 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -1286,16 +1294,16 @@ state 85
     (8) function -> function_t ID np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK . vars statutes RBRACK np_var_b6 function
     (2) vars -> . VAR type vars_1 SCOLO vars
     (3) vars -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
     VAR             shift and go to state 10
-    ID              reduce using rule 154 (empty -> .)
-    PRINT           reduce using rule 154 (empty -> .)
-    IF              reduce using rule 154 (empty -> .)
-    WHILE           reduce using rule 154 (empty -> .)
-    DO              reduce using rule 154 (empty -> .)
-    FOR             reduce using rule 154 (empty -> .)
-    RBRACK          reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    PRINT           reduce using rule 158 (empty -> .)
+    IF              reduce using rule 158 (empty -> .)
+    WHILE           reduce using rule 158 (empty -> .)
+    DO              reduce using rule 158 (empty -> .)
+    FOR             reduce using rule 158 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
 
     vars                           shift and go to state 106
     empty                          shift and go to state 11
@@ -1307,11 +1315,11 @@ state 86
     (19) function_v1 -> type np_var_b4 ID . np_var_b5 array_declare
     (20) function_v1 -> type np_var_b4 ID . np_var_b5 array_declare COMA function_v1
     (124) np_var_b5 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    COMA            reduce using rule 154 (empty -> .)
-    LCORCH          reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
+    COMA            reduce using rule 158 (empty -> .)
+    LCORCH          reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
 
     np_var_b5                      shift and go to state 107
     empty                          shift and go to state 108
@@ -1340,7 +1348,7 @@ state 89
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (154) empty -> .
+    (158) empty -> .
     (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
     (46) writing -> . PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
     (52) condition -> . IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
@@ -1351,10 +1359,10 @@ state 89
     (63) function_call -> . ID LPAREN function_call_1 RPAREN SCOLO
     (59) c_while -> . WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
     (60) c_do -> . DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
-    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> . FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 154 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -1452,10 +1460,10 @@ state 96
     (45) assignation -> ID . np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
     (63) function_call -> ID . LPAREN function_call_1 RPAREN SCOLO
     (136) np_quad_a2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
     LPAREN          shift and go to state 113
-    EQL             reduce using rule 154 (empty -> .)
+    EQL             reduce using rule 158 (empty -> .)
 
     np_quad_a2                     shift and go to state 112
     empty                          shift and go to state 114
@@ -1464,9 +1472,9 @@ state 97
 
     (46) writing -> PRINT . np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LPAREN          reduce using rule 154 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 115
     empty                          shift and go to state 116
@@ -1534,9 +1542,9 @@ state 103
 
     (59) c_while -> WHILE . np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
     (148) np_statutes_b1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LPAREN          reduce using rule 154 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_statutes_b1                 shift and go to state 118
     empty                          shift and go to state 119
@@ -1545,16 +1553,16 @@ state 104
 
     (60) c_do -> DO . np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
     (151) np_statutes_c1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LBRACK          reduce using rule 154 (empty -> .)
+    LBRACK          reduce using rule 158 (empty -> .)
 
     np_statutes_c1                 shift and go to state 120
     empty                          shift and go to state 121
 
 state 105
 
-    (61) c_for -> FOR . LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> FOR . LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> FOR . LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
     LPAREN          shift and go to state 122
@@ -1570,7 +1578,7 @@ state 106
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (154) empty -> .
+    (158) empty -> .
     (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
     (46) writing -> . PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
     (52) condition -> . IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
@@ -1581,10 +1589,10 @@ state 106
     (63) function_call -> . ID LPAREN function_call_1 RPAREN SCOLO
     (59) c_while -> . WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
     (60) c_do -> . DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
-    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> . FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 154 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -1633,12 +1641,12 @@ state 109
     (36) array_declare_1 -> LCORCH CTE_INT RCORCH . array_declare_1
     (36) array_declare_1 -> . LCORCH CTE_INT RCORCH array_declare_1
     (37) array_declare_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
     LCORCH          shift and go to state 81
-    COMA            reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
+    COMA            reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
 
     array_declare_1                shift and go to state 126
     empty                          shift and go to state 83
@@ -1646,10 +1654,10 @@ state 109
 state 110
 
     (21) body -> MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK . debug np_var_c3
-    (153) debug -> . empty
-    (154) empty -> .
+    (157) debug -> . empty
+    (158) empty -> .
 
-    $end            reduce using rule 154 (empty -> .)
+    $end            reduce using rule 158 (empty -> .)
 
     debug                          shift and go to state 127
     empty                          shift and go to state 128
@@ -1677,7 +1685,7 @@ state 113
     (67) function_call_2 -> . ID
     (68) function_call_2 -> . expression SCOLO function_call_2
     (69) function_call_2 -> . ID SCOLO function_call_2
-    (154) empty -> .
+    (158) empty -> .
     (70) expression -> . exp_lv1
     (71) expression -> . exp_lv1 AND np_quad_b expression np_quad_c0
     (72) expression -> . exp_lv1 OR np_quad_b expression np_quad_c0
@@ -1713,7 +1721,7 @@ state 113
     CTE_STRING      shift and go to state 147
     CTE_CHAR        shift and go to state 148
 
-  ! RPAREN          [ reduce using rule 154 (empty -> .) ]
+  ! RPAREN          [ reduce using rule 158 (empty -> .) ]
 
     function_call_1                shift and go to state 131
     function_call_2                shift and go to state 133
@@ -1849,7 +1857,7 @@ state 121
 
 state 122
 
-    (61) c_for -> FOR LPAREN . ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> FOR LPAREN . ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> FOR LPAREN . ID IN ID RPAREN LBRACK statutes RBRACK
 
     ID              shift and go to state 154
@@ -1922,34 +1930,34 @@ state 127
 
     (21) body -> MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK debug . np_var_c3
     (128) np_var_c3 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    $end            reduce using rule 154 (empty -> .)
+    $end            reduce using rule 158 (empty -> .)
 
     np_var_c3                      shift and go to state 158
     empty                          shift and go to state 159
 
 state 128
 
-    (153) debug -> empty .
+    (157) debug -> empty .
 
-    $end            reduce using rule 153 (debug -> empty .)
+    $end            reduce using rule 157 (debug -> empty .)
 
 
 state 129
 
     (45) assignation -> ID np_quad_a2 EQL . np_quad_b expression np_quad_assign SCOLO
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 160
     empty                          shift and go to state 116
@@ -1962,30 +1970,30 @@ state 130
     (94) exp_lv5 -> ID . np_quad_a2 array_access
     (105) method -> ID . DOT method_t LPAREN method_1 RPAREN
     (136) np_quad_a2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
   ! shift/reduce conflict for SCOLO resolved as shift
   ! reduce/reduce conflict for RPAREN resolved using rule 67 (function_call_2 -> ID .)
     RPAREN          reduce using rule 67 (function_call_2 -> ID .)
     SCOLO           shift and go to state 161
     DOT             shift and go to state 163
-    LCORCH          reduce using rule 154 (empty -> .)
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
+    LCORCH          reduce using rule 158 (empty -> .)
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
 
-  ! SCOLO           [ reduce using rule 154 (empty -> .) ]
-  ! RPAREN          [ reduce using rule 154 (empty -> .) ]
+  ! SCOLO           [ reduce using rule 158 (empty -> .) ]
+  ! RPAREN          [ reduce using rule 158 (empty -> .) ]
 
     np_quad_a2                     shift and go to state 162
     empty                          shift and go to state 114
@@ -2090,7 +2098,7 @@ state 137
     (78) exp_lv1_1 -> . EQUALTO np_quad_b exp_lv2 np_quad_c1
     (79) exp_lv1_1 -> . NOTEQUALTO np_quad_b exp_lv2 np_quad_c1
     (80) exp_lv1_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
     LESST           shift and go to state 170
     MORET           shift and go to state 171
@@ -2098,12 +2106,12 @@ state 137
     MOREEQUAL       shift and go to state 173
     EQUALTO         shift and go to state 174
     NOTEQUALTO      shift and go to state 175
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
     exp_lv1_1                      shift and go to state 169
     empty                          shift and go to state 176
@@ -2183,15 +2191,15 @@ state 141
 
     (89) exp_lv4 -> NOT . np_quad_b exp_lv5 np_quad_c4
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 182
     empty                          shift and go to state 116
@@ -2244,24 +2252,24 @@ state 144
 
     (100) var_cte -> CTE_INT . np_quad_a1_int
     (131) np_quad_a1_int -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_quad_a1_int                 shift and go to state 183
     empty                          shift and go to state 184
@@ -2270,24 +2278,24 @@ state 145
 
     (101) var_cte -> CTE_FLO . np_quad_a1_flt
     (132) np_quad_a1_flt -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_quad_a1_flt                 shift and go to state 185
     empty                          shift and go to state 186
@@ -2296,24 +2304,24 @@ state 146
 
     (102) var_cte -> CTE_BOO . np_quad_a1_bol
     (135) np_quad_a1_bol -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_quad_a1_bol                 shift and go to state 187
     empty                          shift and go to state 188
@@ -2322,24 +2330,24 @@ state 147
 
     (103) var_cte -> CTE_STRING . np_quad_a1_str
     (134) np_quad_a1_str -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_quad_a1_str                 shift and go to state 189
     empty                          shift and go to state 190
@@ -2348,24 +2356,24 @@ state 148
 
     (104) var_cte -> CTE_CHAR . np_quad_a1_chr
     (133) np_quad_a1_chr -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_quad_a1_chr                 shift and go to state 191
     empty                          shift and go to state 192
@@ -2427,9 +2435,9 @@ state 150
 
     (52) condition -> IF LPAREN expression . np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
     (145) np_statutes_a1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    RPAREN          reduce using rule 154 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
 
     np_statutes_a1                 shift and go to state 197
     empty                          shift and go to state 198
@@ -2440,26 +2448,26 @@ state 151
     (94) exp_lv5 -> ID . np_quad_a2 array_access
     (105) method -> ID . DOT method_t LPAREN method_1 RPAREN
     (136) np_quad_a2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
     DOT             shift and go to state 163
-    LCORCH          reduce using rule 154 (empty -> .)
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
+    LCORCH          reduce using rule 158 (empty -> .)
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
 
     np_quad_a2                     shift and go to state 162
     empty                          shift and go to state 114
@@ -2520,7 +2528,7 @@ state 153
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (154) empty -> .
+    (158) empty -> .
     (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
     (46) writing -> . PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
     (52) condition -> . IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
@@ -2531,10 +2539,10 @@ state 153
     (63) function_call -> . ID LPAREN function_call_1 RPAREN SCOLO
     (59) c_while -> . WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
     (60) c_do -> . DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
-    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> . FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 154 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -2557,7 +2565,7 @@ state 153
 
 state 154
 
-    (61) c_for -> FOR LPAREN ID . SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> FOR LPAREN ID . SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> FOR LPAREN ID . IN ID RPAREN LBRACK statutes RBRACK
 
     SCOLO           shift and go to state 201
@@ -2568,19 +2576,19 @@ state 155
 
     (8) function -> function_t ID np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK . np_var_b6 function
     (125) np_var_b6 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    VOID            reduce using rule 154 (empty -> .)
-    INT             reduce using rule 154 (empty -> .)
-    FLOAT           reduce using rule 154 (empty -> .)
-    STRING          reduce using rule 154 (empty -> .)
-    CHAR            reduce using rule 154 (empty -> .)
-    BOOL            reduce using rule 154 (empty -> .)
-    NODE            reduce using rule 154 (empty -> .)
-    ARC             reduce using rule 154 (empty -> .)
-    UNDIRECTED      reduce using rule 154 (empty -> .)
-    DIRECTED        reduce using rule 154 (empty -> .)
-    MAIN            reduce using rule 154 (empty -> .)
+    VOID            reduce using rule 158 (empty -> .)
+    INT             reduce using rule 158 (empty -> .)
+    FLOAT           reduce using rule 158 (empty -> .)
+    STRING          reduce using rule 158 (empty -> .)
+    CHAR            reduce using rule 158 (empty -> .)
+    BOOL            reduce using rule 158 (empty -> .)
+    NODE            reduce using rule 158 (empty -> .)
+    ARC             reduce using rule 158 (empty -> .)
+    UNDIRECTED      reduce using rule 158 (empty -> .)
+    DIRECTED        reduce using rule 158 (empty -> .)
+    MAIN            reduce using rule 158 (empty -> .)
 
     np_var_b6                      shift and go to state 203
     empty                          shift and go to state 204
@@ -2855,16 +2863,16 @@ state 167
 
     (71) expression -> exp_lv1 AND . np_quad_b expression np_quad_c0
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 220
     empty                          shift and go to state 116
@@ -2873,16 +2881,16 @@ state 168
 
     (72) expression -> exp_lv1 OR . np_quad_b expression np_quad_c0
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 221
     empty                          shift and go to state 116
@@ -2903,16 +2911,16 @@ state 170
 
     (74) exp_lv1_1 -> LESST . np_quad_b exp_lv2 np_quad_c1
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 222
     empty                          shift and go to state 116
@@ -2921,16 +2929,16 @@ state 171
 
     (75) exp_lv1_1 -> MORET . np_quad_b exp_lv2 np_quad_c1
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 223
     empty                          shift and go to state 116
@@ -2939,16 +2947,16 @@ state 172
 
     (76) exp_lv1_1 -> LESSEQUAL . np_quad_b exp_lv2 np_quad_c1
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 224
     empty                          shift and go to state 116
@@ -2957,16 +2965,16 @@ state 173
 
     (77) exp_lv1_1 -> MOREEQUAL . np_quad_b exp_lv2 np_quad_c1
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 225
     empty                          shift and go to state 116
@@ -2975,16 +2983,16 @@ state 174
 
     (78) exp_lv1_1 -> EQUALTO . np_quad_b exp_lv2 np_quad_c1
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 226
     empty                          shift and go to state 116
@@ -2993,16 +3001,16 @@ state 175
 
     (79) exp_lv1_1 -> NOTEQUALTO . np_quad_b exp_lv2 np_quad_c1
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 227
     empty                          shift and go to state 116
@@ -3023,16 +3031,16 @@ state 177
 
     (82) exp_lv2 -> exp_lv3 SUMA . np_quad_b exp_lv2 np_quad_c2
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 228
     empty                          shift and go to state 116
@@ -3041,16 +3049,16 @@ state 178
 
     (83) exp_lv2 -> exp_lv3 SUB . np_quad_b exp_lv2 np_quad_c2
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 229
     empty                          shift and go to state 116
@@ -3059,16 +3067,16 @@ state 179
 
     (85) exp_lv3 -> exp_lv4 MUL . np_quad_b exp_lv3 np_quad_c3
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 230
     empty                          shift and go to state 116
@@ -3077,16 +3085,16 @@ state 180
 
     (86) exp_lv3 -> exp_lv4 DIV . np_quad_b exp_lv3 np_quad_c3
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 231
     empty                          shift and go to state 116
@@ -3095,16 +3103,16 @@ state 181
 
     (87) exp_lv3 -> exp_lv4 RESD . np_quad_b exp_lv3 np_quad_c3
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
     np_quad_b                      shift and go to state 232
     empty                          shift and go to state 116
@@ -3378,22 +3386,22 @@ state 195
     (51) writing_2 -> CTE_STRING . np_quad_a1_str SUMA np_quad_b writing_1 np_quad_c2
     (103) var_cte -> CTE_STRING . np_quad_a1_str
     (134) np_quad_a1_str -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    SUMA            reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
 
     np_quad_a1_str                 shift and go to state 236
     empty                          shift and go to state 190
@@ -3435,55 +3443,27 @@ state 200
 
 state 201
 
-    (61) c_for -> FOR LPAREN ID SCOLO . expression SCOLO assignation RPAREN LBRACK statutes RBRACK
-    (70) expression -> . exp_lv1
-    (71) expression -> . exp_lv1 AND np_quad_b expression np_quad_c0
-    (72) expression -> . exp_lv1 OR np_quad_b expression np_quad_c0
-    (73) exp_lv1 -> . exp_lv2 exp_lv1_1
-    (81) exp_lv2 -> . exp_lv3
-    (82) exp_lv2 -> . exp_lv3 SUMA np_quad_b exp_lv2 np_quad_c2
-    (83) exp_lv2 -> . exp_lv3 SUB np_quad_b exp_lv2 np_quad_c2
-    (84) exp_lv3 -> . exp_lv4
-    (85) exp_lv3 -> . exp_lv4 MUL np_quad_b exp_lv3 np_quad_c3
-    (86) exp_lv3 -> . exp_lv4 DIV np_quad_b exp_lv3 np_quad_c3
-    (87) exp_lv3 -> . exp_lv4 RESD np_quad_b exp_lv3 np_quad_c3
-    (88) exp_lv4 -> . exp_lv5
-    (89) exp_lv4 -> . NOT np_quad_b exp_lv5 np_quad_c4
-    (90) exp_lv5 -> . RPAREN expression LPAREN
-    (91) exp_lv5 -> . var_cte
-    (92) exp_lv5 -> . method
-    (93) exp_lv5 -> . ID np_quad_a2
-    (94) exp_lv5 -> . ID np_quad_a2 array_access
-    (100) var_cte -> . CTE_INT np_quad_a1_int
-    (101) var_cte -> . CTE_FLO np_quad_a1_flt
-    (102) var_cte -> . CTE_BOO np_quad_a1_bol
-    (103) var_cte -> . CTE_STRING np_quad_a1_str
-    (104) var_cte -> . CTE_CHAR np_quad_a1_chr
-    (105) method -> . ID DOT method_t LPAREN method_1 RPAREN
+    (61) c_for -> FOR LPAREN ID SCOLO . np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
+    (153) np_statutes_d1 -> . empty
+    (158) empty -> .
 
-    NOT             shift and go to state 141
-    RPAREN          shift and go to state 132
-    ID              shift and go to state 151
-    CTE_INT         shift and go to state 144
-    CTE_FLO         shift and go to state 145
-    CTE_BOO         shift and go to state 146
-    CTE_STRING      shift and go to state 147
-    CTE_CHAR        shift and go to state 148
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
-    expression                     shift and go to state 240
-    exp_lv1                        shift and go to state 136
-    exp_lv2                        shift and go to state 137
-    exp_lv3                        shift and go to state 138
-    exp_lv4                        shift and go to state 139
-    exp_lv5                        shift and go to state 140
-    var_cte                        shift and go to state 142
-    method                         shift and go to state 143
+    np_statutes_d1                 shift and go to state 240
+    empty                          shift and go to state 241
 
 state 202
 
     (62) c_forin -> FOR LPAREN ID IN . ID RPAREN LBRACK statutes RBRACK
 
-    ID              shift and go to state 241
+    ID              shift and go to state 242
 
 
 state 203
@@ -3496,7 +3476,7 @@ state 203
     (12) function_t -> . t_string
     (13) function_t -> . t_bool
     (14) function_t -> . t_graph
-    (154) empty -> .
+    (158) empty -> .
     (26) t_number -> . INT np_var_1
     (27) t_number -> . FLOAT np_var_1
     (28) t_string -> . STRING np_var_1
@@ -3508,7 +3488,7 @@ state 203
     (34) t_graph -> . DIRECTED np_var_1
 
     VOID            shift and go to state 15
-    MAIN            reduce using rule 154 (empty -> .)
+    MAIN            reduce using rule 158 (empty -> .)
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
     STRING          shift and go to state 22
@@ -3520,7 +3500,7 @@ state 203
     DIRECTED        shift and go to state 28
 
     function_t                     shift and go to state 13
-    function                       shift and go to state 242
+    function                       shift and go to state 243
     empty                          shift and go to state 14
     t_number                       shift and go to state 16
     t_string                       shift and go to state 17
@@ -3555,12 +3535,12 @@ state 206
 
     (45) assignation -> ID np_quad_a2 EQL np_quad_b expression . np_quad_assign SCOLO
     (144) np_quad_assign -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    SCOLO           reduce using rule 154 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
 
-    np_quad_assign                 shift and go to state 243
-    empty                          shift and go to state 244
+    np_quad_assign                 shift and go to state 244
+    empty                          shift and go to state 245
 
 state 207
 
@@ -3597,16 +3577,16 @@ state 209
     (96) arrary_access_1 -> . CTE_INT
     (97) arrary_access_1 -> . ID
 
-    CTE_INT         shift and go to state 246
-    ID              shift and go to state 247
+    CTE_INT         shift and go to state 247
+    ID              shift and go to state 248
 
-    arrary_access_1                shift and go to state 245
+    arrary_access_1                shift and go to state 246
 
 state 210
 
     (105) method -> ID DOT method_t . LPAREN method_1 RPAREN
 
-    LPAREN          shift and go to state 248
+    LPAREN          shift and go to state 249
 
 
 state 211
@@ -3731,7 +3711,7 @@ state 220
     CTE_CHAR        shift and go to state 148
 
     exp_lv1                        shift and go to state 136
-    expression                     shift and go to state 249
+    expression                     shift and go to state 250
     exp_lv2                        shift and go to state 137
     exp_lv3                        shift and go to state 138
     exp_lv4                        shift and go to state 139
@@ -3777,7 +3757,7 @@ state 221
     CTE_CHAR        shift and go to state 148
 
     exp_lv1                        shift and go to state 136
-    expression                     shift and go to state 250
+    expression                     shift and go to state 251
     exp_lv2                        shift and go to state 137
     exp_lv3                        shift and go to state 138
     exp_lv4                        shift and go to state 139
@@ -3818,7 +3798,7 @@ state 222
     CTE_STRING      shift and go to state 147
     CTE_CHAR        shift and go to state 148
 
-    exp_lv2                        shift and go to state 251
+    exp_lv2                        shift and go to state 252
     exp_lv3                        shift and go to state 138
     exp_lv4                        shift and go to state 139
     exp_lv5                        shift and go to state 140
@@ -3858,7 +3838,7 @@ state 223
     CTE_STRING      shift and go to state 147
     CTE_CHAR        shift and go to state 148
 
-    exp_lv2                        shift and go to state 252
+    exp_lv2                        shift and go to state 253
     exp_lv3                        shift and go to state 138
     exp_lv4                        shift and go to state 139
     exp_lv5                        shift and go to state 140
@@ -3898,7 +3878,7 @@ state 224
     CTE_STRING      shift and go to state 147
     CTE_CHAR        shift and go to state 148
 
-    exp_lv2                        shift and go to state 253
+    exp_lv2                        shift and go to state 254
     exp_lv3                        shift and go to state 138
     exp_lv4                        shift and go to state 139
     exp_lv5                        shift and go to state 140
@@ -3938,7 +3918,7 @@ state 225
     CTE_STRING      shift and go to state 147
     CTE_CHAR        shift and go to state 148
 
-    exp_lv2                        shift and go to state 254
+    exp_lv2                        shift and go to state 255
     exp_lv3                        shift and go to state 138
     exp_lv4                        shift and go to state 139
     exp_lv5                        shift and go to state 140
@@ -3978,7 +3958,7 @@ state 226
     CTE_STRING      shift and go to state 147
     CTE_CHAR        shift and go to state 148
 
-    exp_lv2                        shift and go to state 255
+    exp_lv2                        shift and go to state 256
     exp_lv3                        shift and go to state 138
     exp_lv4                        shift and go to state 139
     exp_lv5                        shift and go to state 140
@@ -4018,7 +3998,7 @@ state 227
     CTE_STRING      shift and go to state 147
     CTE_CHAR        shift and go to state 148
 
-    exp_lv2                        shift and go to state 256
+    exp_lv2                        shift and go to state 257
     exp_lv3                        shift and go to state 138
     exp_lv4                        shift and go to state 139
     exp_lv5                        shift and go to state 140
@@ -4059,7 +4039,7 @@ state 228
     CTE_CHAR        shift and go to state 148
 
     exp_lv3                        shift and go to state 138
-    exp_lv2                        shift and go to state 257
+    exp_lv2                        shift and go to state 258
     exp_lv4                        shift and go to state 139
     exp_lv5                        shift and go to state 140
     var_cte                        shift and go to state 142
@@ -4099,7 +4079,7 @@ state 229
     CTE_CHAR        shift and go to state 148
 
     exp_lv3                        shift and go to state 138
-    exp_lv2                        shift and go to state 258
+    exp_lv2                        shift and go to state 259
     exp_lv4                        shift and go to state 139
     exp_lv5                        shift and go to state 140
     var_cte                        shift and go to state 142
@@ -4136,7 +4116,7 @@ state 230
     CTE_CHAR        shift and go to state 148
 
     exp_lv4                        shift and go to state 139
-    exp_lv3                        shift and go to state 259
+    exp_lv3                        shift and go to state 260
     exp_lv5                        shift and go to state 140
     var_cte                        shift and go to state 142
     method                         shift and go to state 143
@@ -4172,7 +4152,7 @@ state 231
     CTE_CHAR        shift and go to state 148
 
     exp_lv4                        shift and go to state 139
-    exp_lv3                        shift and go to state 260
+    exp_lv3                        shift and go to state 261
     exp_lv5                        shift and go to state 140
     var_cte                        shift and go to state 142
     method                         shift and go to state 143
@@ -4208,7 +4188,7 @@ state 232
     CTE_CHAR        shift and go to state 148
 
     exp_lv4                        shift and go to state 139
-    exp_lv3                        shift and go to state 261
+    exp_lv3                        shift and go to state 262
     exp_lv5                        shift and go to state 140
     var_cte                        shift and go to state 142
     method                         shift and go to state 143
@@ -4217,55 +4197,55 @@ state 233
 
     (89) exp_lv4 -> NOT np_quad_b exp_lv5 . np_quad_c4
     (142) np_quad_c4 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
-    np_quad_c4                     shift and go to state 262
-    empty                          shift and go to state 263
+    np_quad_c4                     shift and go to state 263
+    empty                          shift and go to state 264
 
 state 234
 
     (46) writing -> PRINT np_quad_b LPAREN writing_1 RPAREN . np_quad_print SCOLO
     (143) np_quad_print -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    SCOLO           reduce using rule 154 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
 
-    np_quad_print                  shift and go to state 264
-    empty                          shift and go to state 265
+    np_quad_print                  shift and go to state 265
+    empty                          shift and go to state 266
 
 state 235
 
     (50) writing_2 -> expression SUMA . np_quad_b writing_1 np_quad_c2
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
-    np_quad_b                      shift and go to state 266
+    np_quad_b                      shift and go to state 267
     empty                          shift and go to state 116
 
 state 236
@@ -4277,7 +4257,7 @@ state 236
   ! shift/reduce conflict for SUMA resolved as shift
   ! reduce/reduce conflict for RPAREN resolved using rule 48 (writing_1 -> CTE_STRING np_quad_a1_str .)
     RPAREN          reduce using rule 48 (writing_1 -> CTE_STRING np_quad_a1_str .)
-    SUMA            shift and go to state 267
+    SUMA            shift and go to state 268
     MUL             reduce using rule 103 (var_cte -> CTE_STRING np_quad_a1_str .)
     DIV             reduce using rule 103 (var_cte -> CTE_STRING np_quad_a1_str .)
     RESD            reduce using rule 103 (var_cte -> CTE_STRING np_quad_a1_str .)
@@ -4299,341 +4279,394 @@ state 237
 
     (52) condition -> IF LPAREN expression np_statutes_a1 RPAREN . LBRACK statutes RBRACK condition_1 np_statutes_a3
 
-    LBRACK          shift and go to state 268
+    LBRACK          shift and go to state 269
 
 
 state 238
 
     (59) c_while -> WHILE np_statutes_b1 LPAREN expression RPAREN . np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
     (149) np_statutes_b2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LBRACK          reduce using rule 154 (empty -> .)
+    LBRACK          reduce using rule 158 (empty -> .)
 
-    np_statutes_b2                 shift and go to state 269
-    empty                          shift and go to state 270
+    np_statutes_b2                 shift and go to state 270
+    empty                          shift and go to state 271
 
 state 239
 
     (60) c_do -> DO np_statutes_c1 LBRACK statutes RBRACK . WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
 
-    WHILE           shift and go to state 271
+    WHILE           shift and go to state 272
 
 
 state 240
 
-    (61) c_for -> FOR LPAREN ID SCOLO expression . SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 . expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
+    (70) expression -> . exp_lv1
+    (71) expression -> . exp_lv1 AND np_quad_b expression np_quad_c0
+    (72) expression -> . exp_lv1 OR np_quad_b expression np_quad_c0
+    (73) exp_lv1 -> . exp_lv2 exp_lv1_1
+    (81) exp_lv2 -> . exp_lv3
+    (82) exp_lv2 -> . exp_lv3 SUMA np_quad_b exp_lv2 np_quad_c2
+    (83) exp_lv2 -> . exp_lv3 SUB np_quad_b exp_lv2 np_quad_c2
+    (84) exp_lv3 -> . exp_lv4
+    (85) exp_lv3 -> . exp_lv4 MUL np_quad_b exp_lv3 np_quad_c3
+    (86) exp_lv3 -> . exp_lv4 DIV np_quad_b exp_lv3 np_quad_c3
+    (87) exp_lv3 -> . exp_lv4 RESD np_quad_b exp_lv3 np_quad_c3
+    (88) exp_lv4 -> . exp_lv5
+    (89) exp_lv4 -> . NOT np_quad_b exp_lv5 np_quad_c4
+    (90) exp_lv5 -> . RPAREN expression LPAREN
+    (91) exp_lv5 -> . var_cte
+    (92) exp_lv5 -> . method
+    (93) exp_lv5 -> . ID np_quad_a2
+    (94) exp_lv5 -> . ID np_quad_a2 array_access
+    (100) var_cte -> . CTE_INT np_quad_a1_int
+    (101) var_cte -> . CTE_FLO np_quad_a1_flt
+    (102) var_cte -> . CTE_BOO np_quad_a1_bol
+    (103) var_cte -> . CTE_STRING np_quad_a1_str
+    (104) var_cte -> . CTE_CHAR np_quad_a1_chr
+    (105) method -> . ID DOT method_t LPAREN method_1 RPAREN
 
-    SCOLO           shift and go to state 272
+    NOT             shift and go to state 141
+    RPAREN          shift and go to state 132
+    ID              shift and go to state 151
+    CTE_INT         shift and go to state 144
+    CTE_FLO         shift and go to state 145
+    CTE_BOO         shift and go to state 146
+    CTE_STRING      shift and go to state 147
+    CTE_CHAR        shift and go to state 148
 
+    expression                     shift and go to state 273
+    exp_lv1                        shift and go to state 136
+    exp_lv2                        shift and go to state 137
+    exp_lv3                        shift and go to state 138
+    exp_lv4                        shift and go to state 139
+    exp_lv5                        shift and go to state 140
+    var_cte                        shift and go to state 142
+    method                         shift and go to state 143
 
 state 241
 
-    (62) c_forin -> FOR LPAREN ID IN ID . RPAREN LBRACK statutes RBRACK
+    (153) np_statutes_d1 -> empty .
 
-    RPAREN          shift and go to state 273
+    NOT             reduce using rule 153 (np_statutes_d1 -> empty .)
+    RPAREN          reduce using rule 153 (np_statutes_d1 -> empty .)
+    ID              reduce using rule 153 (np_statutes_d1 -> empty .)
+    CTE_INT         reduce using rule 153 (np_statutes_d1 -> empty .)
+    CTE_FLO         reduce using rule 153 (np_statutes_d1 -> empty .)
+    CTE_BOO         reduce using rule 153 (np_statutes_d1 -> empty .)
+    CTE_STRING      reduce using rule 153 (np_statutes_d1 -> empty .)
+    CTE_CHAR        reduce using rule 153 (np_statutes_d1 -> empty .)
 
 
 state 242
+
+    (62) c_forin -> FOR LPAREN ID IN ID . RPAREN LBRACK statutes RBRACK
+
+    RPAREN          shift and go to state 274
+
+
+state 243
 
     (8) function -> function_t ID np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK np_var_b6 function .
 
     MAIN            reduce using rule 8 (function -> function_t ID np_var_b2 np_var_b3 LPAREN function_v RPAREN LBRACK vars statutes RBRACK np_var_b6 function .)
 
 
-state 243
+state 244
 
     (45) assignation -> ID np_quad_a2 EQL np_quad_b expression np_quad_assign . SCOLO
 
-    SCOLO           shift and go to state 274
+    SCOLO           shift and go to state 275
 
 
-state 244
+state 245
 
     (144) np_quad_assign -> empty .
 
     SCOLO           reduce using rule 144 (np_quad_assign -> empty .)
 
 
-state 245
+state 246
 
     (95) array_access -> LCORCH arrary_access_1 . RCORCH arrary_access_2
 
-    RCORCH          shift and go to state 275
+    RCORCH          shift and go to state 276
 
 
-state 246
+state 247
 
     (96) arrary_access_1 -> CTE_INT .
 
     RCORCH          reduce using rule 96 (arrary_access_1 -> CTE_INT .)
 
 
-state 247
+state 248
 
     (97) arrary_access_1 -> ID .
 
     RCORCH          reduce using rule 97 (arrary_access_1 -> ID .)
 
 
-state 248
+state 249
 
     (105) method -> ID DOT method_t LPAREN . method_1 RPAREN
     (106) method_1 -> . method_1_1
     (107) method_1 -> . empty
     (108) method_1_1 -> . method_v
     (109) method_1_1 -> . method_v COMA method_1_1
-    (154) empty -> .
+    (158) empty -> .
     (116) method_v -> . ID
     (117) method_v -> . LBRACK ID COMA ID RBRACK
 
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              shift and go to state 276
-    LBRACK          shift and go to state 281
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              shift and go to state 277
+    LBRACK          shift and go to state 282
 
-    method_1                       shift and go to state 277
-    method_1_1                     shift and go to state 278
-    empty                          shift and go to state 279
-    method_v                       shift and go to state 280
-
-state 249
-
-    (71) expression -> exp_lv1 AND np_quad_b expression . np_quad_c0
-    (138) np_quad_c0 -> . empty
-    (154) empty -> .
-
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-
-    np_quad_c0                     shift and go to state 282
-    empty                          shift and go to state 283
+    method_1                       shift and go to state 278
+    method_1_1                     shift and go to state 279
+    empty                          shift and go to state 280
+    method_v                       shift and go to state 281
 
 state 250
 
-    (72) expression -> exp_lv1 OR np_quad_b expression . np_quad_c0
+    (71) expression -> exp_lv1 AND np_quad_b expression . np_quad_c0
     (138) np_quad_c0 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
-    np_quad_c0                     shift and go to state 284
-    empty                          shift and go to state 283
+    np_quad_c0                     shift and go to state 283
+    empty                          shift and go to state 284
 
 state 251
 
-    (74) exp_lv1_1 -> LESST np_quad_b exp_lv2 . np_quad_c1
-    (139) np_quad_c1 -> . empty
-    (154) empty -> .
+    (72) expression -> exp_lv1 OR np_quad_b expression . np_quad_c0
+    (138) np_quad_c0 -> . empty
+    (158) empty -> .
 
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
-    np_quad_c1                     shift and go to state 285
-    empty                          shift and go to state 286
+    np_quad_c0                     shift and go to state 285
+    empty                          shift and go to state 284
 
 state 252
 
-    (75) exp_lv1_1 -> MORET np_quad_b exp_lv2 . np_quad_c1
+    (74) exp_lv1_1 -> LESST np_quad_b exp_lv2 . np_quad_c1
     (139) np_quad_c1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
-    np_quad_c1                     shift and go to state 287
-    empty                          shift and go to state 286
+    np_quad_c1                     shift and go to state 286
+    empty                          shift and go to state 287
 
 state 253
 
-    (76) exp_lv1_1 -> LESSEQUAL np_quad_b exp_lv2 . np_quad_c1
+    (75) exp_lv1_1 -> MORET np_quad_b exp_lv2 . np_quad_c1
     (139) np_quad_c1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
     np_quad_c1                     shift and go to state 288
-    empty                          shift and go to state 286
+    empty                          shift and go to state 287
 
 state 254
 
-    (77) exp_lv1_1 -> MOREEQUAL np_quad_b exp_lv2 . np_quad_c1
+    (76) exp_lv1_1 -> LESSEQUAL np_quad_b exp_lv2 . np_quad_c1
     (139) np_quad_c1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
     np_quad_c1                     shift and go to state 289
-    empty                          shift and go to state 286
+    empty                          shift and go to state 287
 
 state 255
 
-    (78) exp_lv1_1 -> EQUALTO np_quad_b exp_lv2 . np_quad_c1
+    (77) exp_lv1_1 -> MOREEQUAL np_quad_b exp_lv2 . np_quad_c1
     (139) np_quad_c1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
     np_quad_c1                     shift and go to state 290
-    empty                          shift and go to state 286
+    empty                          shift and go to state 287
 
 state 256
 
-    (79) exp_lv1_1 -> NOTEQUALTO np_quad_b exp_lv2 . np_quad_c1
+    (78) exp_lv1_1 -> EQUALTO np_quad_b exp_lv2 . np_quad_c1
     (139) np_quad_c1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
     np_quad_c1                     shift and go to state 291
-    empty                          shift and go to state 286
+    empty                          shift and go to state 287
 
 state 257
 
-    (82) exp_lv2 -> exp_lv3 SUMA np_quad_b exp_lv2 . np_quad_c2
-    (140) np_quad_c2 -> . empty
-    (154) empty -> .
+    (79) exp_lv1_1 -> NOTEQUALTO np_quad_b exp_lv2 . np_quad_c1
+    (139) np_quad_c1 -> . empty
+    (158) empty -> .
 
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
-    np_quad_c2                     shift and go to state 292
-    empty                          shift and go to state 293
+    np_quad_c1                     shift and go to state 292
+    empty                          shift and go to state 287
 
 state 258
 
-    (83) exp_lv2 -> exp_lv3 SUB np_quad_b exp_lv2 . np_quad_c2
+    (82) exp_lv2 -> exp_lv3 SUMA np_quad_b exp_lv2 . np_quad_c2
     (140) np_quad_c2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
-    np_quad_c2                     shift and go to state 294
-    empty                          shift and go to state 293
+    np_quad_c2                     shift and go to state 293
+    empty                          shift and go to state 294
 
 state 259
 
-    (85) exp_lv3 -> exp_lv4 MUL np_quad_b exp_lv3 . np_quad_c3
-    (141) np_quad_c3 -> . empty
-    (154) empty -> .
+    (83) exp_lv2 -> exp_lv3 SUB np_quad_b exp_lv2 . np_quad_c2
+    (140) np_quad_c2 -> . empty
+    (158) empty -> .
 
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
 
-    np_quad_c3                     shift and go to state 295
-    empty                          shift and go to state 296
+    np_quad_c2                     shift and go to state 295
+    empty                          shift and go to state 294
 
 state 260
 
-    (86) exp_lv3 -> exp_lv4 DIV np_quad_b exp_lv3 . np_quad_c3
+    (85) exp_lv3 -> exp_lv4 MUL np_quad_b exp_lv3 . np_quad_c3
     (141) np_quad_c3 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
-    np_quad_c3                     shift and go to state 297
-    empty                          shift and go to state 296
+    np_quad_c3                     shift and go to state 296
+    empty                          shift and go to state 297
 
 state 261
 
-    (87) exp_lv3 -> exp_lv4 RESD np_quad_b exp_lv3 . np_quad_c3
+    (86) exp_lv3 -> exp_lv4 DIV np_quad_b exp_lv3 . np_quad_c3
     (141) np_quad_c3 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
     np_quad_c3                     shift and go to state 298
-    empty                          shift and go to state 296
+    empty                          shift and go to state 297
 
 state 262
+
+    (87) exp_lv3 -> exp_lv4 RESD np_quad_b exp_lv3 . np_quad_c3
+    (141) np_quad_c3 -> . empty
+    (158) empty -> .
+
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
+
+    np_quad_c3                     shift and go to state 299
+    empty                          shift and go to state 297
+
+state 263
 
     (89) exp_lv4 -> NOT np_quad_b exp_lv5 np_quad_c4 .
 
@@ -4655,7 +4688,7 @@ state 262
     LPAREN          reduce using rule 89 (exp_lv4 -> NOT np_quad_b exp_lv5 np_quad_c4 .)
 
 
-state 263
+state 264
 
     (142) np_quad_c4 -> empty .
 
@@ -4677,21 +4710,21 @@ state 263
     LPAREN          reduce using rule 142 (np_quad_c4 -> empty .)
 
 
-state 264
+state 265
 
     (46) writing -> PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print . SCOLO
 
-    SCOLO           shift and go to state 299
+    SCOLO           shift and go to state 300
 
 
-state 265
+state 266
 
     (143) np_quad_print -> empty .
 
     SCOLO           reduce using rule 143 (np_quad_print -> empty .)
 
 
-state 266
+state 267
 
     (50) writing_2 -> expression SUMA np_quad_b . writing_1 np_quad_c2
     (47) writing_1 -> . expression
@@ -4734,7 +4767,7 @@ state 266
     CTE_CHAR        shift and go to state 148
 
     expression                     shift and go to state 194
-    writing_1                      shift and go to state 300
+    writing_1                      shift and go to state 301
     writing_2                      shift and go to state 196
     exp_lv1                        shift and go to state 136
     exp_lv2                        shift and go to state 137
@@ -4744,25 +4777,25 @@ state 266
     var_cte                        shift and go to state 142
     method                         shift and go to state 143
 
-state 267
+state 268
 
     (51) writing_2 -> CTE_STRING np_quad_a1_str SUMA . np_quad_b writing_1 np_quad_c2
     (137) np_quad_b -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    CTE_STRING      reduce using rule 154 (empty -> .)
-    NOT             reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    ID              reduce using rule 154 (empty -> .)
-    CTE_INT         reduce using rule 154 (empty -> .)
-    CTE_FLO         reduce using rule 154 (empty -> .)
-    CTE_BOO         reduce using rule 154 (empty -> .)
-    CTE_CHAR        reduce using rule 154 (empty -> .)
+    CTE_STRING      reduce using rule 158 (empty -> .)
+    NOT             reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    CTE_INT         reduce using rule 158 (empty -> .)
+    CTE_FLO         reduce using rule 158 (empty -> .)
+    CTE_BOO         reduce using rule 158 (empty -> .)
+    CTE_CHAR        reduce using rule 158 (empty -> .)
 
-    np_quad_b                      shift and go to state 301
+    np_quad_b                      shift and go to state 302
     empty                          shift and go to state 116
 
-state 268
+state 269
 
     (52) condition -> IF LPAREN expression np_statutes_a1 RPAREN LBRACK . statutes RBRACK condition_1 np_statutes_a3
     (38) statutes -> . statutes_1 statutes
@@ -4772,7 +4805,7 @@ state 268
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (154) empty -> .
+    (158) empty -> .
     (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
     (46) writing -> . PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
     (52) condition -> . IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
@@ -4783,10 +4816,10 @@ state 268
     (63) function_call -> . ID LPAREN function_call_1 RPAREN SCOLO
     (59) c_while -> . WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
     (60) c_do -> . DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
-    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> . FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 154 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -4794,7 +4827,7 @@ state 268
     DO              shift and go to state 104
     FOR             shift and go to state 105
 
-    statutes                       shift and go to state 302
+    statutes                       shift and go to state 303
     statutes_1                     shift and go to state 89
     empty                          shift and go to state 90
     assignation                    shift and go to state 91
@@ -4807,44 +4840,46 @@ state 268
     c_for                          shift and go to state 101
     c_forin                        shift and go to state 102
 
-state 269
+state 270
 
     (59) c_while -> WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 . LBRACK statutes RBRACK np_statutes_b3
 
-    LBRACK          shift and go to state 303
+    LBRACK          shift and go to state 304
 
 
-state 270
+state 271
 
     (149) np_statutes_b2 -> empty .
 
     LBRACK          reduce using rule 149 (np_statutes_b2 -> empty .)
 
 
-state 271
+state 272
 
     (60) c_do -> DO np_statutes_c1 LBRACK statutes RBRACK WHILE . LPAREN expression RPAREN SCOLO np_statutes_c2
 
-    LPAREN          shift and go to state 304
+    LPAREN          shift and go to state 305
 
-
-state 272
-
-    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO . assignation RPAREN LBRACK statutes RBRACK
-    (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
-
-    ID              shift and go to state 305
-
-    assignation                    shift and go to state 306
 
 state 273
 
-    (62) c_forin -> FOR LPAREN ID IN ID RPAREN . LBRACK statutes RBRACK
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression . np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
+    (154) np_statutes_d2 -> . empty
+    (158) empty -> .
 
-    LBRACK          shift and go to state 307
+    SCOLO           reduce using rule 158 (empty -> .)
 
+    np_statutes_d2                 shift and go to state 306
+    empty                          shift and go to state 307
 
 state 274
+
+    (62) c_forin -> FOR LPAREN ID IN ID RPAREN . LBRACK statutes RBRACK
+
+    LBRACK          shift and go to state 308
+
+
+state 275
 
     (45) assignation -> ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO .
 
@@ -4858,35 +4893,35 @@ state 274
     RPAREN          reduce using rule 45 (assignation -> ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO .)
 
 
-state 275
+state 276
 
     (95) array_access -> LCORCH arrary_access_1 RCORCH . arrary_access_2
     (98) arrary_access_2 -> . LCORCH arrary_access_1 RCORCH arrary_access_2
     (99) arrary_access_2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LCORCH          shift and go to state 308
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    LCORCH          shift and go to state 309
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
-    arrary_access_2                shift and go to state 309
-    empty                          shift and go to state 310
+    arrary_access_2                shift and go to state 310
+    empty                          shift and go to state 311
 
-state 276
+state 277
 
     (116) method_v -> ID .
 
@@ -4894,44 +4929,44 @@ state 276
     RPAREN          reduce using rule 116 (method_v -> ID .)
 
 
-state 277
+state 278
 
     (105) method -> ID DOT method_t LPAREN method_1 . RPAREN
 
-    RPAREN          shift and go to state 311
+    RPAREN          shift and go to state 312
 
 
-state 278
+state 279
 
     (106) method_1 -> method_1_1 .
 
     RPAREN          reduce using rule 106 (method_1 -> method_1_1 .)
 
 
-state 279
+state 280
 
     (107) method_1 -> empty .
 
     RPAREN          reduce using rule 107 (method_1 -> empty .)
 
 
-state 280
+state 281
 
     (108) method_1_1 -> method_v .
     (109) method_1_1 -> method_v . COMA method_1_1
 
     RPAREN          reduce using rule 108 (method_1_1 -> method_v .)
-    COMA            shift and go to state 312
-
-
-state 281
-
-    (117) method_v -> LBRACK . ID COMA ID RBRACK
-
-    ID              shift and go to state 313
+    COMA            shift and go to state 313
 
 
 state 282
+
+    (117) method_v -> LBRACK . ID COMA ID RBRACK
+
+    ID              shift and go to state 314
+
+
+state 283
 
     (71) expression -> exp_lv1 AND np_quad_b expression np_quad_c0 .
 
@@ -4941,7 +4976,7 @@ state 282
     SUMA            reduce using rule 71 (expression -> exp_lv1 AND np_quad_b expression np_quad_c0 .)
 
 
-state 283
+state 284
 
     (138) np_quad_c0 -> empty .
 
@@ -4951,7 +4986,7 @@ state 283
     SUMA            reduce using rule 138 (np_quad_c0 -> empty .)
 
 
-state 284
+state 285
 
     (72) expression -> exp_lv1 OR np_quad_b expression np_quad_c0 .
 
@@ -4961,7 +4996,7 @@ state 284
     SUMA            reduce using rule 72 (expression -> exp_lv1 OR np_quad_b expression np_quad_c0 .)
 
 
-state 285
+state 286
 
     (74) exp_lv1_1 -> LESST np_quad_b exp_lv2 np_quad_c1 .
 
@@ -4973,7 +5008,7 @@ state 285
     SUMA            reduce using rule 74 (exp_lv1_1 -> LESST np_quad_b exp_lv2 np_quad_c1 .)
 
 
-state 286
+state 287
 
     (139) np_quad_c1 -> empty .
 
@@ -4985,7 +5020,7 @@ state 286
     SUMA            reduce using rule 139 (np_quad_c1 -> empty .)
 
 
-state 287
+state 288
 
     (75) exp_lv1_1 -> MORET np_quad_b exp_lv2 np_quad_c1 .
 
@@ -4997,7 +5032,7 @@ state 287
     SUMA            reduce using rule 75 (exp_lv1_1 -> MORET np_quad_b exp_lv2 np_quad_c1 .)
 
 
-state 288
+state 289
 
     (76) exp_lv1_1 -> LESSEQUAL np_quad_b exp_lv2 np_quad_c1 .
 
@@ -5009,7 +5044,7 @@ state 288
     SUMA            reduce using rule 76 (exp_lv1_1 -> LESSEQUAL np_quad_b exp_lv2 np_quad_c1 .)
 
 
-state 289
+state 290
 
     (77) exp_lv1_1 -> MOREEQUAL np_quad_b exp_lv2 np_quad_c1 .
 
@@ -5021,7 +5056,7 @@ state 289
     SUMA            reduce using rule 77 (exp_lv1_1 -> MOREEQUAL np_quad_b exp_lv2 np_quad_c1 .)
 
 
-state 290
+state 291
 
     (78) exp_lv1_1 -> EQUALTO np_quad_b exp_lv2 np_quad_c1 .
 
@@ -5033,7 +5068,7 @@ state 290
     SUMA            reduce using rule 78 (exp_lv1_1 -> EQUALTO np_quad_b exp_lv2 np_quad_c1 .)
 
 
-state 291
+state 292
 
     (79) exp_lv1_1 -> NOTEQUALTO np_quad_b exp_lv2 np_quad_c1 .
 
@@ -5045,7 +5080,7 @@ state 291
     SUMA            reduce using rule 79 (exp_lv1_1 -> NOTEQUALTO np_quad_b exp_lv2 np_quad_c1 .)
 
 
-state 292
+state 293
 
     (82) exp_lv2 -> exp_lv3 SUMA np_quad_b exp_lv2 np_quad_c2 .
 
@@ -5063,7 +5098,7 @@ state 292
     SUMA            reduce using rule 82 (exp_lv2 -> exp_lv3 SUMA np_quad_b exp_lv2 np_quad_c2 .)
 
 
-state 293
+state 294
 
     (140) np_quad_c2 -> empty .
 
@@ -5081,7 +5116,7 @@ state 293
     SUMA            reduce using rule 140 (np_quad_c2 -> empty .)
 
 
-state 294
+state 295
 
     (83) exp_lv2 -> exp_lv3 SUB np_quad_b exp_lv2 np_quad_c2 .
 
@@ -5099,7 +5134,7 @@ state 294
     SUMA            reduce using rule 83 (exp_lv2 -> exp_lv3 SUB np_quad_b exp_lv2 np_quad_c2 .)
 
 
-state 295
+state 296
 
     (85) exp_lv3 -> exp_lv4 MUL np_quad_b exp_lv3 np_quad_c3 .
 
@@ -5118,7 +5153,7 @@ state 295
     LPAREN          reduce using rule 85 (exp_lv3 -> exp_lv4 MUL np_quad_b exp_lv3 np_quad_c3 .)
 
 
-state 296
+state 297
 
     (141) np_quad_c3 -> empty .
 
@@ -5137,7 +5172,7 @@ state 296
     LPAREN          reduce using rule 141 (np_quad_c3 -> empty .)
 
 
-state 297
+state 298
 
     (86) exp_lv3 -> exp_lv4 DIV np_quad_b exp_lv3 np_quad_c3 .
 
@@ -5156,7 +5191,7 @@ state 297
     LPAREN          reduce using rule 86 (exp_lv3 -> exp_lv4 DIV np_quad_b exp_lv3 np_quad_c3 .)
 
 
-state 298
+state 299
 
     (87) exp_lv3 -> exp_lv4 RESD np_quad_b exp_lv3 np_quad_c3 .
 
@@ -5175,7 +5210,7 @@ state 298
     LPAREN          reduce using rule 87 (exp_lv3 -> exp_lv4 RESD np_quad_b exp_lv3 np_quad_c3 .)
 
 
-state 299
+state 300
 
     (46) writing -> PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO .
 
@@ -5188,18 +5223,18 @@ state 299
     RBRACK          reduce using rule 46 (writing -> PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO .)
 
 
-state 300
+state 301
 
     (50) writing_2 -> expression SUMA np_quad_b writing_1 . np_quad_c2
     (140) np_quad_c2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    RPAREN          reduce using rule 154 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
 
-    np_quad_c2                     shift and go to state 314
-    empty                          shift and go to state 293
+    np_quad_c2                     shift and go to state 315
+    empty                          shift and go to state 294
 
-state 301
+state 302
 
     (51) writing_2 -> CTE_STRING np_quad_a1_str SUMA np_quad_b . writing_1 np_quad_c2
     (47) writing_1 -> . expression
@@ -5241,7 +5276,7 @@ state 301
     CTE_BOO         shift and go to state 146
     CTE_CHAR        shift and go to state 148
 
-    writing_1                      shift and go to state 315
+    writing_1                      shift and go to state 316
     expression                     shift and go to state 194
     writing_2                      shift and go to state 196
     exp_lv1                        shift and go to state 136
@@ -5252,14 +5287,14 @@ state 301
     var_cte                        shift and go to state 142
     method                         shift and go to state 143
 
-state 302
+state 303
 
     (52) condition -> IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes . RBRACK condition_1 np_statutes_a3
 
-    RBRACK          shift and go to state 316
+    RBRACK          shift and go to state 317
 
 
-state 303
+state 304
 
     (59) c_while -> WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK . statutes RBRACK np_statutes_b3
     (38) statutes -> . statutes_1 statutes
@@ -5269,7 +5304,7 @@ state 303
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (154) empty -> .
+    (158) empty -> .
     (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
     (46) writing -> . PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
     (52) condition -> . IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
@@ -5280,10 +5315,10 @@ state 303
     (63) function_call -> . ID LPAREN function_call_1 RPAREN SCOLO
     (59) c_while -> . WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
     (60) c_do -> . DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
-    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> . FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 154 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -5291,7 +5326,7 @@ state 303
     DO              shift and go to state 104
     FOR             shift and go to state 105
 
-    statutes                       shift and go to state 317
+    statutes                       shift and go to state 318
     statutes_1                     shift and go to state 89
     empty                          shift and go to state 90
     assignation                    shift and go to state 91
@@ -5304,7 +5339,7 @@ state 303
     c_for                          shift and go to state 101
     c_forin                        shift and go to state 102
 
-state 304
+state 305
 
     (60) c_do -> DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN . expression RPAREN SCOLO np_statutes_c2
     (70) expression -> . exp_lv1
@@ -5341,7 +5376,7 @@ state 304
     CTE_STRING      shift and go to state 147
     CTE_CHAR        shift and go to state 148
 
-    expression                     shift and go to state 318
+    expression                     shift and go to state 319
     exp_lv1                        shift and go to state 136
     exp_lv2                        shift and go to state 137
     exp_lv3                        shift and go to state 138
@@ -5350,25 +5385,21 @@ state 304
     var_cte                        shift and go to state 142
     method                         shift and go to state 143
 
-state 305
-
-    (45) assignation -> ID . np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
-    (136) np_quad_a2 -> . empty
-    (154) empty -> .
-
-    EQL             reduce using rule 154 (empty -> .)
-
-    np_quad_a2                     shift and go to state 112
-    empty                          shift and go to state 114
-
 state 306
 
-    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation . RPAREN LBRACK statutes RBRACK
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 . SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
 
-    RPAREN          shift and go to state 319
+    SCOLO           shift and go to state 320
 
 
 state 307
+
+    (154) np_statutes_d2 -> empty .
+
+    SCOLO           reduce using rule 154 (np_statutes_d2 -> empty .)
+
+
+state 308
 
     (62) c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK . statutes RBRACK
     (38) statutes -> . statutes_1 statutes
@@ -5378,7 +5409,7 @@ state 307
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (154) empty -> .
+    (158) empty -> .
     (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
     (46) writing -> . PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
     (52) condition -> . IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
@@ -5389,10 +5420,10 @@ state 307
     (63) function_call -> . ID LPAREN function_call_1 RPAREN SCOLO
     (59) c_while -> . WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
     (60) c_do -> . DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
-    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> . FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 154 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -5400,7 +5431,7 @@ state 307
     DO              shift and go to state 104
     FOR             shift and go to state 105
 
-    statutes                       shift and go to state 320
+    statutes                       shift and go to state 321
     statutes_1                     shift and go to state 89
     empty                          shift and go to state 90
     assignation                    shift and go to state 91
@@ -5413,18 +5444,18 @@ state 307
     c_for                          shift and go to state 101
     c_forin                        shift and go to state 102
 
-state 308
+state 309
 
     (98) arrary_access_2 -> LCORCH . arrary_access_1 RCORCH arrary_access_2
     (96) arrary_access_1 -> . CTE_INT
     (97) arrary_access_1 -> . ID
 
-    CTE_INT         shift and go to state 246
-    ID              shift and go to state 247
+    CTE_INT         shift and go to state 247
+    ID              shift and go to state 248
 
-    arrary_access_1                shift and go to state 321
+    arrary_access_1                shift and go to state 322
 
-state 309
+state 310
 
     (95) array_access -> LCORCH arrary_access_1 RCORCH arrary_access_2 .
 
@@ -5446,7 +5477,7 @@ state 309
     LPAREN          reduce using rule 95 (array_access -> LCORCH arrary_access_1 RCORCH arrary_access_2 .)
 
 
-state 310
+state 311
 
     (99) arrary_access_2 -> empty .
 
@@ -5468,7 +5499,7 @@ state 310
     LPAREN          reduce using rule 99 (arrary_access_2 -> empty .)
 
 
-state 311
+state 312
 
     (105) method -> ID DOT method_t LPAREN method_1 RPAREN .
 
@@ -5490,7 +5521,7 @@ state 311
     LPAREN          reduce using rule 105 (method -> ID DOT method_t LPAREN method_1 RPAREN .)
 
 
-state 312
+state 313
 
     (109) method_1_1 -> method_v COMA . method_1_1
     (108) method_1_1 -> . method_v
@@ -5498,141 +5529,143 @@ state 312
     (116) method_v -> . ID
     (117) method_v -> . LBRACK ID COMA ID RBRACK
 
-    ID              shift and go to state 276
-    LBRACK          shift and go to state 281
+    ID              shift and go to state 277
+    LBRACK          shift and go to state 282
 
-    method_v                       shift and go to state 280
-    method_1_1                     shift and go to state 322
+    method_v                       shift and go to state 281
+    method_1_1                     shift and go to state 323
 
-state 313
+state 314
 
     (117) method_v -> LBRACK ID . COMA ID RBRACK
 
-    COMA            shift and go to state 323
+    COMA            shift and go to state 324
 
 
-state 314
+state 315
 
     (50) writing_2 -> expression SUMA np_quad_b writing_1 np_quad_c2 .
 
     RPAREN          reduce using rule 50 (writing_2 -> expression SUMA np_quad_b writing_1 np_quad_c2 .)
 
 
-state 315
+state 316
 
     (51) writing_2 -> CTE_STRING np_quad_a1_str SUMA np_quad_b writing_1 . np_quad_c2
     (140) np_quad_c2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    RPAREN          reduce using rule 154 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
 
-    np_quad_c2                     shift and go to state 324
-    empty                          shift and go to state 293
+    np_quad_c2                     shift and go to state 325
+    empty                          shift and go to state 294
 
-state 316
+state 317
 
     (52) condition -> IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK . condition_1 np_statutes_a3
     (53) condition_1 -> . ELSE np_statutes_a2 LBRACK statutes RBRACK
     (54) condition_1 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ELSE            shift and go to state 326
-    ID              reduce using rule 154 (empty -> .)
-    PRINT           reduce using rule 154 (empty -> .)
-    IF              reduce using rule 154 (empty -> .)
-    WHILE           reduce using rule 154 (empty -> .)
-    DO              reduce using rule 154 (empty -> .)
-    FOR             reduce using rule 154 (empty -> .)
-    RBRACK          reduce using rule 154 (empty -> .)
+    ELSE            shift and go to state 327
+    ID              reduce using rule 158 (empty -> .)
+    PRINT           reduce using rule 158 (empty -> .)
+    IF              reduce using rule 158 (empty -> .)
+    WHILE           reduce using rule 158 (empty -> .)
+    DO              reduce using rule 158 (empty -> .)
+    FOR             reduce using rule 158 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
 
-    condition_1                    shift and go to state 325
-    empty                          shift and go to state 327
-
-state 317
-
-    (59) c_while -> WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes . RBRACK np_statutes_b3
-
-    RBRACK          shift and go to state 328
-
+    condition_1                    shift and go to state 326
+    empty                          shift and go to state 328
 
 state 318
 
-    (60) c_do -> DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression . RPAREN SCOLO np_statutes_c2
+    (59) c_while -> WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes . RBRACK np_statutes_b3
 
-    RPAREN          shift and go to state 329
+    RBRACK          shift and go to state 329
 
 
 state 319
 
-    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN . LBRACK statutes RBRACK
+    (60) c_do -> DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression . RPAREN SCOLO np_statutes_c2
 
-    LBRACK          shift and go to state 330
+    RPAREN          shift and go to state 330
 
 
 state 320
 
-    (62) c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes . RBRACK
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO . assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
+    (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
 
-    RBRACK          shift and go to state 331
+    ID              shift and go to state 331
 
+    assignation                    shift and go to state 332
 
 state 321
 
-    (98) arrary_access_2 -> LCORCH arrary_access_1 . RCORCH arrary_access_2
+    (62) c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes . RBRACK
 
-    RCORCH          shift and go to state 332
+    RBRACK          shift and go to state 333
 
 
 state 322
+
+    (98) arrary_access_2 -> LCORCH arrary_access_1 . RCORCH arrary_access_2
+
+    RCORCH          shift and go to state 334
+
+
+state 323
 
     (109) method_1_1 -> method_v COMA method_1_1 .
 
     RPAREN          reduce using rule 109 (method_1_1 -> method_v COMA method_1_1 .)
 
 
-state 323
+state 324
 
     (117) method_v -> LBRACK ID COMA . ID RBRACK
 
-    ID              shift and go to state 333
+    ID              shift and go to state 335
 
 
-state 324
+state 325
 
     (51) writing_2 -> CTE_STRING np_quad_a1_str SUMA np_quad_b writing_1 np_quad_c2 .
 
     RPAREN          reduce using rule 51 (writing_2 -> CTE_STRING np_quad_a1_str SUMA np_quad_b writing_1 np_quad_c2 .)
 
 
-state 325
+state 326
 
     (52) condition -> IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 . np_statutes_a3
     (147) np_statutes_a3 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
-    PRINT           reduce using rule 154 (empty -> .)
-    IF              reduce using rule 154 (empty -> .)
-    WHILE           reduce using rule 154 (empty -> .)
-    DO              reduce using rule 154 (empty -> .)
-    FOR             reduce using rule 154 (empty -> .)
-    RBRACK          reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    PRINT           reduce using rule 158 (empty -> .)
+    IF              reduce using rule 158 (empty -> .)
+    WHILE           reduce using rule 158 (empty -> .)
+    DO              reduce using rule 158 (empty -> .)
+    FOR             reduce using rule 158 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
 
-    np_statutes_a3                 shift and go to state 334
-    empty                          shift and go to state 335
-
-state 326
-
-    (53) condition_1 -> ELSE . np_statutes_a2 LBRACK statutes RBRACK
-    (146) np_statutes_a2 -> . empty
-    (154) empty -> .
-
-    LBRACK          reduce using rule 154 (empty -> .)
-
-    np_statutes_a2                 shift and go to state 336
+    np_statutes_a3                 shift and go to state 336
     empty                          shift and go to state 337
 
 state 327
+
+    (53) condition_1 -> ELSE . np_statutes_a2 LBRACK statutes RBRACK
+    (146) np_statutes_a2 -> . empty
+    (158) empty -> .
+
+    LBRACK          reduce using rule 158 (empty -> .)
+
+    np_statutes_a2                 shift and go to state 338
+    empty                          shift and go to state 339
+
+state 328
 
     (54) condition_1 -> empty .
 
@@ -5645,76 +5678,53 @@ state 327
     RBRACK          reduce using rule 54 (condition_1 -> empty .)
 
 
-state 328
+state 329
 
     (59) c_while -> WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK . np_statutes_b3
     (150) np_statutes_b3 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
-    PRINT           reduce using rule 154 (empty -> .)
-    IF              reduce using rule 154 (empty -> .)
-    WHILE           reduce using rule 154 (empty -> .)
-    DO              reduce using rule 154 (empty -> .)
-    FOR             reduce using rule 154 (empty -> .)
-    RBRACK          reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    PRINT           reduce using rule 158 (empty -> .)
+    IF              reduce using rule 158 (empty -> .)
+    WHILE           reduce using rule 158 (empty -> .)
+    DO              reduce using rule 158 (empty -> .)
+    FOR             reduce using rule 158 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
 
-    np_statutes_b3                 shift and go to state 338
-    empty                          shift and go to state 339
-
-state 329
-
-    (60) c_do -> DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN . SCOLO np_statutes_c2
-
-    SCOLO           shift and go to state 340
-
+    np_statutes_b3                 shift and go to state 340
+    empty                          shift and go to state 341
 
 state 330
 
-    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK . statutes RBRACK
-    (38) statutes -> . statutes_1 statutes
-    (39) statutes -> . empty
-    (40) statutes_1 -> . assignation
-    (41) statutes_1 -> . writing
-    (42) statutes_1 -> . condition
-    (43) statutes_1 -> . cycle
-    (44) statutes_1 -> . function_call
-    (154) empty -> .
-    (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
-    (46) writing -> . PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
-    (52) condition -> . IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
-    (55) cycle -> . c_while
-    (56) cycle -> . c_do
-    (57) cycle -> . c_for
-    (58) cycle -> . c_forin
-    (63) function_call -> . ID LPAREN function_call_1 RPAREN SCOLO
-    (59) c_while -> . WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
-    (60) c_do -> . DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
-    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
-    (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+    (60) c_do -> DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN . SCOLO np_statutes_c2
 
-    RBRACK          reduce using rule 154 (empty -> .)
-    ID              shift and go to state 96
-    PRINT           shift and go to state 97
-    IF              shift and go to state 98
-    WHILE           shift and go to state 103
-    DO              shift and go to state 104
-    FOR             shift and go to state 105
+    SCOLO           shift and go to state 342
 
-    assignation                    shift and go to state 91
-    statutes                       shift and go to state 341
-    statutes_1                     shift and go to state 89
-    empty                          shift and go to state 90
-    writing                        shift and go to state 92
-    condition                      shift and go to state 93
-    cycle                          shift and go to state 94
-    function_call                  shift and go to state 95
-    c_while                        shift and go to state 99
-    c_do                           shift and go to state 100
-    c_for                          shift and go to state 101
-    c_forin                        shift and go to state 102
 
 state 331
+
+    (45) assignation -> ID . np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
+    (136) np_quad_a2 -> . empty
+    (158) empty -> .
+
+    EQL             reduce using rule 158 (empty -> .)
+
+    np_quad_a2                     shift and go to state 112
+    empty                          shift and go to state 114
+
+state 332
+
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation . np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
+    (155) np_statutes_d3 -> . empty
+    (158) empty -> .
+
+    RPAREN          reduce using rule 158 (empty -> .)
+
+    np_statutes_d3                 shift and go to state 343
+    empty                          shift and go to state 344
+
+state 333
 
     (62) c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK .
 
@@ -5727,42 +5737,42 @@ state 331
     RBRACK          reduce using rule 62 (c_forin -> FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK .)
 
 
-state 332
+state 334
 
     (98) arrary_access_2 -> LCORCH arrary_access_1 RCORCH . arrary_access_2
     (98) arrary_access_2 -> . LCORCH arrary_access_1 RCORCH arrary_access_2
     (99) arrary_access_2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    LCORCH          shift and go to state 308
-    MUL             reduce using rule 154 (empty -> .)
-    DIV             reduce using rule 154 (empty -> .)
-    RESD            reduce using rule 154 (empty -> .)
-    SUMA            reduce using rule 154 (empty -> .)
-    SUB             reduce using rule 154 (empty -> .)
-    LESST           reduce using rule 154 (empty -> .)
-    MORET           reduce using rule 154 (empty -> .)
-    LESSEQUAL       reduce using rule 154 (empty -> .)
-    MOREEQUAL       reduce using rule 154 (empty -> .)
-    EQUALTO         reduce using rule 154 (empty -> .)
-    NOTEQUALTO      reduce using rule 154 (empty -> .)
-    AND             reduce using rule 154 (empty -> .)
-    OR              reduce using rule 154 (empty -> .)
-    SCOLO           reduce using rule 154 (empty -> .)
-    RPAREN          reduce using rule 154 (empty -> .)
-    LPAREN          reduce using rule 154 (empty -> .)
+    LCORCH          shift and go to state 309
+    MUL             reduce using rule 158 (empty -> .)
+    DIV             reduce using rule 158 (empty -> .)
+    RESD            reduce using rule 158 (empty -> .)
+    SUMA            reduce using rule 158 (empty -> .)
+    SUB             reduce using rule 158 (empty -> .)
+    LESST           reduce using rule 158 (empty -> .)
+    MORET           reduce using rule 158 (empty -> .)
+    LESSEQUAL       reduce using rule 158 (empty -> .)
+    MOREEQUAL       reduce using rule 158 (empty -> .)
+    EQUALTO         reduce using rule 158 (empty -> .)
+    NOTEQUALTO      reduce using rule 158 (empty -> .)
+    AND             reduce using rule 158 (empty -> .)
+    OR              reduce using rule 158 (empty -> .)
+    SCOLO           reduce using rule 158 (empty -> .)
+    RPAREN          reduce using rule 158 (empty -> .)
+    LPAREN          reduce using rule 158 (empty -> .)
 
-    arrary_access_2                shift and go to state 342
-    empty                          shift and go to state 310
+    arrary_access_2                shift and go to state 345
+    empty                          shift and go to state 311
 
-state 333
+state 335
 
     (117) method_v -> LBRACK ID COMA ID . RBRACK
 
-    RBRACK          shift and go to state 343
+    RBRACK          shift and go to state 346
 
 
-state 334
+state 336
 
     (52) condition -> IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3 .
 
@@ -5775,7 +5785,7 @@ state 334
     RBRACK          reduce using rule 52 (condition -> IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3 .)
 
 
-state 335
+state 337
 
     (147) np_statutes_a3 -> empty .
 
@@ -5788,21 +5798,21 @@ state 335
     RBRACK          reduce using rule 147 (np_statutes_a3 -> empty .)
 
 
-state 336
+state 338
 
     (53) condition_1 -> ELSE np_statutes_a2 . LBRACK statutes RBRACK
 
-    LBRACK          shift and go to state 344
+    LBRACK          shift and go to state 347
 
 
-state 337
+state 339
 
     (146) np_statutes_a2 -> empty .
 
     LBRACK          reduce using rule 146 (np_statutes_a2 -> empty .)
 
 
-state 338
+state 340
 
     (59) c_while -> WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3 .
 
@@ -5815,7 +5825,7 @@ state 338
     RBRACK          reduce using rule 59 (c_while -> WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3 .)
 
 
-state 339
+state 341
 
     (150) np_statutes_b3 -> empty .
 
@@ -5828,31 +5838,38 @@ state 339
     RBRACK          reduce using rule 150 (np_statutes_b3 -> empty .)
 
 
-state 340
+state 342
 
     (60) c_do -> DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO . np_statutes_c2
     (152) np_statutes_c2 -> . empty
-    (154) empty -> .
+    (158) empty -> .
 
-    ID              reduce using rule 154 (empty -> .)
-    PRINT           reduce using rule 154 (empty -> .)
-    IF              reduce using rule 154 (empty -> .)
-    WHILE           reduce using rule 154 (empty -> .)
-    DO              reduce using rule 154 (empty -> .)
-    FOR             reduce using rule 154 (empty -> .)
-    RBRACK          reduce using rule 154 (empty -> .)
+    ID              reduce using rule 158 (empty -> .)
+    PRINT           reduce using rule 158 (empty -> .)
+    IF              reduce using rule 158 (empty -> .)
+    WHILE           reduce using rule 158 (empty -> .)
+    DO              reduce using rule 158 (empty -> .)
+    FOR             reduce using rule 158 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
 
-    np_statutes_c2                 shift and go to state 345
-    empty                          shift and go to state 346
+    np_statutes_c2                 shift and go to state 348
+    empty                          shift and go to state 349
 
-state 341
+state 343
 
-    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes . RBRACK
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 . RPAREN LBRACK statutes RBRACK np_statutes_d4
 
-    RBRACK          shift and go to state 347
+    RPAREN          shift and go to state 350
 
 
-state 342
+state 344
+
+    (155) np_statutes_d3 -> empty .
+
+    RPAREN          reduce using rule 155 (np_statutes_d3 -> empty .)
+
+
+state 345
 
     (98) arrary_access_2 -> LCORCH arrary_access_1 RCORCH arrary_access_2 .
 
@@ -5874,7 +5891,7 @@ state 342
     LPAREN          reduce using rule 98 (arrary_access_2 -> LCORCH arrary_access_1 RCORCH arrary_access_2 .)
 
 
-state 343
+state 346
 
     (117) method_v -> LBRACK ID COMA ID RBRACK .
 
@@ -5882,7 +5899,7 @@ state 343
     RPAREN          reduce using rule 117 (method_v -> LBRACK ID COMA ID RBRACK .)
 
 
-state 344
+state 347
 
     (53) condition_1 -> ELSE np_statutes_a2 LBRACK . statutes RBRACK
     (38) statutes -> . statutes_1 statutes
@@ -5892,7 +5909,7 @@ state 344
     (42) statutes_1 -> . condition
     (43) statutes_1 -> . cycle
     (44) statutes_1 -> . function_call
-    (154) empty -> .
+    (158) empty -> .
     (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
     (46) writing -> . PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
     (52) condition -> . IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
@@ -5903,10 +5920,10 @@ state 344
     (63) function_call -> . ID LPAREN function_call_1 RPAREN SCOLO
     (59) c_while -> . WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
     (60) c_do -> . DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
-    (61) c_for -> . FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK
+    (61) c_for -> . FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
     (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
 
-    RBRACK          reduce using rule 154 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
     ID              shift and go to state 96
     PRINT           shift and go to state 97
     IF              shift and go to state 98
@@ -5914,7 +5931,7 @@ state 344
     DO              shift and go to state 104
     FOR             shift and go to state 105
 
-    statutes                       shift and go to state 348
+    statutes                       shift and go to state 351
     statutes_1                     shift and go to state 89
     empty                          shift and go to state 90
     assignation                    shift and go to state 91
@@ -5927,7 +5944,7 @@ state 344
     c_for                          shift and go to state 101
     c_forin                        shift and go to state 102
 
-state 345
+state 348
 
     (60) c_do -> DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2 .
 
@@ -5940,7 +5957,7 @@ state 345
     RBRACK          reduce using rule 60 (c_do -> DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2 .)
 
 
-state 346
+state 349
 
     (152) np_statutes_c2 -> empty .
 
@@ -5953,27 +5970,66 @@ state 346
     RBRACK          reduce using rule 152 (np_statutes_c2 -> empty .)
 
 
-state 347
+state 350
 
-    (61) c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN . LBRACK statutes RBRACK np_statutes_d4
 
-    ID              reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
-    PRINT           reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
-    IF              reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
-    WHILE           reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
-    DO              reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
-    FOR             reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
-    RBRACK          reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO expression SCOLO assignation RPAREN LBRACK statutes RBRACK .)
+    LBRACK          shift and go to state 352
 
 
-state 348
+state 351
 
     (53) condition_1 -> ELSE np_statutes_a2 LBRACK statutes . RBRACK
 
-    RBRACK          shift and go to state 349
+    RBRACK          shift and go to state 353
 
 
-state 349
+state 352
+
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK . statutes RBRACK np_statutes_d4
+    (38) statutes -> . statutes_1 statutes
+    (39) statutes -> . empty
+    (40) statutes_1 -> . assignation
+    (41) statutes_1 -> . writing
+    (42) statutes_1 -> . condition
+    (43) statutes_1 -> . cycle
+    (44) statutes_1 -> . function_call
+    (158) empty -> .
+    (45) assignation -> . ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
+    (46) writing -> . PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO
+    (52) condition -> . IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3
+    (55) cycle -> . c_while
+    (56) cycle -> . c_do
+    (57) cycle -> . c_for
+    (58) cycle -> . c_forin
+    (63) function_call -> . ID LPAREN function_call_1 RPAREN SCOLO
+    (59) c_while -> . WHILE np_statutes_b1 LPAREN expression RPAREN np_statutes_b2 LBRACK statutes RBRACK np_statutes_b3
+    (60) c_do -> . DO np_statutes_c1 LBRACK statutes RBRACK WHILE LPAREN expression RPAREN SCOLO np_statutes_c2
+    (61) c_for -> . FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4
+    (62) c_forin -> . FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK
+
+    RBRACK          reduce using rule 158 (empty -> .)
+    ID              shift and go to state 96
+    PRINT           shift and go to state 97
+    IF              shift and go to state 98
+    WHILE           shift and go to state 103
+    DO              shift and go to state 104
+    FOR             shift and go to state 105
+
+    assignation                    shift and go to state 91
+    statutes                       shift and go to state 354
+    statutes_1                     shift and go to state 89
+    empty                          shift and go to state 90
+    writing                        shift and go to state 92
+    condition                      shift and go to state 93
+    cycle                          shift and go to state 94
+    function_call                  shift and go to state 95
+    c_while                        shift and go to state 99
+    c_do                           shift and go to state 100
+    c_for                          shift and go to state 101
+    c_forin                        shift and go to state 102
+
+state 353
 
     (53) condition_1 -> ELSE np_statutes_a2 LBRACK statutes RBRACK .
 
@@ -5984,6 +6040,56 @@ state 349
     DO              reduce using rule 53 (condition_1 -> ELSE np_statutes_a2 LBRACK statutes RBRACK .)
     FOR             reduce using rule 53 (condition_1 -> ELSE np_statutes_a2 LBRACK statutes RBRACK .)
     RBRACK          reduce using rule 53 (condition_1 -> ELSE np_statutes_a2 LBRACK statutes RBRACK .)
+
+
+state 354
+
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes . RBRACK np_statutes_d4
+
+    RBRACK          shift and go to state 355
+
+
+state 355
+
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK . np_statutes_d4
+    (156) np_statutes_d4 -> . empty
+    (158) empty -> .
+
+    ID              reduce using rule 158 (empty -> .)
+    PRINT           reduce using rule 158 (empty -> .)
+    IF              reduce using rule 158 (empty -> .)
+    WHILE           reduce using rule 158 (empty -> .)
+    DO              reduce using rule 158 (empty -> .)
+    FOR             reduce using rule 158 (empty -> .)
+    RBRACK          reduce using rule 158 (empty -> .)
+
+    np_statutes_d4                 shift and go to state 356
+    empty                          shift and go to state 357
+
+state 356
+
+    (61) c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4 .
+
+    ID              reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4 .)
+    PRINT           reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4 .)
+    IF              reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4 .)
+    WHILE           reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4 .)
+    DO              reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4 .)
+    FOR             reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4 .)
+    RBRACK          reduce using rule 61 (c_for -> FOR LPAREN ID SCOLO np_statutes_d1 expression np_statutes_d2 SCOLO assignation np_statutes_d3 RPAREN LBRACK statutes RBRACK np_statutes_d4 .)
+
+
+state 357
+
+    (156) np_statutes_d4 -> empty .
+
+    ID              reduce using rule 156 (np_statutes_d4 -> empty .)
+    PRINT           reduce using rule 156 (np_statutes_d4 -> empty .)
+    IF              reduce using rule 156 (np_statutes_d4 -> empty .)
+    WHILE           reduce using rule 156 (np_statutes_d4 -> empty .)
+    DO              reduce using rule 156 (np_statutes_d4 -> empty .)
+    FOR             reduce using rule 156 (np_statutes_d4 -> empty .)
+    RBRACK          reduce using rule 156 (np_statutes_d4 -> empty .)
 
 WARNING: 
 WARNING: Conflicts:
