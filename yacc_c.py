@@ -6,6 +6,7 @@ from tables import Tables
 from oracle import consult
 from memory import Memory
 from algorithmQuadruple import Algorithm_Quadruple
+import sys
 
 
 global_mem   = Memory(1)
@@ -632,8 +633,7 @@ def p_np_quad_c0(t):
             alg_quad.push_operand(n_temp)
             alg_quad.push_type(n_type)
         else:
-            print ('ERROR: type mismatch');
-            p_error(t)
+            sys.exit("ERROR: type mismatch")
 
 
 def p_np_quad_c1(t):
@@ -668,8 +668,7 @@ def p_np_quad_c1(t):
             alg_quad.push_operand(n_temp)
             alg_quad.push_type(n_type)
         else:
-            print ('ERROR: type mismatch');
-            p_error(t)
+            sys.exit("ERROR: type mismatch")
 
 def p_np_quad_c2(t):
     'np_quad_c2 : empty'
@@ -698,8 +697,7 @@ def p_np_quad_c2(t):
             alg_quad.push_operand(n_temp)
             alg_quad.push_type(n_type)
         else:
-            print ('ERROR: type mismatch');
-            p_error(t)
+            sys.exit("ERROR: type mismatch")
 
 
 def p_np_quad_c3(t):
@@ -726,8 +724,7 @@ def p_np_quad_c3(t):
             alg_quad.push_operand(n_temp)
             alg_quad.push_type(n_type)
         else:
-            print ('ERROR: type mismatch');
-            p_error(t)
+            sys.exit("ERROR: type mismatch")
 
 def p_np_quad_c4(t):
     'np_quad_c4 : empty'
@@ -753,8 +750,7 @@ def p_np_quad_c4(t):
             alg_quad.push_operand(n_temp)
             alg_quad.push_type(n_type)
         else:
-            print ('ERROR: type mismatch');
-            p_error(t)
+            sys.exit("ERROR: type mismatch")
 
 #---------------------------- p r i n t    q u a d -----------------------------
 def p_np_quad_print(t):
@@ -813,8 +809,7 @@ def p_np_quad_assign(t):
             alg_quad.add_quadruple(op, operand_left, "", operand_right)
             # Change the "memory ID" of the left operand with the memory ID of the right operand
         else:
-            print ('ERROR: type mismatch');
-            p_error(t)
+            sys.exit("ERROR: type mismatch")
 
 ####################### J U M P S   I N   S T A T U T E S ######################
 #---------------------------- i f    -    e l s e ------------------------------
@@ -833,7 +828,7 @@ def p_np_statutes_a1(t):
         alg_quad.add_quadruple('GOTOF', aux_exp, '', '');
     # The type is not boolean, there is an error
     else:
-        print ('ERROR: Type mismatch in IF statement');
+      sys.exit("ERROR: Type mismatch in IF statement")
 
 def p_np_statutes_a2(t):
     'np_statutes_a2 : empty'
@@ -871,7 +866,7 @@ def p_np_statutes_b2(t):
         alg_quad.add_quadruple('GOTOF', aux_exp, '', '')
     # There is a type mismatch with the statement
     else:
-        print ('ERROR: Type mismatch in WHILE statement');
+        sys.exit("ERROR: Type mismatch in WHILE statement")
 
 def p_np_statutes_b3(t):
     'np_statutes_b3 : empty'
@@ -899,7 +894,7 @@ def p_np_statutes_c2(t):
         alg_quad.add_quadruple('GOTOV', aux_exp, '', aux_jump)
     # There is a type mismatch with the statement
     else:
-        print ('ERROR: Type mismatch in DO-WHILE statement');
+        sys.exit("ERROR: Type mismatch in DO-WHILE statement")
 
 #----------------------------------- f o r -------------------------------------
 
@@ -928,7 +923,7 @@ def p_empty(p):
     pass
 
 def p_error(t):
-    print("Ending program due to errors")
+    sys.exit("Ending program due to errors")
 
 
 # Used in MAIN, reads the data from the command line

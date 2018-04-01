@@ -1,0 +1,9 @@
+program cats;
+
+var int myGlobalInt;
+
+main ()
+{
+	var int myMainInt;
+	myMainInt = True + True;
+}
