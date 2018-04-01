@@ -17,7 +17,7 @@ class Algorithm_Quadruple:
 
 
     def fill_jump(self, quad_location):
-        self.lst_quadruples[quad_location].result = instruction_pointer
+        self.lst_quadruples[quad_location].result = self.instruction_pointer
 
     def next_avail(self):
         self.avail += 1
@@ -26,8 +26,11 @@ class Algorithm_Quadruple:
     # .print method
     # prints the value of the specified variable
     def print_quadruples(self):
+        counter = 0
         for quad in self.lst_quadruples:
-            quad.print_quadruple();
+            print("[Quadruple #" + str(counter) + "]")
+            quad.print_quadruple()
+            counter = counter + 1
 
     def print_jumps(self):
         for jump in self.s_jump:

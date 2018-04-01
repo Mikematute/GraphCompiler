@@ -256,10 +256,10 @@ def p_writing_2(t):
                  | CTE_STRING np_quad_a1_str SUMA np_quad_b writing_1 np_quad_c2'''
 #------------------------------ c o n d i t i o n ------------------------------
 def p_condition(t):
-    'condition : IF LPAREN expression RPAREN LBRACK statutes RBRACK condition_1'
+    'condition : IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3'
 
 def p_condition_1(t):
-    '''condition_1 : ELSE LBRACK statutes RBRACK
+    '''condition_1 : ELSE np_statutes_a2 LBRACK statutes RBRACK
                    | empty'''
 #--------------------------------- c y c l e -----------------------------------
 def p_cycle(t):
@@ -816,7 +816,44 @@ def p_np_quad_assign(t):
             print ('ERROR: type mismatch');
             p_error(t)
 
+####################### J U M P S   I N   S T A T U T E S ######################
+#---------------------------- i f    -    e l s e ------------------------------
+def p_np_statutes_a1(t):
+    'np_statutes_a1 : empty'
+    # Store the type previously obtained from the expression
+    aux_type = alg_quad.peek_type()
+    # If the type is boolean, then continue
+    if aux_type == type_conv.get('bool'):
+        # Pop the type and expression to make the quadruple
+        aux_type = alg_quad.pop_type()
+        aux_exp = alg_quad.pop_operand()
+        # Add the IP to the "jump stack"
+        alg_quad.push_jump(alg_quad.instruction_pointer)
+        # Create a cuadruple with an empty GOTOF jump
+        alg_quad.add_quadruple('GOTOF', aux_exp, '', '');
+    # The type is not boolean, there is an error
+    else:
+        print ('ERROR: Type mismatch in IF statement');
 
+def p_np_statutes_a2(t):
+    'np_statutes_a2 : empty'
+    # When the IF statement is true, then we need to skip the ELSE section
+    aux_jump = alg_quad.instruction_pointer
+    alg_quad.add_quadruple('GOTO', '', '', '')
+    # When the IF statement is false, we need to go back to fill the pending quadruple
+    pending_jump = alg_quad.pop_jump()
+    alg_quad.fill_jump(pending_jump)
+    # Add the IP that has the  GOTO quadruple, previously generated
+    alg_quad.push_jump(aux_jump)
+
+def p_np_statutes_a3 (t):
+    'np_statutes_a3 : empty'
+    pending_jump = alg_quad.pop_jump()
+    alg_quad.fill_jump(pending_jump)
+
+#--------------------------------- w h i l e -----------------------------------
+#------------------------------ d o   w h i l e --------------------------------
+#----------------------------------- f o r -------------------------------------
 
 ################################################################################
 #                                 O T H E R S                                  #
@@ -844,7 +881,7 @@ def p_empty(p):
 
 def p_error(t):
     print("Ending program due to errors")
-    
+
 
 # Used in MAIN, reads the data from the command line
 def read_from_console():

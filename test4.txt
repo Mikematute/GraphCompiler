@@ -1,0 +1,19 @@
+program cats;
+
+var int myGlobalInt;
+
+main ()
+{
+	var int myIntA, myIntB;
+	
+	if (True) 
+	{
+		myIntA = 5 * 9;	
+	}
+	else
+	{
+		myIntB = 10 + 5 * 2;
+	}
+	
+	myIntA = 10;
+}
