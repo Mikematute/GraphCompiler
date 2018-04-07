@@ -19,6 +19,21 @@ class Memory:
 		self.directed_cont = start + 7000
 		self.undirected_cont = start + 8000
 
+	def used_mem(self):
+		# get the starting number for the meory and substract it to the current memory coutners
+		counters = {}
+		start = self.mem_id * 10000
+		counters[0] = self.int_cont - start
+		counters[1] = self.float_cont - start - 1000
+		counters[2] = self.char_cont - start - 2000
+		counters[3] = self.string_cont - start - 3000
+		counters[4] = self.bool_cont - start - 4000
+		counters[5] = self.nodes_cont - start - 5000
+		counters[6] = self.arc_cont - start - 6000
+		counters[7] = self.directed_cont - start - 7000
+		counters[8] = self.undirected_cont - start - 8000
+		return counters
+
 	def reset_cont(self):
 	    # All cont to 0
 		start = self.mem_id * 10000

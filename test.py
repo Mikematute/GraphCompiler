@@ -86,7 +86,7 @@ print()
 '''
 
 #------------------------- Test Mike Shananigans ---------------------------
-operand_conv = { '+': 0,
+'''operand_conv = { '+': 0,
                   '-': 1,
                   '*': 2,
                   '/': 3,
@@ -103,4 +103,16 @@ operand_conv = { '+': 0,
                   '!': 14}
 
 current_operand = operand_conv.get('<')
-print(current_operand)
+print(current_operand)'''
+from memory import Memory
+global_mem   = Memory(1)
+
+dummy = global_mem.get_counter_id("int")
+dummy = global_mem.get_counter_id("int")
+dummy = global_mem.get_counter_id("int")
+dummy = global_mem.get_counter_id("int")
+dummy = global_mem.get_counter_id("undirected")
+dummy = global_mem.get_counter_id("undirected")
+dummy = global_mem.get_counter_id("directed")
+
+print(global_mem.used_mem())
