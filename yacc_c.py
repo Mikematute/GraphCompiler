@@ -197,7 +197,7 @@ def p_function_v1(t):
                    | type np_var_b4 ID np_var_b5 array_declare COMA function_v1'''
 #################################### B O D Y ###################################
 def p_body(t):
-    'body : MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK debug np_var_c3'
+    'body : MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK np_eof debug np_var_c3'
 #################################### T Y P E ###################################
 def p_type(t):
     '''type : t_number
@@ -459,6 +459,8 @@ def p_np_var_b6(t):
     globalVars.delete_dir(globalVars.currentContext)
     # Reset the "memory ID counter" from the "local memory"
     local_mem.reset_cont()
+    # We also need to add the end of the function quadruple.
+    alg_quad.add_quadruple('RETURN', '', '', '')
 
 #---------------------------------- m a i n ------------------------------------
 def p_np_var_c1(t):
@@ -968,6 +970,12 @@ def p_debug(t):
     print("###### stack operands ######")
     alg_quad.print_operands()
     print("\n" + "END OF DEBBUGGER" + "\n");
+
+def p_np_eof(t):
+    'np_eof : empty'
+    # Since this is the end of our progrm, we need to run several commands to finilize everything.
+    # create an 'end' quadruple
+    alg_quad.add_quadruple('END', '', '', '')
 
 def p_empty(p):
     'empty :'
