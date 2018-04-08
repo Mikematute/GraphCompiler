@@ -459,6 +459,8 @@ def p_np_var_b6(t):
     globalVars.delete_dir(globalVars.currentContext)
     # Reset the "memory ID counter" from the "local memory"
     local_mem.reset_cont()
+    # Reseting the "memory ID counter" from "temporal memory"
+    temporal_mem.reset_cont()
     # We also need to add the end of the function quadruple.
     alg_quad.add_quadruple('RETURN', '', '', '')
 
@@ -976,6 +978,11 @@ def p_np_eof(t):
     # Since this is the end of our progrm, we need to run several commands to finilize everything.
     # create an 'end' quadruple
     alg_quad.add_quadruple('END', '', '', '')
+     # Reset the "memory ID counter" from the "local memory"
+    local_mem.reset_cont()
+    # Reseting the "memory ID counter" from "temporal memory"
+    temporal_mem.reset_cont()
+    
 
 def p_empty(p):
     'empty :'
