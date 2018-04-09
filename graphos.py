@@ -998,17 +998,30 @@ def p_np_gosub(t):
     # Program is ready to be executed. We create a GOSUB with the name
     function_aux = alg_quad.pop_function()
     alg_quad.add_quadruple('GOSUB', function_aux, '', '')
+    alg_quad.param_counter = 0
 
 def p_np_param(t):
     'np_param : empty'
-    # Update the "parameters" counter in the Algorithm_Quadruple
-    alg_quad.parameters = 1 + alg_quad.parameters
     # Retrieve the memory location of the specified parameter
-    parameter = "foo"
-    # Create
-    argument_number = "param" + globalVars.
-    alg_quad.add_quadruple('PARAM', parameter, '', argument_number)
-
+    parameter = alg_quad.pop_operand()
+    # Retrieve the type of the specified parameter
+    type_param = alg_quad.pop_type()
+    # Retrieve the ID of the function being called
+    function_name = alg_quad.peek_function()
+    # Check that the parameter counter is below the amount of parameters declared
+    if alg_quad.param_counter < globalVars.table_functions[function_name].get_parameter_size():
+        # Check that the parameter sent will match with the type stored in the table
+        type_function = type_conv.get(globalVars.table_functions[function_name].parameters[alg_quad.param_counter])
+        if type_param == type_function:
+            # Create the counter
+            argument_number = "param" + str(alg_quad.param_counter)
+            alg_quad.add_quadruple('PARAM', parameter, '', argument_number)
+            # Update the "parameters" counter in the Algorithm_Quadruple
+            alg_quad.param_counter = 1 + alg_quad.param_counter
+        else:
+            print('ERROR: Type mismatch in arguments on function call <{0}>'.format(function_name))
+    else:
+        print('ERROR: Too many arguments on function call <{0}>. Ignoring the remaining arguments'.format(function_name))
 
 ################################################################################
 #                                 O T H E R S                                  #

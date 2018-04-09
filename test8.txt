@@ -4,5 +4,6 @@ void myFunction1 () { }
 int myFunction2 (int iVar1, float fVar2) { }
 
 main () {
-  myFunction2 ("hey");
+  var float myFloat;
+  myFunction2 (8 + 9, myFloat, "hey");
 }

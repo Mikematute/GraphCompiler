@@ -187,7 +187,7 @@ _lr_productions = [
   ('np_era -> empty','np_era',1,'p_np_era','graphos.py',971),
   ('np_gosub -> empty','np_gosub',1,'p_np_gosub','graphos.py',997),
   ('np_param -> empty','np_param',1,'p_np_param','graphos.py',1003),
-  ('debug -> empty','debug',1,'p_debug','graphos.py',1013),
-  ('np_eof -> empty','np_eof',1,'p_np_eof','graphos.py',1030),
-  ('empty -> <empty>','empty',0,'p_empty','graphos.py',1041),
+  ('debug -> empty','debug',1,'p_debug','graphos.py',1017),
+  ('np_eof -> empty','np_eof',1,'p_np_eof','graphos.py',1034),
+  ('empty -> <empty>','empty',0,'p_empty','graphos.py',1045),
 ]
