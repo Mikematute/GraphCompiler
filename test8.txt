@@ -1,0 +1,1 @@
+program cats; void myFunction1 () { } int myFunction2 (int iVar1) { } main () { }

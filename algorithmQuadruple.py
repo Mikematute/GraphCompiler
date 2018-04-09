@@ -8,6 +8,7 @@ class Algorithm_Quadruple:
         self.s_operator = []
         self.s_operand = []
         self.s_type = []
+        self.s_function = []
         self.avail = -1
 
     def add_quadruple(self, op, el1, el2, res):
@@ -52,6 +53,11 @@ class Algorithm_Quadruple:
             print(str(type) + " ", end='')
         print()
 
+    def print_functions(self):
+        for type in self.s_function:
+            print(str(type) + " ", end='')
+        print()
+
 
     # .push method
     # pushes the 'var' into the specified stack
@@ -67,6 +73,9 @@ class Algorithm_Quadruple:
     def push_type(self, var):
         self.s_type.append(var)
 
+    def push_function(self, var):
+        self.s_function.append(var)
+
     # .pop method
     # pops the first element form the specified stack
     def pop_jump(self):
@@ -80,6 +89,9 @@ class Algorithm_Quadruple:
 
     def pop_type(self):
         return self.s_type.pop()
+
+    def pop_function(self):
+        return self.s_function.pop()
 
     # .peek method
     # returns the first element from the specified stack without poping it
@@ -104,5 +116,11 @@ class Algorithm_Quadruple:
     def peek_type(self):
         if self.s_type:
             return self.s_type[-1]
+        else:
+            return -1
+
+    def peek_function(self):
+        if self.s_function:
+            return self.s_function[-1]
         else:
             return -1

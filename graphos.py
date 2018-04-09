@@ -282,7 +282,7 @@ def p_c_forin(t):
     'c_forin : FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK'
 #------------------------- f u n c t i o n _ c a l l ---------------------------
 def p_function_call(t):
-    'function_call : ID LPAREN function_call_1 RPAREN SCOLO'
+    'function_call : ID np_era LPAREN function_call_1 RPAREN np_gosub SCOLO'
 
 def p_function_call_1(t):
     '''function_call_1 : function_call_2
@@ -956,6 +956,42 @@ def p_np_statutes_d4(t):
     alg_quad.add_quadruple('GOTO', '', '', assig_jump)
     #since now we now the end of the for, we can fill the gotof jump
     alg_quad.fill_jump(gotof_jump)
+
+################################################################################
+#                               F U N C T I O N                                #
+################################################################################
+def p_np_era(t):
+    'np_era : empty'
+    # Grab the current ID and verify if it is declared as a function. 
+    function_aux = t[-1]
+    if function_aux in globalVars.table_functions:
+      # If true, we save in the stack and create an ERA call
+      alg_quad.push_function(function_aux)
+      alg_quad.add_quadruple('ERA', function_aux, '', '')
+    else:
+      # else we kill
+      print("\n" + "START DEBUGGER" + "\n");
+      time.sleep(1.5);
+      print("######## Tables ########")
+      globalVars.print_tables()
+      print()
+      print("###### Quadruples ######")
+      alg_quad.print_quadruples()
+      print()
+      print("###### stack operators ######")
+      alg_quad.print_operators()
+      print()
+      print("###### stack operands ######")
+      alg_quad.print_operands()
+      print("\n" + "END OF DEBBUGGER" + "\n");
+      sys.exit("ERROR:  Function call to <" + str(function_aux) + "> does not exist")
+
+def p_np_gosub(t):
+    'np_gosub : empty'
+    # Program is ready to be executed. We create a GOSUB with the name 
+    function_aux = alg_quad.pop_function()
+    alg_quad.add_quadruple('GOSUB', function_aux, '', '')
+
 
 ################################################################################
 #                                 O T H E R S                                  #
