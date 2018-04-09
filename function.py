@@ -19,8 +19,7 @@ class Function:
         self.vars_table = {}
 
     def add_var(self, var_ID, var_type, var_direction):
-        aux_var = Variable(var_ID, var_type, var_direction)
-        self.vars_table[var_ID] = {'details' : aux_var}
+        self.vars_table[var_ID] = Variable(var_ID, var_type, var_direction)
         self.variables = len(self.vars_table)
 
     def add_parameter(self, type):
@@ -43,5 +42,5 @@ class Function:
         print("VARS TABLE:")
         print('{0:20} {1:10} {2:10}'.format("ID", "TYPE", "DIRECTION"))
         for variable in self.vars_table:
-            variable_details = self.vars_table[variable]['details']
+            variable_details = self.vars_table[variable]
             variable_details.print_variable()

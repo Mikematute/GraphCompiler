@@ -103,7 +103,9 @@ print()
                   '!': 14}
 
 current_operand = operand_conv.get('<')
-print(current_operand)'''
+print(current_operand)
+'''
+'''
 from memory import Memory
 global_mem   = Memory(1)
 
@@ -116,3 +118,45 @@ dummy = global_mem.get_counter_id("undirected")
 dummy = global_mem.get_counter_id("directed")
 
 print(global_mem.used_mem())
+'''
+#----------------------------- Test function tables ----------------------------
+from table import Table
+my_table = Table()
+my_table.global_context = "cats"
+my_table.current_context = "cats"
+my_table.aux_type = "void"
+my_table.add_dir()
+my_table.aux_ID = "my_global1"
+my_table.aux_type = "int"
+my_table.add_var(1001)
+my_table.aux_ID = "my_global2"
+my_table.aux_type = "int"
+my_table.add_var(1002)
+my_table.aux_ID = "my_global3"
+my_table.aux_type = "int"
+my_table.add_var(1003)
+
+my_table.current_context = "my_function"
+my_table.aux_type = "double"
+my_table.add_dir()
+my_table.aux_ID = "my_local1"
+my_table.aux_type = "float"
+my_table.add_var(2001)
+my_table.aux_ID = "my_local2"
+my_table.aux_type = "double"
+my_table.add_var(2002)
+my_table.aux_ID = "my_local3"
+my_table.aux_type = "bool"
+my_table.add_var(2003)
+
+my_table.current_context = "main"
+my_table.aux_type = "void"
+my_table.add_dir()
+my_table.aux_ID = "hello"
+my_table.aux_type = "char"
+my_table.add_var(3001)
+my_table.aux_ID = "there"
+my_table.aux_type = "string"
+my_table.add_var(3002)
+
+my_table.print_tables()
