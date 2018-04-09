@@ -9,6 +9,7 @@ class Algorithm_Quadruple:
         self.s_operand = []
         self.s_type = []
         self.s_function = []
+        self.parameters = 0
         self.avail = -1
 
     def add_quadruple(self, op, el1, el2, res):

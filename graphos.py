@@ -285,14 +285,14 @@ def p_function_call(t):
     'function_call : ID np_era LPAREN function_call_1 RPAREN np_gosub SCOLO'
 
 def p_function_call_1(t):
-    '''function_call_1 : function_call_2
-                       | empty'''
+    '''function_call_1 : empty
+                       | function_call_2'''
 
 def p_function_call_2(t):
-    '''function_call_2 : expression
-                       | ID
-                       | expression SCOLO function_call_2
-                       | ID SCOLO function_call_2'''
+    '''function_call_2 : expression np_param
+                       | ID np_param
+                       | expression np_param COMA function_call_2
+                       | ID np_param COMA function_call_2'''
 
 ############################## E X P R E S S I O N #############################
 def p_expression(t):
@@ -427,7 +427,8 @@ def p_np_var_b3(t):
 def p_np_var_b4(t):
     'np_var_b4 : empty'
     # Saves the variable type
-    globalVars.aux_type = t[-1];
+    #globalVars.aux_type = t[-1];
+
 
 def p_np_var_b5(t):
     'np_var_b5 : empty'
@@ -446,6 +447,8 @@ def p_np_var_b5(t):
 
             # Adds a new entry to the table
             globalVars.add_var(temp_memID);
+            # Adds the variable type to the parameters table
+            globalVars.table_functions[globalVars.current_context].add_parameter(globalVars.aux_type)
         else:
             print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.aux_ID, globalVars.current_context));
             p_error(t)
@@ -456,7 +459,7 @@ def p_np_var_b5(t):
 def p_np_var_b6(t):
     'np_var_b6 : empty'
     # Erease the current vars-table
-    globalVars.delete_dir(globalVars.current_context)
+    #globalVars.delete_dir(globalVars.current_context)
     # Reset the "memory ID counter" from the "local memory"
     local_mem.reset_cont()
     # Reseting the "memory ID counter" from "temporal memory"
@@ -960,9 +963,13 @@ def p_np_statutes_d4(t):
 ################################################################################
 #                               F U N C T I O N                                #
 ################################################################################
+def p_np_debug(t):
+    'np_debug : empty'
+    print("Hello there")
+
 def p_np_era(t):
     'np_era : empty'
-    # Grab the current ID and verify if it is declared as a function. 
+    # Grab the current ID and verify if it is declared as a function.
     function_aux = t[-1]
     if function_aux in globalVars.table_functions:
       # If true, we save in the stack and create an ERA call
@@ -988,9 +995,15 @@ def p_np_era(t):
 
 def p_np_gosub(t):
     'np_gosub : empty'
-    # Program is ready to be executed. We create a GOSUB with the name 
+    # Program is ready to be executed. We create a GOSUB with the name
     function_aux = alg_quad.pop_function()
     alg_quad.add_quadruple('GOSUB', function_aux, '', '')
+
+def p_np_param(t):
+    'np_param : empty'
+    parameter = "foo"
+    argument_number = "param1"
+    alg_quad.add_quadruple('PARAM', parameter, '', argument_number)
 
 
 ################################################################################

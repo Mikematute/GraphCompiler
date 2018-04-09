@@ -9,4 +9,4 @@ class Variable:
         self.direction = var_direction
 
     def print_variable(self):
-        print('{0:20} {1:10} {2:10}'.format(self.id, self.type, self.direction))
+        print('{0:20} {1:10} {2:10}'.format(str(self.id), str(self.type), str(self.direction)))
