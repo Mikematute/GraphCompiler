@@ -2,7 +2,7 @@
 #                         G L O B A L  H A N D L E R S                         #
 ################################################################################
 
-from table import Table
+from tables import Tables
 from oracle import consult
 from memory import Memory
 from algorithmQuadruple import Algorithm_Quadruple
@@ -13,7 +13,7 @@ global_mem   = Memory(1)
 local_mem    = Memory(2)
 temporal_mem = Memory(3)
 constant_mem = Memory(4)
-globalVars   = Table()
+globalVars   = Tables()
 alg_quad     = Algorithm_Quadruple()
 
 operator_conv = { '+'   : 0,
@@ -160,7 +160,7 @@ import time
 
 ################################ P R O G R A M ################################
 def p_program(t):
-    'program : PROGRAM ID np_var_a1 SCOLO np_var_a2 vars np_goto_main function body'
+    'program : PROGRAM ID np_var_a1 SCOLO np_var_a2 vars function body'
 ################################### V A R S ####################################
 def p_vars(t):
     '''vars : VAR type vars_1 SCOLO vars
@@ -282,17 +282,17 @@ def p_c_forin(t):
     'c_forin : FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK'
 #------------------------- f u n c t i o n _ c a l l ---------------------------
 def p_function_call(t):
-    'function_call : ID np_era LPAREN function_call_1 RPAREN np_gosub SCOLO'
+    'function_call : ID LPAREN function_call_1 RPAREN SCOLO'
 
 def p_function_call_1(t):
-    '''function_call_1 : empty
-                       | function_call_2'''
+    '''function_call_1 : function_call_2
+                       | empty'''
 
 def p_function_call_2(t):
-    '''function_call_2 : expression np_param
-                       | ID np_param
-                       | expression np_param COMA function_call_2
-                       | ID np_param COMA function_call_2'''
+    '''function_call_2 : expression
+                       | ID
+                       | expression SCOLO function_call_2
+                       | ID SCOLO function_call_2'''
 
 ############################## E X P R E S S I O N #############################
 def p_expression(t):
@@ -387,79 +387,76 @@ def p_method_v(t):
 def p_np_var_a1(t):
     'np_var_a1 : empty'
     # Save the name of the global context (program ID)
-    globalVars.global_context = t[-1]
+    globalVars.globalContext = t[-1];
     # Stablish the current context to global
-    globalVars.current_context = globalVars.global_context
+    globalVars.currentContext = globalVars.globalContext;
     # Add the ID to the directions table with its details
-    globalVars.aux_type = "void"
-    globalVars.add_dir()
+    globalVars.auxType = "void";
+    globalVars.add_dir();
 
 def p_np_var_a2(t):
     'np_var_a2 : empty'
     # Create the table of global variables
-    #globalVars.table_functions[globalVars.global_context]
+    globalVars.dicDirections[globalVars.globalContext]['vars'] = {};
 
 #----------------------------- f u n c t i o n s -------------------------------
 def p_np_var_b1(t):
     'np_var_b1 : empty'
     # Store the function type
-    globalVars.aux_type = t[-1];
+    globalVars.auxType = t[-1];
 
 def p_np_var_b2(t):
     'np_var_b2 : empty'
     # Store the function ID
-    globalVars.aux_ID = t[-1];
+    globalVars.auxID = t[-1];
     # Add the function ID and function TYPE to the directions table as long as it
     # doesn't exist
-    if globalVars.aux_ID not in globalVars.table_functions:
+    if globalVars.auxID not in globalVars.dicDirections:
         # Stablish the current context to the function ID
-        globalVars.current_context = globalVars.aux_ID;
+        globalVars.currentContext = globalVars.auxID;
         globalVars.add_dir();
 
     else:
-        print ('ERROR: Function: <{0}>, already declared'.format(globalVars.aux_ID));
+        print ('ERROR: Function: <{0}>, already declared'.format(globalVars.auxID));
 
 def p_np_var_b3(t):
     'np_var_b3 : empty'
     # Create the table of function variables
-    globalVars.table_functions[globalVars.current_context]
+    globalVars.dicDirections[globalVars.currentContext]['vars'] = {};
 
 def p_np_var_b4(t):
     'np_var_b4 : empty'
     # Saves the variable type
-    #globalVars.aux_type = t[-1];
-
+    globalVars.auxType = t[-1];
 
 def p_np_var_b5(t):
     'np_var_b5 : empty'
     # Saves the variable ID
-    globalVars.aux_ID = t[-1];
+    globalVars.auxID = t[-1];
     # If the variable ID doesn't exists in the current context variable table,
     # nor in the global variable table...
     if not globalVars.exists_in_global():
         if not globalVars.exists_in_local():
-            if globalVars.current_context == globalVars.global_context:
+            if globalVars.currentContext == globalVars.globalContext:
                 # ... then ask for a "memory id" from the "global memory"
-                temp_memID = global_mem.get_counter_id(globalVars.aux_type)
+                temp_memID = global_mem.get_counter_id(globalVars.auxType)
             else:
                 # ... then ask for a "memory id" from the "local memory"
-                temp_memID = local_mem.get_counter_id(globalVars.aux_type)
+                temp_memID = local_mem.get_counter_id(globalVars.auxType)
 
             # Adds a new entry to the table
             globalVars.add_var(temp_memID);
-            # Adds the variable type to the parameters table
-            globalVars.table_functions[globalVars.current_context].add_parameter(globalVars.aux_type)
         else:
-            print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.aux_ID, globalVars.current_context));
+            print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
             p_error(t)
     else:
-        print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.aux_ID, globalVars.current_context));
+        print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.auxID, globalVars.currentContext));
         p_error(t)
 
 def p_np_var_b6(t):
     'np_var_b6 : empty'
     # Erease the current vars-table
-    #globalVars.delete_dir(globalVars.current_context)
+    globalVars.delete_dir(globalVars.currentContext)
     # Reset the "memory ID counter" from the "local memory"
     local_mem.reset_cont()
     # Reseting the "memory ID counter" from "temporal memory"
@@ -470,22 +467,17 @@ def p_np_var_b6(t):
 #---------------------------------- m a i n ------------------------------------
 def p_np_var_c1(t):
     'np_var_c1 : empty'
-    # Fill the pending jump so the program can start from main
-    aux_jump = alg_quad.pop_jump()
-    alg_quad.instruction_pointer = alg_quad.instruction_pointer + 1
-    alg_quad.fill_jump(aux_jump)
-    alg_quad.instruction_pointer = alg_quad.instruction_pointer - 1
     # sets the current context to MAIN
-    globalVars.current_context = "main";
+    globalVars.currentContext = "main";
     # sets the current type of MAIN to VOID
-    globalVars.aux_type = "void";
+    globalVars.auxType = "void";
     # adds MAIN to the direction table
     globalVars.add_dir();
 
 def p_np_var_c2(t):
     'np_var_c2 : empty'
     # Creates the table of main variables
-    globalVars.table_functions['main']
+    globalVars.dicDirections['main']['vars'] = {};
 
 def p_np_var_c3(t):
     'np_var_c3 : empty'
@@ -498,30 +490,30 @@ def p_np_var_c3(t):
 def p_np_var_1(t):
     'np_var_1 : empty'
     # Store the type of the variable
-    globalVars.aux_type = t[-1];
+    globalVars.auxType = t[-1];
 
 def p_np_var_2(t):
     'np_var_2 : empty'
     # Store the ID of the variable
-    globalVars.aux_ID = t[-1];
+    globalVars.auxID = t[-1];
     # If the variable ID doesn't exists in the current context variable table,
     # nor in the global variable table...
     if not globalVars.exists_in_global():
         if not globalVars.exists_in_local():
-            if globalVars.current_context == globalVars.global_context:
+            if globalVars.currentContext == globalVars.globalContext:
                 # ... then ask for a "memory id" from the "global memory"
-                temp_memID = global_mem.get_counter_id(globalVars.aux_type)
+                temp_memID = global_mem.get_counter_id(globalVars.auxType)
             else:
                 # ... then ask for a "memory id" from the "local memory"
-                temp_memID = local_mem.get_counter_id(globalVars.aux_type)
+                temp_memID = local_mem.get_counter_id(globalVars.auxType)
 
             # Adds a new entry to the table
             globalVars.add_var(temp_memID);
         else:
-            print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.aux_ID, globalVars.current_context));
+            print ('ERROR: Variable: <{0}>, in function: <{1}> already declared'.format(globalVars.auxID, globalVars.currentContext));
             p_error(t)
     else:
-        print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.aux_ID, globalVars.current_context));
+        print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.auxID, globalVars.currentContext));
         p_error(t)
 
 ###################### M A K I N G    Q U A D R U P L E S ######################
@@ -582,12 +574,10 @@ def p_np_quad_a2(t):
 
     # Check if the "id" exists in the global variable table
     if globalVars.variable_in_global(id_var) :
-        function_table = globalVars.table_functions[globalVars.global_context]
-        var_table = function_table.vars_table[id_var]
         # Capture the value of the "memory ID" assigned to that variable
-        temp_memID = var_table.direction
+        temp_memID = globalVars.dicDirections[globalVars.globalContext]['vars'][id_var]['memory']
         # Capture the value of the "type" that belongs to that variable
-        temp_type = var_table.type
+        temp_type = globalVars.dicDirections[globalVars.globalContext]['vars'][id_var]['type']
         # Change the type to its equivalent integer
         temp_type = type_conv.get(temp_type)
         # Store the values "memory ID" and "type" in the corresponding stacks
@@ -597,12 +587,10 @@ def p_np_quad_a2(t):
 
     # If it doesn't exist as global. Check if the "id" exists in the local variable table
     elif globalVars.variable_in_local(id_var) :
-        function_table = globalVars.table_functions[globalVars.current_context]
-        var_table = function_table.vars_table[id_var]
         # Capture the value of the "memory ID" assigned to that variable
-        temp_memID = var_table.direction
+        temp_memID = globalVars.dicDirections[globalVars.currentContext]['vars'][id_var]['memory']
         # Capture the value of the "type" that belongs to that variable
-        temp_type = var_table.type
+        temp_type = globalVars.dicDirections[globalVars.currentContext]['vars'][id_var]['type']
         # Change the type to its equivalent integer
         temp_type = type_conv.get(temp_type)
         # Store the values "memory ID" and "type" in the corresponding stacks
@@ -612,7 +600,7 @@ def p_np_quad_a2(t):
 
     # The variable specified was not declared
     else:
-        print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.current_context));
+        print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.currentContext));
         p_error(t)
 
 def p_np_quad_b(t):
@@ -966,101 +954,22 @@ def p_np_statutes_d4(t):
     alg_quad.fill_jump(gotof_jump)
 
 ################################################################################
-#                               F U N C T I O N                                #
-################################################################################
-def p_np_goto_main(t):
-    'np_goto_main : empty'
-    # Add the a pending jump to the "jump stack"
-    alg_quad.push_jump(alg_quad.instruction_pointer)
-    # Add the quadruple GOTO to skip to the main
-    alg_quad.add_quadruple('GOTO', '', '', '')
-
-
-def p_np_debug(t):
-    'np_debug : empty'
-    print("Hello there")
-
-def p_np_era(t):
-    'np_era : empty'
-    # Grab the current ID and verify if it is declared as a function.
-    function_aux = t[-1]
-    if function_aux in globalVars.table_functions:
-      # If true, we save in the stack and create an ERA call
-      alg_quad.push_function(function_aux)
-      alg_quad.add_quadruple('ERA', function_aux, '', '')
-    else:
-      # else we kill
-      print("\n" + "START DEBUGGER" + "\n");
-      time.sleep(1.5);
-      print("################# Tables ################")
-      globalVars.print_tables()
-      print()
-      print("############### Quadruples ##############")
-      alg_quad.print_quadruples()
-      print()
-      print("############ Stack Operators ############")
-      alg_quad.print_operators()
-      print()
-      print("############ Stack Operands #############")
-      alg_quad.print_operands()
-      print("\n" + "END OF DEBBUGGER" + "\n");
-      sys.exit("ERROR:  Function call to <" + str(function_aux) + "> does not exist")
-
-def p_np_gosub(t):
-    'np_gosub : empty'
-    # We capture the value of the current amount of variables being sent to the function
-    current_counter = alg_quad.param_counter + 1
-    # Capture the number of paramters expected on the function
-    paramters = globalVars.table_functions[alg_quad.peek_function()].get_parameter_size()
-    # If the number of parameters sent is less than what the function expects,
-    # then display an error message
-    if current_counter < paramters:
-        print('ERROR: More arguments expected on function call <{0}>'.format(alg_quad.peek_function()))
-    # Program is ready to be executed. We create a GOSUB with the name
-    function_aux = alg_quad.pop_function()
-    alg_quad.add_quadruple('GOSUB', function_aux, '', '')
-    alg_quad.param_counter = 0
-
-def p_np_param(t):
-    'np_param : empty'
-    # Retrieve the memory location of the specified parameter
-    parameter = alg_quad.pop_operand()
-    # Retrieve the type of the specified parameter
-    type_param = alg_quad.pop_type()
-    # Retrieve the ID of the function being called
-    function_name = alg_quad.peek_function()
-    # Check that the parameter counter is below the amount of parameters declared
-    if alg_quad.param_counter < globalVars.table_functions[function_name].get_parameter_size():
-        # Check that the parameter sent will match with the type stored in the table
-        type_function = type_conv.get(globalVars.table_functions[function_name].parameters[alg_quad.param_counter])
-        if type_param == type_function:
-            # Create the counter
-            argument_number = "param" + str(alg_quad.param_counter)
-            alg_quad.add_quadruple('PARAM', parameter, '', argument_number)
-            # Update the "parameters" counter in the Algorithm_Quadruple
-            alg_quad.param_counter = 1 + alg_quad.param_counter
-        else:
-            print('ERROR: Type mismatch in arguments on function call <{0}>'.format(function_name))
-    else:
-        print('ERROR: Too many arguments on function call <{0}>. Ignoring the remaining arguments'.format(function_name))
-
-################################################################################
 #                                 O T H E R S                                  #
 ################################################################################
 def p_debug(t):
     'debug : empty'
     print("\n" + "START DEBUGGER" + "\n");
     time.sleep(1.5);
-    print("################# Tables ################")
+    print("######## Tables ########")
     globalVars.print_tables()
     print()
-    print("############### Quadruples ##############")
+    print("###### Quadruples ######")
     alg_quad.print_quadruples()
     print()
-    print("############ Stack Operators ############")
+    print("###### stack operators ######")
     alg_quad.print_operators()
     print()
-    print("############ Stack Operands #############")
+    print("###### stack operands ######")
     alg_quad.print_operands()
     print("\n" + "END OF DEBBUGGER" + "\n");
 
@@ -1073,7 +982,7 @@ def p_np_eof(t):
     local_mem.reset_cont()
     # Reseting the "memory ID counter" from "temporal memory"
     temporal_mem.reset_cont()
-
+    
 
 def p_empty(p):
     'empty :'

@@ -30,8 +30,10 @@ class Algorithm_Quadruple:
     def print_quadruples(self):
         counter = 0
         for quad in self.lst_quadruples:
-            print("[Quadruple #" + str(counter) + "]")
-            quad.print_quadruple()
+            str_quadruple = quad.string_quadruple()
+            str_counter = '{0:3}. '.format(str(counter+1))
+            print(str_counter + str_quadruple)
+            #quad.print_quadruple()
             counter = counter + 1
 
     def print_jumps(self):

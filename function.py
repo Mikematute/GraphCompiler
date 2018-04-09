@@ -8,7 +8,7 @@ class Function:
         # The return type of the function
         self.type  = type
         # The initial direction in the quadruple table
-        self.init_direction = -1
+        self.init_quadruple = -1
         # Number of parameters
         self.parameters = []
         # Number of variables
@@ -34,7 +34,7 @@ class Function:
     def print_function(self):
         print("ID        : " + self.id)
         print("TYPE      : " + self.type)
-        print("DIRECTION : " + str(self.init_direction))
+        print("QUADRUPLE : " + str(self.init_quadruple))
         print("PARAMETERS: " + str(self.get_parameter_size()))
         print("PARA_TYPE : " + str(self.parameters))
         print("VARIABLES : " + str(self.variables))
