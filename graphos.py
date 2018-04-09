@@ -1001,8 +1001,12 @@ def p_np_gosub(t):
 
 def p_np_param(t):
     'np_param : empty'
+    # Update the "parameters" counter in the Algorithm_Quadruple
+    alg_quad.parameters = 1 + alg_quad.parameters
+    # Retrieve the memory location of the specified parameter
     parameter = "foo"
-    argument_number = "param1"
+    # Create
+    argument_number = "param" + globalVars.
     alg_quad.add_quadruple('PARAM', parameter, '', argument_number)
 
 
