@@ -248,13 +248,11 @@ def p_writing(t):
     'writing : PRINT np_quad_b LPAREN writing_1 RPAREN np_quad_print SCOLO'
 
 def p_writing_1(t):
-    '''writing_1 : expression
-                 | CTE_STRING np_quad_a1_str
-                 | writing_2'''
+    'writing_1 : expression'
 
 def p_writing_2(t):
-    '''writing_2 : expression SUMA np_quad_b writing_1 np_quad_c2
-                 | CTE_STRING np_quad_a1_str SUMA np_quad_b writing_1 np_quad_c2'''
+    'writing_2 : expression SUMA np_quad_b writing_1 np_quad_c2'
+
 #------------------------------ c o n d i t i o n ------------------------------
 def p_condition(t):
     'condition : IF LPAREN expression np_statutes_a1 RPAREN LBRACK statutes RBRACK condition_1 np_statutes_a3'
@@ -282,7 +280,8 @@ def p_c_forin(t):
     'c_forin : FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK'
 #------------------------- f u n c t i o n _ c a l l ---------------------------
 def p_function_call(t):
-    'function_call : ID np_era LPAREN function_call_1 RPAREN np_gosub SCOLO'
+    '''function_call : ID np_era LPAREN function_call_2 RPAREN np_gosub SCOLO
+                      | ID np_era LPAREN RPAREN np_gosub SCOLO'''
 
 def p_function_call_1(t):
     '''function_call_1 : empty
@@ -290,9 +289,8 @@ def p_function_call_1(t):
 
 def p_function_call_2(t):
     '''function_call_2 : expression np_param
-                       | ID np_param
                        | expression np_param COMA function_call_2
-                       | ID np_param COMA function_call_2'''
+                       '''
 
 ############################## E X P R E S S I O N #############################
 def p_expression(t):
