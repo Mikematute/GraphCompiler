@@ -1,0 +1,11 @@
+program cats;
+
+var int myGlobalInt;
+
+main ()
+{
+	var int myMainInt;
+	for (myMainInt ; myMainInt > 0 ; myMainInt = 0 + 1;){
+		myMainInt = 1 + 1;
+	}
+}

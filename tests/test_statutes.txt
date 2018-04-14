@@ -1,0 +1,23 @@
+program cats;
+
+var int myGlobalInt;
+
+main ()
+{
+	var int myIntA, myIntB;
+	
+	if (True) 
+	{
+		myIntA = 23 / 7;
+		do{
+			myIntA = 9 - 6;
+		}
+		while(True);
+	}
+	else
+	{
+		myIntB = 10 + 5 * 2;
+	}
+	
+	myIntA = 10;
+}

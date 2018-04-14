@@ -1072,14 +1072,12 @@ def p_np_eof(t):
     # Reseting the "memory ID counter" from "temporal memory"
     temporal_mem.reset_cont()
 
-
 def p_empty(p):
     'empty :'
     pass
 
 def p_error(t):
     sys.exit("Ending program due to errors")
-
 
 # Used in MAIN, reads the data from the command line
 def read_from_console():
@@ -1095,13 +1093,16 @@ def read_from_console():
 # "END" is typed
 def read_from_file():
     print ("Indique el nombre del archivo y su extension, escriba 'END' para terminar el programa: ")
-    fileName = input('WOOF > ')
+    fileName = "tests/" + input('WOOF > ')
 
     while fileName != "END":
         file = open(fileName,"r")
         parser.parse(file.read())
+        print()
+        import virtualMachine
+        print()
         print ("Indique el nombre del archivo y su extension, escriba 'END' para terminar el programa: ")
-        fileName = input('WOOF > ')
+        fileName = "tests/" + input('WOOF > ')
 
 ################################################################################
 #                            M A I N  P R O G R A M                            #
