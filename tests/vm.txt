@@ -1,0 +1,17 @@
+program cats;
+  var float myGlobalFloat;
+
+void useless () {
+  var int iHello1;
+  iHello1 = 1 * 9 - 10 + 7;
+}
+
+main () {
+  var int myInt;
+  print(9 + 1);
+  print(9 + 1 - 5);
+  print(11 * 2);
+  print(10 / 5);
+  print(9 + 1 - 5 * 10);
+
+}

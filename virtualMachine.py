@@ -41,18 +41,13 @@ class Virtual_Machine:
 
         # Read the quadruples until there is one with the "END" instruction
         while(current_quad.operation != "END"):
-            current_quad.print_quadruple()
             self.perform_operation(current_quad)
             current_quad = self.quadruples.lst_quadruples[self.instruction_pointer]
 
     def perform_operation(self, quad):
         operation = quad.operation
-        # If the operation is an integer between 0 and 15, then convert it to string
-        if 0 <= operation and operation <= 15:
-            operation = int_to_operator.get(operation)
-
         #--------------------------- a d d i t i o n ---------------------------
-        if operation == '+':
+        if operation == 0:
             # Get the left operator
             l_op = self.search_in_memory(quad.element_1)
             # Get the right operator
@@ -62,13 +57,60 @@ class Virtual_Machine:
             # Cast the result into the appropiate type according to the oracle
             result = self.cast_to_type(quad, result)
             # Save the result in the temporal specified
-            self.save_in_memory(result)
+            self.save_in_memory(quad.result, result)
             # Advance the instruction pointer one step
             self.instruction_pointer = self.instruction_pointer + 1
         #------------------------ s u b s t r a c t i o n ----------------------
+        if operation == 1:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op - r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #---------------------------- p r o d u c t ----------------------------
+        if operation == 2:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op * r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #--------------------------- d i v i s i o n ---------------------------
+        if operation == 3:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op / r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------------- a s s i g n a t i o n -----------------------
+        if operation == 4:
+            # Get the left operator
+            # Get the right operator
+            # Perform the operation
+            # Cast the result into the appropiate type according to the oracle
+            # Save the result in the temporal specified
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #----------------------------- m o d u l o -----------------------------
         #-------------------------------- a n d --------------------------------
         #--------------------------------- o r ---------------------------------
@@ -80,35 +122,79 @@ class Virtual_Machine:
         #------------------------------ e q u a l ------------------------------
         #-------------------------------- n o t --------------------------------
         #------------------------------ p r i n t ------------------------------
-        elif operation == 'print':
+        elif operation == 15:
             # Get the operator
             l_op = self.search_in_memory(quad.element_1)
             # Perform the operation
             print(str(l_op))
             # Advance the instruction pointer one step
             self.instruction_pointer = self.instruction_pointer + 1
+        #------------------------------- g o t o -------------------------------
+        elif operation == 'GOTO':
+            # Skip the instruction pointer to the number indicated
+            self.instruction_pointer = quad.result - 1
+        #------------------------------ g o t o v ------------------------------
+        #------------------------------ g o t o f ------------------------------
+        #-------------------------------- e r a --------------------------------
+        #------------------------------ p a r a m ------------------------------
+        #------------------------------ g o s u b ------------------------------
+        #----------------------------- r e t u r n -----------------------------
 
     def search_in_memory(self, memory_id):
-        # Code
-        return 1
+        # Obtains the first digit to know which memory the ID belongs to
+        memory_type = int(memory_id / 10000)
 
-    def save_in_memory(self, result):
-        # Code
-        return 1
+        # If the result is 1, it is the global memory
+        if memory_type == 1:
+            return self.global_mem.get_memory_value(memory_id)
+        # If the result is 2, it is the local memory
+        elif memory_type == 2:
+            return self.local_mem.get_memory_value(memory_id)
+        # If the result is 3, it is the temporal memory
+        elif memory_type == 3:
+            return self.temporal_mem.get_memory_value(memory_id)
+        # If the result is 4, it is the constant memory
+        elif memory_type == 4:
+            return self.constant_mem.get_memory_value(memory_id)
+
+
+    def save_in_memory(self, memory_id, result):
+        memory_type = int(memory_id / 10000)
+
+        # If the result is 1, then save the result in the global memory
+        if memory_type == 1:
+            self.global_mem.save_to_memory(result, memory_id)
+        # If the result is 2, then save the result in the local memory
+        elif memory_type == 2:
+            self.local_mem.save_to_memory(result, memory_id)
+        # If the result is 3, then save the result in the temporal memory
+        elif memory_type == 3:
+            self.temporal_mem.save_to_memory(result, memory_id)
+        # If the result is 4, then save the result in the constant memory
+        elif memory_type == 4:
+            self.constant_mem.save_to_memory(result, memory_id)
+
 
     def cast_to_type(self, quadruple, value):
+        '''
         # Retrive the type of the left operand involved in the operation
         type_left = quadruple.element_1
-        type_left = globalVars.search_variable_by_memory(type_left)
+        type_left = self.globalVars.search_variable_by_memory(type_left)
         type_left = type_left.type
         # Retrive the type of the right operand involved in the operation
         type_right = quadruple.element_2
-        type_right = globalVars.search_variable_by_memory(type_right)
+        type_right = self.globalVars.search_variable_by_memory(type_right)
         type_right = type_right.type
         # Retrieve the operation being performed
         operation = quadruple.operation
         # Consult the oracle to get the type of the result
         result_type = consult(operation, type_left, type_right)
+        '''
+        memory_type = int(quadruple.result / 10000)
+        data_type = quadruple.result - (memory_type * 10000)
+        data_type = int(data_type / 1000)
+        result_type = data_type
+
         # Return the result casted to that type
         if result_type == 0:
             return int(value)

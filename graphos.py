@@ -439,10 +439,10 @@ def p_np_var_b5(t):
         if not globalVars.exists_in_local():
             if globalVars.current_context == globalVars.global_context:
                 # ... then ask for a "memory id" from the "global memory"
-                temp_memID = global_mem.get_counter_id(globalVars.aux_type)
+                temp_memID = global_mem.get_counter(globalVars.aux_type)
             else:
                 # ... then ask for a "memory id" from the "local memory"
-                temp_memID = local_mem.get_counter_id(globalVars.aux_type)
+                temp_memID = local_mem.get_counter(globalVars.aux_type)
 
             # Adds a new entry to the table
             globalVars.add_var(temp_memID);
@@ -489,8 +489,8 @@ def p_np_var_c2(t):
 def p_np_var_c3(t):
     'np_var_c3 : empty'
     # Erases the table of direction and variables generated
-    globalVars.reset_tables();
-    print ("ERASING ALL TABLES\n");
+    #globalVars.reset_tables();
+    #print ("ERASING ALL TABLES\n");
     time.sleep(1.5);
 
 #------------------------------ v a r s  r u l e -------------------------------
@@ -509,10 +509,10 @@ def p_np_var_2(t):
         if not globalVars.exists_in_local():
             if globalVars.current_context == globalVars.global_context:
                 # ... then ask for a "memory id" from the "global memory"
-                temp_memID = global_mem.get_counter_id(globalVars.aux_type)
+                temp_memID = global_mem.get_counter(globalVars.aux_type)
             else:
                 # ... then ask for a "memory id" from the "local memory"
-                temp_memID = local_mem.get_counter_id(globalVars.aux_type)
+                temp_memID = local_mem.get_counter(globalVars.aux_type)
 
             # Adds a new entry to the table
             globalVars.add_var(temp_memID);
@@ -529,8 +529,9 @@ def p_np_quad_a1_int(t):
     # int
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
-
-    mem_act = constant_mem.get_counter_num(0)
+    constant_value = t[-1]
+    constant_mem.save_memory_value(constant_value, 0)
+    mem_act = constant_mem.get_counter(0)
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(0)
 
@@ -539,8 +540,9 @@ def p_np_quad_a1_flt(t):
     # float
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
-
-    mem_act = constant_mem.get_counter_num(1)
+    constant_value = t[-1]
+    constant_mem.save_memory_value(constant_value, 1)
+    mem_act = constant_mem.get_counter(1)
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(1)
 
@@ -549,8 +551,9 @@ def p_np_quad_a1_chr(t):
     # char
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
-
-    mem_act = constant_mem.get_counter_num(2)
+    constant_value = t[-1]
+    constant_mem.save_memory_value(constant_value, 2)
+    mem_act = constant_mem.get_counter(2)
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(2)
 
@@ -559,8 +562,9 @@ def p_np_quad_a1_str(t):
     # string
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
-
-    mem_act = constant_mem.get_counter_num(3)
+    constant_value = t[-1]
+    constant_mem.save_memory_value(constant_value, 3)
+    mem_act = constant_mem.get_counter(3)
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(3)
 
@@ -569,8 +573,9 @@ def p_np_quad_a1_bol(t):
     # bool
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
-
-    mem_act = constant_mem.get_counter_num(4)
+    constant_value = t[-1]
+    constant_mem.save_memory_value(constant_value, 4)
+    mem_act = constant_mem.get_counter(4)
     alg_quad.push_operand(mem_act)
     alg_quad.push_type(4)
 
@@ -643,7 +648,8 @@ def p_np_quad_c0(t):
 
         if (n_type != -1):
             # new temp based on oracle
-            n_temp = temporal_mem.get_counter_num(n_type)
+            temporal_mem.save_memory_value("", n_type)
+            n_temp = temporal_mem.get_counter(n_type)
             alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
             alg_quad.push_operand(n_temp)
             alg_quad.push_type(n_type)
@@ -678,7 +684,8 @@ def p_np_quad_c1(t):
 
         if (n_type != -1):
             # new temp based on oracle
-            n_temp = temporal_mem.get_counter_num(n_type)
+            temporal_mem.save_memory_value("", n_type)
+            n_temp = temporal_mem.get_counter(n_type)
             alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
             alg_quad.push_operand(n_temp)
             alg_quad.push_type(n_type)
@@ -707,7 +714,8 @@ def p_np_quad_c2(t):
 
         if (n_type != -1):
             # new temp based on oracle
-            n_temp = temporal_mem.get_counter_num(n_type)
+            temporal_mem.save_memory_value("", n_type)
+            n_temp = temporal_mem.get_counter(n_type)
             alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
             alg_quad.push_operand(n_temp)
             alg_quad.push_type(n_type)
@@ -734,7 +742,8 @@ def p_np_quad_c3(t):
         n_type = consult(op, t_left, t_right)
         if (n_type != -1):
             # new temp based on oracle
-            n_temp = temporal_mem.get_counter_num(n_type)
+            temporal_mem.save_memory_value("", n_type)
+            n_temp = temporal_mem.get_counter(n_type)
             alg_quad.add_quadruple(op, operand_left, operand_right, n_temp)
             alg_quad.push_operand(n_temp)
             alg_quad.push_type(n_type)
@@ -760,7 +769,8 @@ def p_np_quad_c4(t):
 
         if (n_type != -1):
             # new temp based on oracle
-            n_temp = temporal_mem.get_counter_num(n_type)
+            temporal_mem.save_memory_value("", n_type)
+            n_temp = temporal_mem.get_counter(n_type)
             alg_quad.add_quadruple(op, operand_right, "", n_temp)
             alg_quad.push_operand(n_temp)
             alg_quad.push_type(n_type)
@@ -788,7 +798,7 @@ def p_np_quad_print(t):
       # if (n_type != -1):
       # print not yet added to oracle
       # new temp based on oracle
-      # n_temp = temporal_mem.get_counter_num(n_type)
+      # n_temp = temporal_mem.get_counter(n_type)
 
       alg_quad.add_quadruple(op, operand_right, "", "")
       # things are consumed. not pushed back
@@ -1069,9 +1079,9 @@ def p_np_eof(t):
     # create an 'end' quadruple
     alg_quad.add_quadruple('END', '', '', '')
      # Reset the "memory ID counter" from the "local memory"
-    local_mem.reset_cont()
+    #local_mem.reset_cont()
     # Reseting the "memory ID counter" from "temporal memory"
-    temporal_mem.reset_cont()
+    #temporal_mem.reset_cont()
 
 def p_empty(p):
     'empty :'
@@ -1106,10 +1116,11 @@ def read_from_file():
     while fileName != "END":
         fileName = "tests/" + fileName
         file = open(fileName,"r")
+
         # Compiler
         parser.parse(file.read())
         print()
-        '''
+
         # Virtual Machine
         vm = Virtual_Machine(global_mem,
                              local_mem,
@@ -1120,7 +1131,7 @@ def read_from_file():
         vm.start()
         # End of execution
         print()
-        '''
+
         print ("Indique el nombre del archivo y su extension, escriba 'END' para terminar el programa: ")
         fileName = input('WOOF > ')
 
