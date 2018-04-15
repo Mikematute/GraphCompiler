@@ -574,6 +574,12 @@ def p_np_quad_a1_bol(t):
     # grab the operand, since we have the type, we request an assigned space on memory
     # push type on stack
     constant_value = t[-1]
+    # M was here. Saving the actual boolean rather than a string
+    if constant_value == "True":
+      constant_value = True
+    else:
+      constant_value = False
+      
     constant_mem.save_memory_value(constant_value, 4)
     mem_act = constant_mem.get_counter(4)
     alg_quad.push_operand(mem_act)
