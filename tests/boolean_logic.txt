@@ -7,15 +7,6 @@ void useless () {
 }
 
 main () {
-  var int myInt;
-  print(9 + 1);
-
-  print(11 * 2);
-
-  print(10 / 5);
-
-  print(17 % 7);
-
   print(True && True);
   print(True && False);
   print(False && False);
@@ -48,8 +39,4 @@ main () {
 
   print(! False);
   print(! True);
-
-  print(9 + 1 - 5);
-  print(9 + 1 - 5 * 10);
-
 }

@@ -105,10 +105,12 @@ class Virtual_Machine:
         #------------------------- a s s i g n a t i o n -----------------------
         if operation == 4:
             # Get the left operator
+            memory_id = quad.element_1
             # Get the right operator
-            # Perform the operation
+            value = self.search_in_memory(quad.result)
             # Cast the result into the appropiate type according to the oracle
-            # Save the result in the temporal specified
+            # Save the result in the left operator
+            self.save_in_memory(memory_id, value)
             # Advance the instruction pointer one step
             self.instruction_pointer = self.instruction_pointer + 1
         #----------------------------- m o d u l o -----------------------------
@@ -262,7 +264,29 @@ class Virtual_Machine:
             # Skip the instruction pointer to the number indicated
             self.instruction_pointer = quad.result - 1
         #------------------------------ g o t o v ------------------------------
+        elif operation == 'GOTOV':
+            # Get the boolean expression
+            l_op = self.search_in_memory(quad.element_1)
+            # Evaluate if the expression is TRUE
+            result = l_op == True
+            # If the expression is TRUE then move the instruction pointer to the
+            # specified jump in the result field (indicated in the quadruple)
+            if result:
+                self.instruction_pointer = quad.result - 1
+            else:
+                self.instruction_pointer = self.instruction_pointer + 1
         #------------------------------ g o t o f ------------------------------
+        elif operation == 'GOTOF':
+            # Get the boolean expression
+            l_op = self.search_in_memory(quad.element_1)
+            # Evaluate if the expression is FLASE
+            result = l_op == False
+            # If the expression is FLASE then move the instruction pointer to the
+            # specified jump in the result field (indicated in the quadruple)
+            if result:
+                self.instruction_pointer = quad.result - 1
+            else:
+                self.instruction_pointer = self.instruction_pointer + 1
         #-------------------------------- e r a --------------------------------
         #------------------------------ p a r a m ------------------------------
         #------------------------------ g o s u b ------------------------------

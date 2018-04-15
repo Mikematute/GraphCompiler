@@ -439,9 +439,11 @@ def p_np_var_b5(t):
         if not globalVars.exists_in_local():
             if globalVars.current_context == globalVars.global_context:
                 # ... then ask for a "memory id" from the "global memory"
+                global_mem.save_memory_value("", globalVars.aux_type)
                 temp_memID = global_mem.get_counter(globalVars.aux_type)
             else:
                 # ... then ask for a "memory id" from the "local memory"
+                local_mem.save_memory_value("", globalVars.aux_type)
                 temp_memID = local_mem.get_counter(globalVars.aux_type)
 
             # Adds a new entry to the table
@@ -509,9 +511,11 @@ def p_np_var_2(t):
         if not globalVars.exists_in_local():
             if globalVars.current_context == globalVars.global_context:
                 # ... then ask for a "memory id" from the "global memory"
+                global_mem.save_memory_value("", globalVars.aux_type)
                 temp_memID = global_mem.get_counter(globalVars.aux_type)
             else:
                 # ... then ask for a "memory id" from the "local memory"
+                local_mem.save_memory_value("", globalVars.aux_type)
                 temp_memID = local_mem.get_counter(globalVars.aux_type)
 
             # Adds a new entry to the table
@@ -579,7 +583,7 @@ def p_np_quad_a1_bol(t):
       constant_value = True
     else:
       constant_value = False
-      
+
     constant_mem.save_memory_value(constant_value, 4)
     mem_act = constant_mem.get_counter(4)
     alg_quad.push_operand(mem_act)
@@ -868,7 +872,9 @@ def p_np_statutes_a2(t):
     alg_quad.add_quadruple('GOTO', '', '', '')
     # When the IF statement is false, we need to go back to fill the pending quadruple
     pending_jump = alg_quad.pop_jump()
+    alg_quad.instruction_pointer = alg_quad.instruction_pointer + 1
     alg_quad.fill_jump(pending_jump)
+
     # Add the IP that has the  GOTO quadruple, previously generated
     alg_quad.push_jump(aux_jump)
 

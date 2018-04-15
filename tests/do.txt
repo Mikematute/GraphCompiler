@@ -1,0 +1,16 @@
+program cats;
+
+var int myGlobalInt;
+
+main ()
+{
+	var int myIntA, myIntB;
+
+	myIntA = 0;
+	do
+	{
+		print(myIntA);
+		myIntA = myIntA + 1;
+	} while(myIntA < 5);
+	print("Finished");
+}
