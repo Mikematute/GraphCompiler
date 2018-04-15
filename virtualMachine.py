@@ -238,6 +238,17 @@ class Virtual_Machine:
             # Advance the instruction pointer one step
             self.instruction_pointer = self.instruction_pointer + 1
         #-------------------------------- n o t --------------------------------
+        if operation == 14:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Perform the operation
+            result = not l_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------------------ p r i n t ------------------------------
         elif operation == 15:
             # Get the operator

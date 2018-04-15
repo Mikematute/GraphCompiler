@@ -46,6 +46,9 @@ main () {
   print(1 != 2);
   print(1 != 1);
 
+  print(! False);
+  print(! True);
+
   print(9 + 1 - 5);
   print(9 + 1 - 5 * 10);
 
