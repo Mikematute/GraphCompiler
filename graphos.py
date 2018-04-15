@@ -123,7 +123,7 @@ def t_ID(t):
     return t
 
 def t_CTE_INT(t):
-    r'\d+'
+    r'-?\d+'
     try:
         t.value = int(t.value)
     except ValueError:

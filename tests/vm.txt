@@ -9,9 +9,44 @@ void useless () {
 main () {
   var int myInt;
   print(9 + 1);
-  print(9 + 1 - 5);
+
   print(11 * 2);
+
   print(10 / 5);
+
+  print(17 % 7);
+
+  print(True && True);
+  print(True && False);
+  print(False && False);
+  print(False && True);
+
+  print(True || True);
+  print(True || False);
+  print(False || False);
+  print(False || True);
+
+  print(8 < 100);
+  print(8 < 1);
+
+  print(23 > 9);
+  print(-1 > 2);
+
+  print(0 <= 0);
+  print(-15 <= 0);
+  print(1 <= 0);
+
+  print(0 >= 0);
+  print(15 >= 0);
+  print(-1 >= 0);
+
+  print(1 == 1);
+  print(1 == 2);
+
+  print(1 != 2);
+  print(1 != 1);
+
+  print(9 + 1 - 5);
   print(9 + 1 - 5 * 10);
 
 }

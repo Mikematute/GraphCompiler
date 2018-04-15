@@ -112,14 +112,131 @@ class Virtual_Machine:
             # Advance the instruction pointer one step
             self.instruction_pointer = self.instruction_pointer + 1
         #----------------------------- m o d u l o -----------------------------
+        if operation == 5:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op % r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #-------------------------------- a n d --------------------------------
+        if operation == 6:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op and r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #--------------------------------- o r ---------------------------------
+        if operation == 7:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op or r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------------- l e s s    t h a n --------------------------
+        if operation == 8:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op < r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------------- m o r e    t h a n --------------------------
+        if operation == 9:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op > r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------------ l e s s  e q  t h a n ------------------------
+        if operation == 10:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op <= r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------------ m o r e  e q  t h a n ------------------------
+        if operation == 11:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op >= r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #-------------------------- d i f f e r e n t --------------------------
+        if operation == 12:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op != r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------------------ e q u a l ------------------------------
+        if operation == 13:
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # Get the right operator
+            r_op = self.search_in_memory(quad.element_2)
+            # Perform the operation
+            result = l_op == r_op
+            # Cast the result into the appropiate type according to the oracle
+            result = self.cast_to_type(quad, result)
+            # Save the result in the temporal specified
+            self.save_in_memory(quad.result, result)
+            # Advance the instruction pointer one step
+            self.instruction_pointer = self.instruction_pointer + 1
         #-------------------------------- n o t --------------------------------
         #------------------------------ p r i n t ------------------------------
         elif operation == 15:
