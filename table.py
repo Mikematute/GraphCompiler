@@ -36,6 +36,26 @@ class Table:
             print ("----------------------------------------")
             function_details.print_function()
 
+    def search_variable_by_memory(self, value):
+        # Search through all the tables
+        for table in self.table_functions:
+            # Search through all the variables in each table
+            for variable in self.table_functions[table].vars_table:
+                # See if the variable matches the value
+                var_memory = self.table_functions[table].vars_table[variable].direction
+                if value == var_memory:
+                    return self.table_functions[table].vars_table[variable]
+
+    def search_variable_by_id(self, value):
+        # Search through all the tables
+        for table in self.table_functions:
+            # Search through all the variables in each table
+            for variable in self.table_functions[table].vars_table:
+                # See if the variable matches the value
+                var_id = self.table_functions[table].vars_table[variable].id
+                if value == var_id:
+                    return self.table_functions[table].vars_table[variable]
+
     def reset_tables(self):
         self.table_functions = {}
         self.current_context = ""

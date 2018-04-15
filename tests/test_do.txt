@@ -5,12 +5,13 @@ var int myGlobalInt;
 main ()
 {
 	var int myIntA, myIntB;
-	
-	myIntA = 3 - 1;	
+
+	myIntA = 3 - 1;
 	do
 	{
 		myIntB = 10 + 5 * 2;
 	} while(True);
-	
+
 	myIntA = 10;
+	print("hello");
 }

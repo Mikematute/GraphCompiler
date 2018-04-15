@@ -6,6 +6,7 @@ from table import Table
 from oracle import consult
 from memory import Memory
 from algorithmQuadruple import Algorithm_Quadruple
+from virtualMachine import Virtual_Machine
 import sys
 
 
@@ -1087,22 +1088,41 @@ def read_from_console():
             print ("\n");
         except EOFError:
             break
+        # Compiler
         parser.parse(s)
+        print()
+        # Virtual Machine
+        vm = Virtual_Machine(global_mem, local_mem, temporal_mem, constant_mem, globalVars, alg_quad)
+        vm.start()
+        print()
+        # End of execution
 
 # Used in MAIN, reads the data from a file written by the user until the command
 # "END" is typed
 def read_from_file():
     print ("Indique el nombre del archivo y su extension, escriba 'END' para terminar el programa: ")
-    fileName = "tests/" + input('WOOF > ')
+    fileName = input('WOOF > ')
 
     while fileName != "END":
+        fileName = "tests/" + fileName
         file = open(fileName,"r")
+        # Compiler
         parser.parse(file.read())
         print()
-        import virtualMachine
+        '''
+        # Virtual Machine
+        vm = Virtual_Machine(global_mem,
+                             local_mem,
+                             temporal_mem,
+                             constant_mem,
+                             globalVars,
+                             alg_quad)
+        vm.start()
+        # End of execution
         print()
+        '''
         print ("Indique el nombre del archivo y su extension, escriba 'END' para terminar el programa: ")
-        fileName = "tests/" + input('WOOF > ')
+        fileName = input('WOOF > ')
 
 ################################################################################
 #                            M A I N  P R O G R A M                            #
