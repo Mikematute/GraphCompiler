@@ -120,6 +120,7 @@ dummy = global_mem.get_counter_id("directed")
 print(global_mem.used_mem())
 '''
 #----------------------------- Test function tables ----------------------------
+'''
 from table import Table
 my_table = Table()
 my_table.global_context = "cats"
@@ -160,3 +161,16 @@ my_table.aux_type = "string"
 my_table.add_var(3002)
 
 my_table.print_tables()
+'''
+
+my_dict = {'k': 14}
+if my_dict:
+      print("nice")
+else:
+      print("Not nice")
+
+my_dict.clear()
+if my_dict:
+      print("nice")
+else:
+      print("Not nice")

@@ -224,10 +224,10 @@ def p_t_graph(t):
                | DIRECTED np_var_1'''
 ########################### A R R A Y _ D E C L A R E ##########################
 def p_array_declare(t):
-    'array_declare : LCORCH CTE_INT RCORCH array_declare_1'
+    'array_declare : np_var_3 LCORCH CTE_INT np_var_4 RCORCH array_declare_1 np_var_7'
 
 def p_array_declare_1(t):
-    '''array_declare_1 : LCORCH CTE_INT RCORCH array_declare_1
+    '''array_declare_1 : np_var_5 LCORCH CTE_INT np_var_6 RCORCH
                        | empty'''
 ################################ S T A T U T E S ###############################
 def p_statutes(t):
@@ -334,14 +334,14 @@ def p_exp_lv5(t):
 
 ############################ A R R A Y _ A C C E S S ###########################
 def p_array_access(t):
-    'array_access : LCORCH arrary_access_1 RCORCH arrary_access_2'
+    'array_access : np_quad_d1 LCORCH arrary_access_1 np_quad_d2 RCORCH arrary_access_2 np_quad_d5'
 
 def p_array_access_1(t):
-    '''arrary_access_1 : CTE_INT
-                       | ID'''
+    '''arrary_access_1 : CTE_INT np_quad_a1_int
+                       | ID np_quad_a2'''
 
 def p_array_access_2(t):
-    '''arrary_access_2 : LCORCH arrary_access_1 RCORCH arrary_access_2
+    '''arrary_access_2 : np_quad_d3 LCORCH arrary_access_1 np_quad_d4 RCORCH
                        | empty'''
 ################################# V A R _ C T E ################################
 def p_var_cte(t):
@@ -527,6 +527,141 @@ def p_np_var_2(t):
         print ('ERROR: Variable: <{0}>, in function: <{1}> already declared as global'.format(globalVars.aux_ID, globalVars.current_context));
         p_error(t)
 
+def p_np_var_3(t):
+    'np_var_3 : empty'
+    # Since we now know it is a dimentional variable, we open up the dimensional variable and assin its starting dimensions
+    id_var = globalVars.aux_ID
+    globalVars.reset_dim()
+
+    if globalVars.variable_in_global(id_var) :
+        # We initialize the table that will save all the proper attributes to calculate dimesions
+        globalVars.table_functions[globalVars.global_context].vars_table[id_var].dimension['inf'] = 0
+        globalVars.table_functions[globalVars.global_context].vars_table[id_var].dimension['sup'] = 0
+        globalVars.table_functions[globalVars.global_context].vars_table[id_var].dimension['aux'] = 0
+        globalVars.table_functions[globalVars.global_context].vars_table[id_var].dimension['next'] = {}
+
+
+    # If it doesn't exist as global. Check if the "id" exists in the local variable table
+    elif globalVars.variable_in_local(id_var) :
+        # We initialize the table that will save all the proper attributes to calculate dimesions
+        globalVars.table_functions[globalVars.current_context].vars_table[id_var].dimension['inf'] = 0
+        globalVars.table_functions[globalVars.current_context].vars_table[id_var].dimension['sup'] = 0
+        globalVars.table_functions[globalVars.current_context].vars_table[id_var].dimension['aux'] = 0
+        globalVars.table_functions[globalVars.current_context].vars_table[id_var].dimension['next'] = {}
+
+    # The variable specified was not declared
+    else:
+        print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.current_context));
+        p_error(t)
+
+def p_np_var_4(t):
+    'np_var_4 : empty'
+    # Since we now know it is a dimentional variable, we open up the dimensional variable and assin its starting dimensions
+    id_var = globalVars.aux_ID
+    lim_sup = t[-1];
+
+    if globalVars.variable_in_global(id_var) :
+        # We initialize the table that will save all the proper attributes to calculate dimesions
+        curr_cont = globalVars.global_context   
+
+    # If it doesn't exist as global. Check if the "id" exists in the local variable table
+    elif globalVars.variable_in_local(id_var) :
+        # We initialize the table that will save all the proper attributes to calculate dimesions
+        curr_cont = globalVars.current_context
+
+    # The variable specified was not declared
+    else:
+        print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.current_context));
+        p_error(t)
+
+    globalVars.table_functions[curr_cont].vars_table[id_var].dimension['sup'] = lim_sup
+    globalVars.R = (lim_sup - 0 + 1) * globalVars.R
+
+def p_np_var_5(t):
+    'np_var_5 : empty'
+    # Since we now know it is a dimentional variable, we open up the dimensional variable and assin its starting dimensions
+    id_var = globalVars.aux_ID
+
+    if globalVars.variable_in_global(id_var) :
+        # We initialize the table that will save all the proper attributes to calculate dimesions
+        globalVars.table_functions[globalVars.global_context].vars_table[id_var].dimension['next']['inf'] = 0
+        globalVars.table_functions[globalVars.global_context].vars_table[id_var].dimension['next']['sup'] = 0
+        globalVars.table_functions[globalVars.global_context].vars_table[id_var].dimension['next']['aux'] = 0
+
+
+
+    # If it doesn't exist as global. Check if the "id" exists in the local variable table
+    elif globalVars.variable_in_local(id_var) :
+        # We initialize the table that will save all the proper attributes to calculate dimesions
+        globalVars.table_functions[globalVars.current_context].vars_table[id_var].dimension['next']['inf'] = 0
+        globalVars.table_functions[globalVars.current_context].vars_table[id_var].dimension['next']['sup'] = 0
+        globalVars.table_functions[globalVars.current_context].vars_table[id_var].dimension['next']['aux'] = 0
+
+    # The variable specified was not declared
+    else:
+        print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.current_context));
+        p_error(t)
+
+def p_np_var_6(t):
+    'np_var_6 : empty'
+    # Since we now know it is a dimentional variable, we open up the dimensional variable and assin its starting dimensions
+    id_var = globalVars.aux_ID
+    lim_sup = t[-1];
+
+    if globalVars.variable_in_global(id_var) :
+        # We initialize the table that will save all the proper attributes to calculate dimesions
+        curr_cont = globalVars.global_context   
+
+    # If it doesn't exist as global. Check if the "id" exists in the local variable table
+    elif globalVars.variable_in_local(id_var) :
+        # We initialize the table that will save all the proper attributes to calculate dimesions
+        curr_cont = globalVars.current_context
+
+    # The variable specified was not declared
+    else:
+        print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.current_context));
+        p_error(t)
+
+    globalVars.table_functions[curr_cont].vars_table[id_var].dimension['next']['sup'] = lim_sup
+    globalVars.R = (lim_sup - 0 + 1) * globalVars.R
+
+def p_np_var_7(t):
+    'np_var_7 : empty'
+    # Since we now know it is a dimentional variable, we open up the dimensional variable and assin its starting dimensions
+    id_var = globalVars.aux_ID
+
+    if globalVars.variable_in_global(id_var) :
+        # We initialize the table that will save all the proper attributes to calculate dimesions
+        curr_cont = globalVars.global_context  
+
+    # If it doesn't exist as global. Check if the "id" exists in the local variable table
+    elif globalVars.variable_in_local(id_var) :
+        # We initialize the table that will save all the proper attributes to calculate dimesions
+        curr_cont = globalVars.current_context
+
+    # The variable specified was not declared
+    else:
+        print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.current_context));
+        p_error(t)
+
+    if globalVars.table_functions[globalVars.current_context].vars_table[id_var].dimension['next']:
+      globalVars.table_functions[globalVars.current_context].vars_table[id_var].dimension['aux'] = globalVars.R / (globalVars.table_functions[curr_cont].vars_table[id_var].dimension['sup'] - 0 + 1)
+
+    if globalVars.current_context == globalVars.global_context:
+        # ... then ask for a "memory id" from the "global memory"
+        for i in range(globalVars.R - 1):
+          global_mem.save_memory_value("", globalVars.aux_type)
+          temp_memID = global_mem.get_counter(globalVars.aux_type)
+    else:
+        # ... then ask for a "memory id" from the "local memory"
+        for i in range(globalVars.R - 1):
+          local_mem.save_memory_value("", globalVars.aux_type)
+          temp_memID = local_mem.get_counter(globalVars.aux_type)
+
+
+
+
+
 ###################### M A K I N G    Q U A D R U P L E S ######################
 def p_np_quad_a1_int(t):
     'np_quad_a1_int : empty'
@@ -593,6 +728,7 @@ def p_np_quad_a2(t):
     'np_quad_a2 : empty'
     # Get the id from the variable
     id_var = t[-1]
+    globalVars.aux_ID = id_var
 
     # Check if the "id" exists in the global variable table
     if globalVars.variable_in_global(id_var) :
@@ -786,6 +922,120 @@ def p_np_quad_c4(t):
             alg_quad.push_type(n_type)
         else:
             sys.exit("ERROR: type mismatch")
+
+def p_np_quad_d1(t):
+    'np_quad_d1 : empty'
+    # found a dimensional variable. need to extract the O stack and transform into actual mem loc
+    useless_operand = alg_quad.pop_operand()
+    # useless_operand = alg_quad.peek_operand()
+    
+    # Check if the "id" exists in the global variable table
+    if globalVars.variable_in_global(globalVars.aux_ID) :
+        dim_description = globalVars.table_functions[globalVars.global_context].vars_table[globalVars.aux_ID].dimension
+
+
+    # If it doesn't exist as global. Check if the "id" exists in the local variable table
+    elif globalVars.variable_in_local(id_var) :
+        dim_description = globalVars.table_functions[globalVars.current_context].vars_table[globalVars.aux_ID].dimension
+
+    alg_quad.push_dim({'id': useless_operand, 'dim': 1, 'desc': dim_description})
+
+def p_np_quad_d2(t):
+    'np_quad_d2 : empty'
+    # found a dimensional variable. need to extract the O stack and transform into actual mem loc
+    curr_operand = alg_quad.peek_operand()
+    op_type = alg_quad.peek_type()
+    curr_dim = alg_quad.peek_dim()
+    if op_type == 0:
+      alg_quad.add_quadruple('VERF', curr_operand, 0, curr_dim['desc']['sup'])
+      if curr_dim['desc']['next']:
+        curr_operand = alg_quad.pop_operand()
+        op_type = alg_quad.pop_type()
+
+        temporal_mem.save_memory_value("", op_type)
+        n_temp = temporal_mem.get_counter(op_type)
+
+        alg_quad.add_quadruple(2, curr_operand, curr_dim['desc']['aux'], n_temp)
+        alg_quad.push_operand(n_temp)
+        alg_quad.push_type(op_type)
+
+      if curr_dim['dim'] > 1:
+        aux_1 = alg_quad.pop_operand()
+        aux1_t = alg_quad.pop_type()
+
+        aux_2 = alg_quad.pop_operand()
+        aux2_t = alg_quad.pop_type()
+
+        temporal_mem.save_memory_value("", aux1_t)
+        n_temp = temporal_mem.get_counter(aux1_t)
+
+        alg_quad.add_quadruple(0, aux_1, aux_2, n_temp)
+        alg_quad.push_operand(n_temp)
+        alg_quad.push_type(aux1_t)
+    else:
+      sys.exit("ERROR: Array access must be of type int")
+
+def p_np_quad_d3(t):
+    'np_quad_d3 : empty'
+    # verify if the variable has a next dimension. if not, mark error
+    curr_dim = alg_quad.pop_dim()
+    if curr_dim['desc']['next']:
+      curr_dim['desc'] = curr_dim['desc']['next']
+      curr_dim['dim'] = 2
+    else:
+      sys.exit("ERROR: Array invalid access. Array isnt bi-dimensional")
+
+    alg_quad.push_dim(curr_dim)
+
+def p_np_quad_d4(t):
+    'np_quad_d4 : empty'
+    # found a dimensional variable. need to extract the O stack and transform into actual mem loc
+    curr_operand = alg_quad.peek_operand()
+    op_type = alg_quad.peek_type()
+    curr_dim = alg_quad.peek_dim()
+    if op_type == 0:
+      alg_quad.add_quadruple('VERF', curr_operand, 0, curr_dim['desc']['sup'])
+
+      if curr_dim['dim'] > 1:
+        aux_1 = alg_quad.pop_operand()
+        aux1_t = alg_quad.pop_type()
+
+        aux_2 = alg_quad.pop_operand()
+        aux2_t = alg_quad.pop_type()
+
+        temporal_mem.save_memory_value("", aux1_t)
+        n_temp = temporal_mem.get_counter(aux1_t)
+
+        alg_quad.add_quadruple(0, aux_1, aux_2, n_temp)
+        alg_quad.push_operand(n_temp)
+        alg_quad.push_type(aux1_t)
+    else:
+      sys.exit("ERROR: Array access must be of type int")
+
+def p_np_quad_d5(t):
+    'np_quad_d5 : empty'
+    # found a dimensional variable. need to extract the O stack and transform into actual mem loc
+    curr_dim = alg_quad.pop_dim()
+    if 'next' in curr_dim['desc']:
+      if curr_dim['desc']['next']:
+        sys.exit("ERROR: Array invalid access. Array is bi-dimensional and only one dimention was given")
+
+    aux_1 = alg_quad.pop_operand()
+    aux1_t = alg_quad.pop_type()
+
+    temporal_mem.save_memory_value("", aux1_t)
+    n_temp_1 = temporal_mem.get_counter(aux1_t)
+
+    alg_quad.add_quadruple(0, aux_1, curr_dim['desc']['aux'], n_temp_1)
+
+    temporal_mem.save_memory_value("", aux1_t)
+    n_temp_2 = temporal_mem.get_counter(aux1_t)
+
+    alg_quad.add_quadruple(0, n_temp_1, curr_dim['id'], n_temp_2)
+
+    alg_quad.push_operand('('+str(n_temp_2)+')')
+    alg_quad.push_type(aux1_t)
+
 
 #---------------------------- p r i n t    q u a d -----------------------------
 def p_np_quad_print(t):
@@ -1101,6 +1351,7 @@ def p_empty(p):
 
 def p_error(t):
     sys.exit("Ending program due to errors")
+
 
 # Used in MAIN, reads the data from the command line
 def read_from_console():

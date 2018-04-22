@@ -8,6 +8,8 @@ class Table:
         self.global_context = ""
         self.aux_ID = ""
         self.aux_type = ""
+        self.R = 1
+
 
     def exists_in_global(self):
         return self.table_functions[self.global_context].search_variable(self.aux_ID);
@@ -62,3 +64,7 @@ class Table:
         self.global_context = ""
         self.aux_ID = ""
         self.aux_type = ""
+
+    def reset_dim(self):
+        self.R = 1
+

@@ -1,0 +1,6 @@
+program cats;
+var int cMyGlobal1 [5][3], cMyGlobal2 [9], cMyGlobal3;  
+
+main () {
+	cMyGlobal3 = 3 + cMyGlobal2 [0];
+}

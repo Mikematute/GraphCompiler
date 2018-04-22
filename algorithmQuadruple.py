@@ -11,6 +11,7 @@ class Algorithm_Quadruple:
         self.s_function = []
         self.param_counter = 0
         self.avail = -1
+        self.s_dim = []
 
     def add_quadruple(self, op, el1, el2, res):
         temp_quad = Quadruple(op, el1, el2, res)
@@ -79,6 +80,9 @@ class Algorithm_Quadruple:
     def push_function(self, var):
         self.s_function.append(var)
 
+    def push_dim(self, dim):
+        self.s_dim.append(dim)
+
     # .pop method
     # pops the first element form the specified stack
     def pop_jump(self):
@@ -95,6 +99,9 @@ class Algorithm_Quadruple:
 
     def pop_function(self):
         return self.s_function.pop()
+
+    def pop_dim(self):
+        return self.s_dim.pop()
 
     # .peek method
     # returns the first element from the specified stack without poping it
@@ -125,5 +132,11 @@ class Algorithm_Quadruple:
     def peek_function(self):
         if self.s_function:
             return self.s_function[-1]
+        else:
+            return -1
+
+    def peek_dim(self):
+        if self.s_dim:
+            return self.s_dim[-1]
         else:
             return -1
