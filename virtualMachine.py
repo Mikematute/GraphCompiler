@@ -13,16 +13,16 @@ class Virtual_Machine:
         self.globalVars     = g_vars
         self.quadruples     = quad
         self.instruction_pointer = 0
-        self.int_to_operator = { 0 : '+',
-                                 1 : '-',
-                                 2 : '*',
-                                 3 : '/',
-                                 4 : '=',
-                                 5 : '%',
-                                 6 : '&&',
-                                 7 : '||',
-                                 8 : '<',
-                                 9 : '>',
+        self.int_to_operator = {0  : '+',
+                                1  : '-',
+                                2  : '*',
+                                3  : '/',
+                                4  : '=',
+                                5  : '%',
+                                6  : '&&',
+                                7  : '||',
+                                8  : '<',
+                                9  : '>',
                                 10 : '<=',
                                 11 : '>=',
                                 12 : '!=',
@@ -43,6 +43,7 @@ class Virtual_Machine:
         while(current_quad.operation != "END"):
             self.perform_operation(current_quad)
             current_quad = self.quadruples.lst_quadruples[self.instruction_pointer]
+            
 
     def perform_operation(self, quad):
         operation = quad.operation
@@ -309,7 +310,7 @@ class Virtual_Machine:
             self.quadruples.push_ip(self.instruction_pointer + 1)
             self.quadruples.push_function(function_name)
             # Change the instruction pointer to that function
-            self.instruction_pointer = function_ip
+            self.instruction_pointer = function_ip - 1
         #----------------------------- r e t u r n -----------------------------
         elif operation == 'RETURN':
             # Get the left operator

@@ -38,6 +38,14 @@ class Table:
             print ("----------------------------------------")
             function_details.print_function()
 
+
+    def search_function(self, function_name):
+        # If the function exists in the table of functions
+        if function_name in self.table_functions:
+            # Then return the object of the function
+            return self.table_functions[function_name]
+
+
     def search_variable_by_memory(self, value):
         # Search through all the tables
         for table in self.table_functions:

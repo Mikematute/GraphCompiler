@@ -43,7 +43,8 @@ main ()
     print(myIntA);
   }
 
+  hola(1);
 
-  myIntA = hello(1, 2+3);  
+  myIntA = hello(1, 2+3) + 5;
   print(myIntA);
 }

@@ -1311,18 +1311,22 @@ def p_np_gosub(t):
     if current_counter < paramters:
         print('ERROR: More arguments expected on function call <{0}>'.format(alg_quad.peek_function()))
     # Program is ready to be executed. We create a GOSUB with the name
-    function_aux = alg_quad.pop_function()
-    alg_quad.add_quadruple('GOSUB', function_aux, '', '')
+    function_name = alg_quad.pop_function()
+    alg_quad.add_quadruple('GOSUB', function_name, '', '')
     alg_quad.param_counter = 0
 
     
     # Procedures to assign the return value, if any, to a temporal
-    func_obj = globalVars.search_variable_by_id(function_aux)
-    func_address = func_obj.direction
-    func_type = func_obj.type
+    # Retrieve the function object from the table of directions
+    function_obj = globalVars.search_function(function_name)
+    # If that function is different from void...
+    if function_obj.type != "void":
+      # Then it was declared as a global variable to return the result
+      func_obj = globalVars.search_variable_by_id(function_name)
+      func_address = func_obj.direction
+      func_type = type_conv.get(func_obj.type)
 
-    # If the function is different from void...
-    if func_type != "void":      
+
       # new temp based on oracle
       temporal_mem.save_memory_value("", func_type)
       n_temp = temporal_mem.get_counter(func_type)
