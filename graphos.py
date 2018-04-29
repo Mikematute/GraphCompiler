@@ -283,8 +283,8 @@ def p_c_forin(t):
     'c_forin : FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK'
 #------------------------- f u n c t i o n _ c a l l ---------------------------
 def p_function_call(t):
-    '''function_call : ID np_era LPAREN function_call_1 RPAREN np_gosub
-                      | ID np_era LPAREN RPAREN np_gosub'''
+    '''function_call : ID LPAREN np_era function_call_1 RPAREN np_gosub
+                      | ID LPAREN np_era RPAREN np_gosub'''
 
 def p_function_call_1(t):
     '''function_call_1 : expression np_param
@@ -1277,7 +1277,7 @@ def p_np_debug(t):
 def p_np_era(t):
     'np_era : empty'
     # Grab the current ID and verify if it is declared as a function.
-    function_aux = t[-1]
+    function_aux = t[-2]
     if function_aux in globalVars.table_functions:
       # If true, we save in the stack and create an ERA call
       alg_quad.push_function(function_aux)
