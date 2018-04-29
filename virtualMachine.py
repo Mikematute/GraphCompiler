@@ -288,8 +288,51 @@ class Virtual_Machine:
             else:
                 self.instruction_pointer = self.instruction_pointer + 1
         #-------------------------------- e r a --------------------------------
+        elif operation == 'ERA':
+            # Saves the current instruction pointer
+            print("ERA cuadruple")
+            # Advance the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------------------ p a r a m ------------------------------
+        elif operation == 'PARAM':
+            print("PARAM cuadruple")
+            # Advance the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------------------ g o s u b ------------------------------
+        elif operation == 'GOSUB':
+            # Get the name of the function to be called
+            function_name = quad.element_1
+            # Get the instruction number where the function starts
+            function_ip = self.globalVars.table_functions[function_name].init_quadruple
+            # Save the next instruction pointer in the stack of IPs, so the program
+            # can return to the next instruction
+            self.quadruples.push_ip(self.instruction_pointer + 1)
+            self.quadruples.push_function(function_name)
+            # Change the instruction pointer to that function
+            self.instruction_pointer = function_ip
+        #----------------------------- r e t u r n -----------------------------
+        elif operation == 'RETURN':
+            # Get the left operator
+            memory_id = self.search_for_memory(self.quadruples.peek_function())
+            # Get the right operator
+            value = self.search_in_memory(quad.element_1)
+            # Cast the result into the appropiate type according to the oracle
+            # Save the result in the left operator
+            self.save_in_memory(memory_id, value)
+
+            # Retrieve the last instruction pointer added to the functions stack
+            last_ip = self.quadruples.pop_ip()
+            self.quadruples.pop_function()
+            # Return the instruction pointer
+            self.instruction_pointer = last_ip
+        #---------------------------- e n d p r o c ----------------------------
+        elif operation == 'ENDPROC':
+            # Retrieve the last instruction pointer added to the functions stack
+            last_ip = self.quadruples.pop_ip()
+            self.quadruples.pop_function()
+            # Return the instruction pointer
+            self.instruction_pointer = last_ip
+
         #----------------------------- r e t u r n -----------------------------
 
     def search_in_memory(self, memory_id):
@@ -308,6 +351,13 @@ class Virtual_Machine:
         # If the result is 4, it is the constant memory
         elif memory_type == 4:
             return self.constant_mem.get_memory_value(memory_id)
+
+
+    def search_for_memory(self, variable):
+        # Search on every table and retrieve the variable object
+        variable_obj = self.globalVars.search_variable_by_id(variable)
+        # Send back the variable memory address
+        return variable_obj.direction
 
 
     def save_in_memory(self, memory_id, result):

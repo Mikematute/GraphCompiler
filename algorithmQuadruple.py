@@ -9,6 +9,7 @@ class Algorithm_Quadruple:
         self.s_operand = []
         self.s_type = []
         self.s_function = []
+        self.s_ip = []
         self.param_counter = 0
         self.avail = -1
         self.s_dim = []
@@ -62,6 +63,11 @@ class Algorithm_Quadruple:
             print(str(type) + " ", end='')
         print()
 
+    def print_ip(self):
+        for type in self.s_ip:
+            print(str(type) + " ", end='')
+        print()
+
 
     # .push method
     # pushes the 'var' into the specified stack
@@ -79,6 +85,9 @@ class Algorithm_Quadruple:
 
     def push_function(self, var):
         self.s_function.append(var)
+
+    def push_ip(self, var):
+        self.s_ip.append(var)
 
     def push_dim(self, dim):
         self.s_dim.append(dim)
@@ -99,6 +108,9 @@ class Algorithm_Quadruple:
 
     def pop_function(self):
         return self.s_function.pop()
+
+    def pop_ip(self):
+        return self.s_ip.pop()
 
     def pop_dim(self):
         return self.s_dim.pop()
@@ -132,6 +144,12 @@ class Algorithm_Quadruple:
     def peek_function(self):
         if self.s_function:
             return self.s_function[-1]
+        else:
+            return -1
+
+    def peek_ip(self):
+        if self.s_ip:
+            return self.s_ip[-1]
         else:
             return -1
 

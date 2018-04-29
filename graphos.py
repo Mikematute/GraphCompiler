@@ -51,6 +51,7 @@ testing_temp = 0
 
 reserved = {
     'program'   : 'PROGRAM',
+    'return'    : 'RETURN',
     'var'       : 'VAR',
     'void'      : 'VOID',
     'main'      : 'MAIN',
@@ -239,7 +240,8 @@ def p_statutes_1(t):
                   | writing
                   | condition
                   | cycle
-                  | function_call'''
+                  | function_call SCOLO
+                  | return'''
 #---------------------------- a s s i g n a t i o n ----------------------------
 def p_assignation(t):
     'assignation : ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO'
@@ -281,17 +283,18 @@ def p_c_forin(t):
     'c_forin : FOR LPAREN ID IN ID RPAREN LBRACK statutes RBRACK'
 #------------------------- f u n c t i o n _ c a l l ---------------------------
 def p_function_call(t):
-    '''function_call : ID np_era LPAREN function_call_2 RPAREN np_gosub SCOLO
-                      | ID np_era LPAREN RPAREN np_gosub SCOLO'''
+    '''function_call : ID np_era LPAREN function_call_1 RPAREN np_gosub
+                      | ID np_era LPAREN RPAREN np_gosub'''
 
 def p_function_call_1(t):
-    '''function_call_1 : empty
-                       | function_call_2'''
-
-def p_function_call_2(t):
-    '''function_call_2 : expression np_param
-                       | expression np_param COMA function_call_2
+    '''function_call_1 : expression np_param
+                       | expression np_param COMA function_call_1
                        '''
+
+#-------------------------------- r e t u r n ----------------------------------
+def p_return(t):
+    '''return : RETURN expression np_return SCOLO
+    '''
 
 ############################## E X P R E S S I O N #############################
 def p_expression(t):
@@ -329,6 +332,7 @@ def p_exp_lv5(t):
     '''exp_lv5 : RPAREN expression LPAREN
                | var_cte
                | method
+               | function_call
                | ID np_quad_a2
                | ID np_quad_a2 array_access'''
 
@@ -422,6 +426,24 @@ def p_np_var_b3(t):
     'np_var_b3 : empty'
     # Create the table of function variables
     globalVars.table_functions[globalVars.current_context]
+    # Saves the quadruple where the function begins
+    function_name = globalVars.current_context
+    globalVars.table_functions[function_name].init_quadruple = alg_quad.instruction_pointer + 1
+    # If the type is different from void then save it as a global variable
+    if globalVars.aux_type != "void":
+      # Get a memory value from the global memory
+      global_mem.save_memory_value("", globalVars.aux_type)
+      temp_memID = global_mem.get_counter(globalVars.aux_type)
+      # Get the function name
+      function_name = globalVars.global_context
+      # Get the current context
+      aux_current = globalVars.current_context
+      # Change the current context to global context
+      globalVars.current_context = globalVars.global_context
+      # Save the variable
+      globalVars.add_var(temp_memID);
+      # Restablish the current context
+      globalVars.current_context = aux_current
 
 def p_np_var_b4(t):
     'np_var_b4 : empty'
@@ -466,7 +488,7 @@ def p_np_var_b6(t):
     # Reseting the "memory ID counter" from "temporal memory"
     temporal_mem.reset_cont()
     # We also need to add the end of the function quadruple.
-    alg_quad.add_quadruple('RETURN', '', '', '')
+    alg_quad.add_quadruple('ENDPROC', '', '', '')
 
 #---------------------------------- m a i n ------------------------------------
 def p_np_var_c1(t):
@@ -483,10 +505,13 @@ def p_np_var_c1(t):
     # adds MAIN to the direction table
     globalVars.add_dir();
 
+
 def p_np_var_c2(t):
     'np_var_c2 : empty'
     # Creates the table of main variables
     globalVars.table_functions['main']
+    # Saves the quadruple where the main begins
+    globalVars.table_functions['main'].init_quadruple = alg_quad.instruction_pointer + 1
 
 def p_np_var_c3(t):
     'np_var_c3 : empty'
@@ -562,7 +587,7 @@ def p_np_var_4(t):
 
     if globalVars.variable_in_global(id_var) :
         # We initialize the table that will save all the proper attributes to calculate dimesions
-        curr_cont = globalVars.global_context   
+        curr_cont = globalVars.global_context
 
     # If it doesn't exist as global. Check if the "id" exists in the local variable table
     elif globalVars.variable_in_local(id_var) :
@@ -610,7 +635,7 @@ def p_np_var_6(t):
 
     if globalVars.variable_in_global(id_var) :
         # We initialize the table that will save all the proper attributes to calculate dimesions
-        curr_cont = globalVars.global_context   
+        curr_cont = globalVars.global_context
 
     # If it doesn't exist as global. Check if the "id" exists in the local variable table
     elif globalVars.variable_in_local(id_var) :
@@ -632,7 +657,7 @@ def p_np_var_7(t):
 
     if globalVars.variable_in_global(id_var) :
         # We initialize the table that will save all the proper attributes to calculate dimesions
-        curr_cont = globalVars.global_context  
+        curr_cont = globalVars.global_context
 
     # If it doesn't exist as global. Check if the "id" exists in the local variable table
     elif globalVars.variable_in_local(id_var) :
@@ -657,9 +682,6 @@ def p_np_var_7(t):
         for i in range(globalVars.R - 1):
           local_mem.save_memory_value("", globalVars.aux_type)
           temp_memID = local_mem.get_counter(globalVars.aux_type)
-
-
-
 
 
 ###################### M A K I N G    Q U A D R U P L E S ######################
@@ -928,7 +950,7 @@ def p_np_quad_d1(t):
     # found a dimensional variable. need to extract the O stack and transform into actual mem loc
     useless_operand = alg_quad.pop_operand()
     # useless_operand = alg_quad.peek_operand()
-    
+
     # Check if the "id" exists in the global variable table
     if globalVars.variable_in_global(globalVars.aux_ID) :
         dim_description = globalVars.table_functions[globalVars.global_context].vars_table[globalVars.aux_ID].dimension
@@ -1162,9 +1184,11 @@ def p_np_statutes_b3(t):
     # Save the IP from the "jump stack" that takes to the beggining of the While
     aux_return_while = alg_quad.pop_jump()
     # Make the cuadruple to return to the beggining of the While expression
-    alg_quad.add_quadruple('GOTO', '', '', aux_return_while)
+    alg_quad.add_quadruple('GOTO', '', '', aux_return_while+1)
     # Fill the pending quadruple with the jump to the end of the While expression
+    alg_quad.instruction_pointer = alg_quad.instruction_pointer + 1
     alg_quad.fill_jump(aux_end_while)
+    alg_quad.instruction_pointer = alg_quad.instruction_pointer - 1
 
 #------------------------------ d o   w h i l e --------------------------------
 def p_np_statutes_c1(t):
@@ -1246,7 +1270,6 @@ def p_np_goto_main(t):
     # Add the quadruple GOTO to skip to the main
     alg_quad.add_quadruple('GOTO', '', '', '')
 
-
 def p_np_debug(t):
     'np_debug : empty'
     print("Hello there")
@@ -1292,6 +1315,24 @@ def p_np_gosub(t):
     alg_quad.add_quadruple('GOSUB', function_aux, '', '')
     alg_quad.param_counter = 0
 
+    
+    # Procedures to assign the return value, if any, to a temporal
+    func_obj = globalVars.search_variable_by_id(function_aux)
+    func_address = func_obj.direction
+    func_type = func_obj.type
+
+    # If the function is different from void...
+    if func_type != "void":      
+      # new temp based on oracle
+      temporal_mem.save_memory_value("", func_type)
+      n_temp = temporal_mem.get_counter(func_type)
+      # Add a cuadruple to assign the result of the function to a new temporal
+      alg_quad.add_quadruple(4, n_temp, '', func_address)
+      # Add the temporal and the type to the stacks
+      alg_quad.push_operand(n_temp)
+      alg_quad.push_type(func_type)
+    
+
 def p_np_param(t):
     'np_param : empty'
     # Retrieve the memory location of the specified parameter
@@ -1314,6 +1355,14 @@ def p_np_param(t):
             print('ERROR: Type mismatch in arguments on function call <{0}>'.format(function_name))
     else:
         print('ERROR: Too many arguments on function call <{0}>. Ignoring the remaining arguments'.format(function_name))
+
+def p_np_return(t):
+  'np_return : empty'
+  # The last operand added to the stack
+  ret = alg_quad.pop_operand()
+  # Build a cuadruple of return with the last operand added in the stack
+  alg_quad.add_quadruple('RETURN', ret, '', '')
+
 
 ################################################################################
 #                                 O T H E R S                                  #

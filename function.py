@@ -32,14 +32,14 @@ class Function:
         return variable in self.vars_table
 
     def print_function(self):
-        print("ID        : " + self.id)
-        print("TYPE      : " + self.type)
-        print("QUADRUPLE : " + str(self.init_quadruple))
-        print("PARAMETERS: " + str(self.get_parameter_size()))
-        print("PARA_TYPE : " + str(self.parameters))
-        print("VARIABLES : " + str(self.variables))
-        print("TEMPORALS : " + str(self.temporal))
-        print("VARS TABLE:")
+        print("ID         : " + self.id)
+        print("TYPE       : " + self.type)
+        print("STARTS IN  : " + str(self.init_quadruple))
+        print("PARAMETERS : " + str(self.get_parameter_size()))
+        print("PARA_TYPE  : " + str(self.parameters))
+        print("VARIABLES  : " + str(self.variables))
+        print("TEMPORALS  : " + str(self.temporal))
+        print("VARS TABLE :")
         print('{0:20} {1:10} {2:10}'.format("ID", "TYPE", "DIRECTION"))
         for variable in self.vars_table:
             variable_details = self.vars_table[variable]

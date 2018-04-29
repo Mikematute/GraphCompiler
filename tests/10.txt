@@ -1,0 +1,49 @@
+program cats;
+  var int myGlobalInt1, myGlobalInt2;
+
+
+int hello(int parameter1, int parameter2) {
+  var int myLocalInt1;
+
+  print("hello there");
+  print("hello there");
+  print("hello there");
+  print("hello there");
+  print("hello there");
+
+  return 10+5;
+}
+
+void hola(int hola) {
+  print("taquitos");
+  print("taquitos");
+  print("taquitos");
+}
+
+main ()
+{
+	var int myIntA, myIntB;
+  myIntA = 1;
+  myIntB = 0;
+
+  print("Empezando ciclo 1 ...");
+  while(myIntB < 10){
+    myIntB = myIntB + 1;
+    print(myIntB);
+  }
+
+
+  print("Una operacion ...");
+  myIntA = 5 + 9 / 2;
+
+
+  print("Empezando ciclo 2 ...");
+  while(myIntA > 1){
+    myIntA = myIntA - 1;
+    print(myIntA);
+  }
+
+
+  myIntA = hello(1, 2+3);  
+  print(myIntA);
+}
