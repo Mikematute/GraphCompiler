@@ -53,6 +53,9 @@ class Virtual_Machine:
             # Get the right operator
             r_op = self.search_in_memory(quad.element_2)
             # Perform the operation
+            if isinstance(l_op, str):
+                l_op = l_op.strip("\"")
+                r_op = r_op.strip("\"")
             result = l_op + r_op
             # Cast the result into the appropiate type according to the oracle
             result = self.cast_to_type(quad, result)
@@ -259,7 +262,7 @@ class Virtual_Machine:
             # Get the operator
             l_op = self.search_in_memory(quad.element_1)
             # Perform the operation
-            print(str(l_op))
+            print(str(l_op).strip("\""))
             # Advance the instruction pointer one step
             self.instruction_pointer = self.instruction_pointer + 1
         #------------------------------- g o t o -------------------------------

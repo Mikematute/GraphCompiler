@@ -1,0 +1,10 @@
+program cats;
+  var int myGlobalInt1, myGlobalInt2;
+
+main ()
+{
+	print(5);
+  print("hola");
+  print(9+6);
+  print("hola" + "Sup");
+}
