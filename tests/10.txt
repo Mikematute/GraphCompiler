@@ -25,7 +25,7 @@ main ()
 	var int myIntA, myIntB, myIntC[10];
   myIntA = 1;
   myIntB = 0;
-  
+  myIntC[0] = 0;
   
 
   print("Empezando ciclo 1 ...");

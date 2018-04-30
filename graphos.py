@@ -252,8 +252,7 @@ def p_statutes_1(t):
 #---------------------------- a s s i g n a t i o n ----------------------------
 def p_assignation(t):
     '''assignation : ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
-                   | ID np_arr_f1 LCORCH np_arr_f2 expression np_arr_f3 RCORCH np_arr_f7 EQL expression SCOLO
-                   | ID np_arr_f1 LCORCH np_arr_f2 expression np_arr_f3 RCORCH np_arr_f4 LCORCH expression np_arr_f5 RCORCH np_arr_f6 np_arr_f7 EQL expression SCOLO'''
+                   | ID np_quad_a2 array_access EQL np_quad_b expression np_quad_assign SCOLO'''
 
 #------------------------------- w r i t i n g ---------------------------------
 def p_writing(t):
@@ -956,6 +955,7 @@ def p_np_quad_c4(t):
 
 def p_np_quad_d1(t):
     'np_quad_d1 : empty'
+    id_var = globalVars.aux_ID
     # found a dimensional variable. need to extract the O stack and transform into actual mem loc
     useless_operand = alg_quad.pop_operand()
     # useless_operand = alg_quad.peek_operand()
@@ -1126,77 +1126,6 @@ def p_np_quad_assign(t):
         else:
             sys.exit("ERROR: type mismatch")
 
-#--------------------- a s s i g n a t i o n    a r r a y ----------------------
-def p_np_arr_f1(t):
-  'np_arr_f1 : empty'
-  id_var = t[-1]
-  globalVars.aux_ID = id_var
-
-  # Check if the "id" exists in the global variable table
-  if globalVars.variable_in_global(id_var) :
-      function_table = globalVars.table_functions[globalVars.global_context]
-      var_table = function_table.vars_table[id_var]
-      # Capture the value of the "memory ID" assigned to that variable
-      temp_memID = var_table.direction
-      # Capture the value of the "type" that belongs to that variable
-      temp_type = var_table.type
-      # Change the type to its equivalent integer
-      temp_type = type_conv.get(temp_type)
-      # Store the values "memory ID" and "type" in the corresponding stacks
-      #   of the "alg_quad" object
-      alg_quad.push_operand(temp_memID)
-      alg_quad.push_type(temp_type)
-
-  # If it doesn't exist as global. Check if the "id" exists in the local variable table
-  elif globalVars.variable_in_local(id_var) :
-      function_table = globalVars.table_functions[globalVars.current_context]
-      var_table = function_table.vars_table[id_var]
-      # Capture the value of the "memory ID" assigned to that variable
-      temp_memID = var_table.direction
-      # Capture the value of the "type" that belongs to that variable
-      temp_type = var_table.type
-      # Change the type to its equivalent integer
-      temp_type = type_conv.get(temp_type)
-      # Store the values "memory ID" and "type" in the corresponding stacks
-      #   of the "alg_quad" object
-      alg_quad.push_operand(temp_memID)
-      alg_quad.push_type(temp_type)
-
-  # The variable specified was not declared
-  else:
-      print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.current_context));
-      p_error(t)
-
-
-def p_np_arr_f2(t):
-  'np_arr_f2 : empty'
-  # Get the operand on top of the stack
-  array_memory = alg_quad.pop_operand()
-  array_obj = globalVars.search_variable_by_memory(array_memory)
-
-  # Verify that the operand is a dimensioned variable ...
-  if bool(array_obj.dimension) == False:
-    print("Variable is dimensioned")
-    # Place a parenthesis to control multiple arrays
-  # ... The variable is not a dimensioned variable
-  else:
-    print ('ERROR: Variable: <{0}>, was not declared as array'.format(array_obj.id));
-
-def p_np_arr_f3(t):
-  'np_arr_f3 : empty'
-
-def p_np_arr_f4(t):
-  'np_arr_f4 : empty'
-
-def p_np_arr_f5(t):
-  'np_arr_f5 : empty'
-
-def p_np_arr_f6(t):
-  'np_arr_f6 : empty'
-
-def p_np_arr_f7(t):
-  'np_arr_f7 : empty'
-
 
 ####################### J U M P S   I N   S T A T U T E S ######################
 #---------------------------- i f    -    e l s e ------------------------------
@@ -1349,10 +1278,6 @@ def p_np_goto_main(t):
     alg_quad.push_jump(alg_quad.instruction_pointer)
     # Add the quadruple GOTO to skip to the main
     alg_quad.add_quadruple('GOTO', '', '', '')
-
-def p_np_debug(t):
-    'np_debug : empty'
-    print("Hello there")
 
 def p_np_era(t):
     'np_era : empty'
