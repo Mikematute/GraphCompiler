@@ -12,6 +12,7 @@ class Memory_Array:
 
     def add_value_at_index(self, value, index):
         self.values[index] = value
+        self.values.append("")
 
     def increment_counter(self, increment=1):
         self.counter = self.counter + increment

@@ -351,6 +351,37 @@ class Virtual_Machine:
                 self.instruction_pointer = self.instruction_pointer + 1
             else:
                 self.print_error("array outbounds", True)
+        #---------------------------- a d d n o d e ----------------------------
+        elif operation == 'ADDNODE':
+            # Retrieve the value of the node
+            node_value = self.search_in_memory(quad.element_1)
+            # Retrieve the index to which the node will be added
+            node_index = self.search_in_memory(quad.element_2)
+            # Retrieve the graph memory address
+            graph_address = quad.result
+            # Retrieve the real node memory address to which the value will be saved
+            node_address = self.get_node_address(graph_address, node_index)
+            # Save the value of the node in the given address
+            self.save_in_memory(node_address, node_value)
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
+        #---------------------------- g e t n o d e ----------------------------
+        elif operation == 'GETNODE':
+            # Retrieve the index to which the node will be looked for
+            node_index = self.search_in_memory(quad.element_1)
+            # Retrieve the graph memory address
+            graph_address = quad.element_2
+            # Retrieve the real node memory address to which the value will be retrieved
+            node_address = self.get_node_address(graph_address, node_index)
+
+            # Retrieve the value stored in that node
+            node_value = self.search_in_memory(node_address)
+
+            # Save the value of the node in the given temporal address
+            self.save_in_memory(quad.result, node_value)
+
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
 
     def search_in_memory(self, memory_id):
         # Verify escape int 
@@ -450,12 +481,22 @@ class Virtual_Machine:
         elif result_type == 4:
             return bool(value)
 
+
     def print_error(self, error_type, program_stop, variable=""):
 
         if error_type == "array outbounds":
             print("Index exceeds dimensions of array")
             if program_stop:
                 sys.exit("Ending program due to errors")
+
+
+    def get_node_address(self, graph_address, index):
+        # Get the memory address where the graph points (the initial node)
+        node_address = self.search_in_memory(graph_address)
+        # Add to the initial node address, twice the index variable
+        node_address = int(node_address) + (int(index) * 2)
+        # Return that address
+        return node_address
 
 
 

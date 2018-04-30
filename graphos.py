@@ -75,6 +75,7 @@ reserved = {
     'shortpath' : 'SHORTPATH',
     'diameter'  : 'DIAMETER',
     'addNode'   : 'ADDNODE',
+    'getNode'   : 'GETNODE',
     'delete'    : 'DELETE'
 }
 
@@ -340,6 +341,7 @@ def p_exp_lv5(t):
     '''exp_lv5 : RPAREN expression LPAREN
                | var_cte
                | function_call
+               | method
                | ID np_quad_a2
                | ID np_quad_a2 array_access'''
 
@@ -371,7 +373,8 @@ def p_method_t(t):
     '''method_t : DEG
                 | SHORTPATH
                 | DIAMETER
-                | ADDNODE LPAREN expression RPAREN
+                | ADDNODE LPAREN expression np_graph_2 COMA expression np_graph_3 RPAREN
+                | GETNODE LPAREN expression np_graph_4 RPAREN
                 | DELETE
                 | ARC'''
 
@@ -382,28 +385,83 @@ def p_method_t(t):
 #                                                                              #
 ################################################################################
 
-#--------------------------------- g r a p h -----------------------------------
+################################## G R A P H ###################################
+#------------------------------- g e n e r a l ---------------------------------
 def p_np_graph_1(t):
   'np_graph_1 : empty'
   # Get the ID
   globalVars.aux_ID = t[-1];
   # Verify that the ID exists in the local or global context
-  if globalVars.variable_in_global(id_var) :
+  if globalVars.variable_in_global(globalVars.aux_ID) :
+    variable_obj = globalVars.table_functions[globalVars.global_context].vars_table[globalVars.aux_ID]
     # Verify that the ID belongs to a graph type
-    if
-    # add the current ID to the auxiliare ID managed in the tables 
+    if variable_obj.type == 'directed':
+      alg_quad.push_operand(variable_obj.direction)
+      alg_quad.push_type(7)
+    else:
+      print ('ERROR: Variable: <{0}>, in function: <{1}> is not type graph'.format(globalVars.aux_ID, globalVars.current_context))
 
-  elif globalVars.variable_in_local(id_var) :
+  elif globalVars.variable_in_local(globalVars.aux_ID) :
+    variable_obj = globalVars.table_functions[globalVars.current_context].vars_table[globalVars.aux_ID]
+    # Verify that the ID belongs to a graph type
+    if variable_obj.type == 'directed':
+      alg_quad.push_operand(variable_obj.direction)
+      alg_quad.push_type(7)
+    else:
+      print ('ERROR: Variable: <{0}>, in function: <{1}> is not type graph'.format(globalVars.aux_ID, globalVars.current_context))
 
   else:
-    print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(globalVars.aux_ID, globalVars.current_context));
+    print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(globalVars.aux_ID, globalVars.current_context))
     p_error(t)
 
+#----------------------------- a d d    n o d e --------------------------------
 def p_np_graph_2(t):
+  'np_graph_2 : empty'
+  # retrieve the expression type
+  expression_type= alg_quad.pop_type()
   # Verify that the value delivered is a string
-    # Create qudruple to add the node to the graph
-    alg_quad.add_quadruple('ADDNODE', node_value, node_position, graph_address)
+  if expression_type != 3:
+    print ('ERROR: First argument in variable: <{0}>, must be type string. Skipping operation'.format(globalVars.aux_ID));
 
+def p_np_graph_3(t):
+  'np_graph_3 : empty'
+  
+  expression_type= alg_quad.pop_type()
+  # Verify that the value delivered is an int
+  if expression_type == 0:
+    # Create qudruple to add the node to the graph
+    node_index = alg_quad.pop_operand()
+    expression_val = alg_quad.pop_operand()
+    graph_address = '$' + str(alg_quad.pop_operand())
+    alg_quad.pop_type()
+
+    alg_quad.add_quadruple('ADDNODE', expression_val, node_index, graph_address)
+  else:
+    print ('ERROR: Second argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+
+#----------------------------- g e t    n o d e --------------------------------
+def p_np_graph_4(t):
+  'np_graph_4 : empty'
+  # Get the expression type
+  expression_type= alg_quad.pop_type()
+  # The type must be integer
+  if expression_type == 0:
+    # Generate the cuadruples to access the given node
+    node_index = alg_quad.pop_operand()
+    graph_address = '$' + str(alg_quad.pop_operand())
+    alg_quad.pop_type()
+    new_temporal = temporal_mem.get_counter(3)
+
+    alg_quad.add_quadruple('GETNODE', node_index, graph_address, new_temporal)
+    alg_quad.push_operand(new_temporal)
+    alg_quad.push_type(3)
+  else:
+    print ('ERROR: Argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+
+
+#----------------------------- a d d    n o d e --------------------------------
+#----------------------------- a d d    n o d e --------------------------------
+#----------------------------- a d d    n o d e --------------------------------
 
 ######################## A D D I N G  V A R I A B L E S ########################
 
