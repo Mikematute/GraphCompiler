@@ -30,8 +30,6 @@ class Virtual_Machine:
                                 14 : '!',
                                 15 : 'print'}
 
-
-
     def start(self):
         print("Starting VM")
         # Start "instruction_pointer" on 0

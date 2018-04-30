@@ -11,5 +11,4 @@ class Variable:
         self.dimension = {}
 
     def print_variable(self):
-        print('{0:20} {1:10} {2:10}'.format(str(self.id), str(self.type), str(self.direction)))
-        print(self.dimension)
+        print('{0:20} {1:10} {2:10} {3:10}'.format(str(self.id), str(self.type), str(self.direction), str(self.dimension)))

@@ -147,7 +147,9 @@ def t_error(t):
 import ply.lex as lex
 lexer = lex.lex()
 ################################################################################
+#                                                                              #
 #                                  R U L E S                                   #
+#                                                                              #
 ################################################################################
 # Parsing rules
 '''
@@ -163,6 +165,7 @@ import time
 ################################ P R O G R A M ################################
 def p_program(t):
     'program : PROGRAM ID np_var_a1 SCOLO np_var_a2 vars np_goto_main function body'
+
 ################################### V A R S ####################################
 def p_vars(t):
     '''vars : VAR type vars_1 SCOLO vars
@@ -197,9 +200,11 @@ def p_function_v1(t):
                    | type np_var_b4 ID np_var_b5 COMA function_v1
                    | type np_var_b4 ID np_var_b5 array_declare
                    | type np_var_b4 ID np_var_b5 array_declare COMA function_v1'''
+
 #################################### B O D Y ###################################
 def p_body(t):
     'body : MAIN np_var_c1 LPAREN RPAREN LBRACK np_var_c2 vars statutes RBRACK np_eof debug np_var_c3'
+
 #################################### T Y P E ###################################
 def p_type(t):
     '''type : t_number
@@ -223,6 +228,7 @@ def p_t_graph(t):
                | ARC np_var_1
                | UNDIRECTED np_var_1
                | DIRECTED np_var_1'''
+
 ########################### A R R A Y _ D E C L A R E ##########################
 def p_array_declare(t):
     'array_declare : np_var_3 LCORCH CTE_INT np_var_4 RCORCH array_declare_1 np_var_7'
@@ -230,6 +236,7 @@ def p_array_declare(t):
 def p_array_declare_1(t):
     '''array_declare_1 : np_var_5 LCORCH CTE_INT np_var_6 RCORCH
                        | empty'''
+
 ################################ S T A T U T E S ###############################
 def p_statutes(t):
     '''statutes : statutes_1 statutes
@@ -244,7 +251,9 @@ def p_statutes_1(t):
                   | return'''
 #---------------------------- a s s i g n a t i o n ----------------------------
 def p_assignation(t):
-    'assignation : ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO'
+    '''assignation : ID np_quad_a2 EQL np_quad_b expression np_quad_assign SCOLO
+                   | ID np_arr_f1 LCORCH np_arr_f2 expression np_arr_f3 RCORCH np_arr_f7 EQL expression SCOLO
+                   | ID np_arr_f1 LCORCH np_arr_f2 expression np_arr_f3 RCORCH np_arr_f4 LCORCH expression np_arr_f5 RCORCH np_arr_f6 np_arr_f7 EQL expression SCOLO'''
 
 #------------------------------- w r i t i n g ---------------------------------
 def p_writing(t):
@@ -293,8 +302,7 @@ def p_function_call_1(t):
 
 #-------------------------------- r e t u r n ----------------------------------
 def p_return(t):
-    '''return : RETURN expression np_return SCOLO
-    '''
+    'return : RETURN expression np_return SCOLO'
 
 ############################## E X P R E S S I O N #############################
 def p_expression(t):
@@ -354,10 +362,10 @@ def p_var_cte(t):
                | CTE_BOO np_quad_a1_bol
                | CTE_STRING np_quad_a1_str
                | CTE_CHAR np_quad_a1_chr'''
-    # print("enters cons")
 
 ################################## M E T H O D #################################
 def p_method(t):
+
     'method : ID DOT method_t LPAREN method_1 RPAREN'
 
 def p_method_1(t):
@@ -380,8 +388,11 @@ def p_method_v(t):
     '''method_v : ID
                 | LBRACK ID COMA ID RBRACK'''
 
+
 ################################################################################
+#                                                                              #
 #                        N E U R A L T I C   P O I N T S                       #
+#                                                                              #
 ################################################################################
 
 ######################## A D D I N G  V A R I A B L E S ########################
@@ -450,7 +461,6 @@ def p_np_var_b4(t):
     # Saves the variable type
     #globalVars.aux_type = t[-1];
 
-
 def p_np_var_b5(t):
     'np_var_b5 : empty'
     # Saves the variable ID
@@ -504,7 +514,6 @@ def p_np_var_c1(t):
     globalVars.aux_type = "void";
     # adds MAIN to the direction table
     globalVars.add_dir();
-
 
 def p_np_var_c2(t):
     'np_var_c2 : empty'
@@ -1088,7 +1097,6 @@ def p_np_quad_print(t):
       # alg_quad.push_type(n_type)
 
 #---------------------- a s s i g n a t i o n    q u a d -----------------------
-
 def p_np_quad_assign(t):
     'np_quad_assign : empty'
     # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
@@ -1117,6 +1125,78 @@ def p_np_quad_assign(t):
             # Change the "memory ID" of the left operand with the memory ID of the right operand
         else:
             sys.exit("ERROR: type mismatch")
+
+#--------------------- a s s i g n a t i o n    a r r a y ----------------------
+def p_np_arr_f1(t):
+  'np_arr_f1 : empty'
+  id_var = t[-1]
+  globalVars.aux_ID = id_var
+
+  # Check if the "id" exists in the global variable table
+  if globalVars.variable_in_global(id_var) :
+      function_table = globalVars.table_functions[globalVars.global_context]
+      var_table = function_table.vars_table[id_var]
+      # Capture the value of the "memory ID" assigned to that variable
+      temp_memID = var_table.direction
+      # Capture the value of the "type" that belongs to that variable
+      temp_type = var_table.type
+      # Change the type to its equivalent integer
+      temp_type = type_conv.get(temp_type)
+      # Store the values "memory ID" and "type" in the corresponding stacks
+      #   of the "alg_quad" object
+      alg_quad.push_operand(temp_memID)
+      alg_quad.push_type(temp_type)
+
+  # If it doesn't exist as global. Check if the "id" exists in the local variable table
+  elif globalVars.variable_in_local(id_var) :
+      function_table = globalVars.table_functions[globalVars.current_context]
+      var_table = function_table.vars_table[id_var]
+      # Capture the value of the "memory ID" assigned to that variable
+      temp_memID = var_table.direction
+      # Capture the value of the "type" that belongs to that variable
+      temp_type = var_table.type
+      # Change the type to its equivalent integer
+      temp_type = type_conv.get(temp_type)
+      # Store the values "memory ID" and "type" in the corresponding stacks
+      #   of the "alg_quad" object
+      alg_quad.push_operand(temp_memID)
+      alg_quad.push_type(temp_type)
+
+  # The variable specified was not declared
+  else:
+      print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.current_context));
+      p_error(t)
+
+
+def p_np_arr_f2(t):
+  'np_arr_f2 : empty'
+  # Get the operand on top of the stack
+  array_memory = alg_quad.pop_operand()
+  array_obj = globalVars.search_variable_by_memory(array_memory)
+
+  # Verify that the operand is a dimensioned variable ...
+  if bool(array_obj.dimension) == False:
+    print("Variable is dimensioned")
+    # Place a parenthesis to control multiple arrays
+  # ... The variable is not a dimensioned variable
+  else:
+    print ('ERROR: Variable: <{0}>, was not declared as array'.format(array_obj.id));
+
+def p_np_arr_f3(t):
+  'np_arr_f3 : empty'
+
+def p_np_arr_f4(t):
+  'np_arr_f4 : empty'
+
+def p_np_arr_f5(t):
+  'np_arr_f5 : empty'
+
+def p_np_arr_f6(t):
+  'np_arr_f6 : empty'
+
+def p_np_arr_f7(t):
+  'np_arr_f7 : empty'
+
 
 ####################### J U M P S   I N   S T A T U T E S ######################
 #---------------------------- i f    -    e l s e ------------------------------
@@ -1369,7 +1449,9 @@ def p_np_return(t):
 
 
 ################################################################################
+#                                                                              #
 #                                 O T H E R S                                  #
+#                                                                              #
 ################################################################################
 def p_debug(t):
     'debug : empty'
@@ -1452,7 +1534,9 @@ def read_from_file():
         fileName = input('WOOF > ')
 
 ################################################################################
+#                                                                              #
 #                            M A I N  P R O G R A M                            #
+#                                                                              #
 ################################################################################
 parser = yacc.yacc()
 read_from_file()

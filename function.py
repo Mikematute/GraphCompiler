@@ -40,7 +40,7 @@ class Function:
         print("VARIABLES  : " + str(self.variables))
         print("TEMPORALS  : " + str(self.temporal))
         print("VARS TABLE :")
-        print('{0:20} {1:10} {2:10}'.format("ID", "TYPE", "DIRECTION"))
+        print('{0:20} {1:10} {2:10} {3:10}'.format("ID", "TYPE", "DIRECTION", "ARRAY PROP."))
         for variable in self.vars_table:
             variable_details = self.vars_table[variable]
             variable_details.print_variable()
