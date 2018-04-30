@@ -53,5 +53,5 @@ main ()
   
   print(myIntA);
 
-  print(myIntC[10]);
+  print(myIntC[0]);
 }

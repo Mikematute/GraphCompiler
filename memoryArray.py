@@ -15,3 +15,4 @@ class Memory_Array:
 
     def increment_counter(self, increment=1):
         self.counter = self.counter + increment
+

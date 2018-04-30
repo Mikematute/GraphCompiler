@@ -22,5 +22,7 @@ void hola(int hola) {
 
 main ()
 {
-	var 
+	var directed myGraph1[3], myGraph2[5], myGraph3[2];
+  
+  myGraph1.addNode("Hey", 2);
 }

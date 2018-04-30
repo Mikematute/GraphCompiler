@@ -83,7 +83,7 @@ class Memory:
 			return to_return
 		elif counter_id == "node" or counter_id == 5:
 			to_return = self.node_memory.counter
-			self.node_memory.increment_counter()
+			self.node_memory.increment_counter(2)
 			return to_return
 		elif counter_id == "arc" or counter_id == 6:
 			to_return = self.arc_memory.counter
@@ -172,3 +172,4 @@ class Memory:
 			self.directed_memory.add_value_at_index(value, index)
 		elif data_type == 8:
 			self.undirected_memory.add_value_at_index(value, index)
+

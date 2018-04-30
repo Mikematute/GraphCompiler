@@ -248,7 +248,7 @@ def p_statutes_1(t):
                   | condition
                   | cycle
                   | function_call SCOLO
-                  | method
+                  | method SCOLO
                   | return'''
 #---------------------------- a s s i g n a t i o n ----------------------------
 def p_assignation(t):
@@ -365,7 +365,7 @@ def p_var_cte(t):
 ################################## M E T H O D #################################
 def p_method(t):
 
-    'method : ID CTE_INT DOT method_t'
+    'method : ID np_graph_1 DOT method_t'
 
 def p_method_t(t):
     '''method_t : DEG
@@ -381,6 +381,29 @@ def p_method_t(t):
 #                        N E U R A L T I C   P O I N T S                       #
 #                                                                              #
 ################################################################################
+
+#--------------------------------- g r a p h -----------------------------------
+def p_np_graph_1(t):
+  'np_graph_1 : empty'
+  # Get the ID
+  globalVars.aux_ID = t[-1];
+  # Verify that the ID exists in the local or global context
+  if globalVars.variable_in_global(id_var) :
+    # Verify that the ID belongs to a graph type
+    if
+    # add the current ID to the auxiliare ID managed in the tables 
+
+  elif globalVars.variable_in_local(id_var) :
+
+  else:
+    print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(globalVars.aux_ID, globalVars.current_context));
+    p_error(t)
+
+def p_np_graph_2(t):
+  # Verify that the value delivered is a string
+    # Create qudruple to add the node to the graph
+    alg_quad.add_quadruple('ADDNODE', node_value, node_position, graph_address)
+
 
 ######################## A D D I N G  V A R I A B L E S ########################
 
@@ -584,19 +607,53 @@ def p_np_var_4(t):
     if globalVars.variable_in_global(id_var) :
         # We initialize the table that will save all the proper attributes to calculate dimesions
         curr_cont = globalVars.global_context
+        globalVars.table_functions[curr_cont].vars_table[id_var].dimension['sup'] = lim_sup
+        globalVars.R = (lim_sup - 0 + 1) * globalVars.R
+
+
+        # If the variable is a graph
+        if globalVars.table_functions[curr_cont].vars_table[id_var].type == "directed":
+          print("is a directed graph, reserving slots");
+          # Get the starting node adress
+          node_start_address = global_mem.get_counter("node")
+          node_start_address = '(' + str(node_start_address) + ')'
+
+          # Reserve the following N addresses in the node memory, wehere N is the size
+          # of the graph
+          graph_size = 2 * (lim_sup - 1)
+          global_mem.node_memory.increment_counter(graph_size)
+          
+          # We save the pointer to the starting node address
+          global_mem.save_memory_value(node_start_address, "directed")
+
 
     # If it doesn't exist as global. Check if the "id" exists in the local variable table
     elif globalVars.variable_in_local(id_var) :
         # We initialize the table that will save all the proper attributes to calculate dimesions
         curr_cont = globalVars.current_context
+        globalVars.table_functions[curr_cont].vars_table[id_var].dimension['sup'] = lim_sup
+        globalVars.R = (lim_sup - 0 + 1) * globalVars.R
+
+        # If the variable is a graph
+        if globalVars.table_functions[curr_cont].vars_table[id_var].type == "directed":
+          print("is a directed graph, reserving slots");
+          # Get the starting node adress
+          node_start_address = local_mem.get_counter("node")
+          node_start_address = '(' + str(node_start_address) + ')'
+
+          # Reserve the following N addresses in the node memory, wehere N is the size
+          # of the graph
+          graph_size = 2 * (lim_sup - 1)
+          local_mem.node_memory.increment_counter(graph_size)
+          
+          # We save the pointer to the starting node address
+          local_mem.save_memory_value(node_start_address, "directed")
 
     # The variable specified was not declared
     else:
         print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.current_context));
         p_error(t)
 
-    globalVars.table_functions[curr_cont].vars_table[id_var].dimension['sup'] = lim_sup
-    globalVars.R = (lim_sup - 0 + 1) * globalVars.R
 
 def p_np_var_5(t):
     'np_var_5 : empty'
