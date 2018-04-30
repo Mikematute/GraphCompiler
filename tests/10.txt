@@ -52,4 +52,6 @@ main ()
 
   
   print(myIntA);
+
+  print(myIntC[10]);
 }

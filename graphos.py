@@ -74,7 +74,7 @@ reserved = {
     'deg'       : 'DEG',
     'shortpath' : 'SHORTPATH',
     'diameter'  : 'DIAMETER',
-    'add'       : 'ADD',
+    'addNode'   : 'ADDNODE',
     'delete'    : 'DELETE'
 }
 
@@ -248,6 +248,7 @@ def p_statutes_1(t):
                   | condition
                   | cycle
                   | function_call SCOLO
+                  | method
                   | return'''
 #---------------------------- a s s i g n a t i o n ----------------------------
 def p_assignation(t):
@@ -338,7 +339,6 @@ def p_exp_lv4(t):
 def p_exp_lv5(t):
     '''exp_lv5 : RPAREN expression LPAREN
                | var_cte
-               | method
                | function_call
                | ID np_quad_a2
                | ID np_quad_a2 array_access'''
@@ -365,27 +365,15 @@ def p_var_cte(t):
 ################################## M E T H O D #################################
 def p_method(t):
 
-    'method : ID DOT method_t LPAREN method_1 RPAREN'
-
-def p_method_1(t):
-    '''method_1 : method_1_1
-                | empty'''
-
-def p_method_1_1(t):
-    '''method_1_1 : method_v
-                  | method_v COMA method_1_1'''
+    'method : ID CTE_INT DOT method_t'
 
 def p_method_t(t):
     '''method_t : DEG
                 | SHORTPATH
                 | DIAMETER
-                | ADD
+                | ADDNODE LPAREN expression RPAREN
                 | DELETE
                 | ARC'''
-
-def p_method_v(t):
-    '''method_v : ID
-                | LBRACK ID COMA ID RBRACK'''
 
 
 ################################################################################

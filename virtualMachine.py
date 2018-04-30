@@ -2,6 +2,7 @@ from table import Table
 from oracle import consult
 from memory import Memory
 from algorithmQuadruple import Algorithm_Quadruple
+import sys
 
 class Virtual_Machine:
     def __init__(self, g_mem = Memory(1), l_mem = Memory(2), t_mem = Memory(3),
@@ -334,14 +335,19 @@ class Virtual_Machine:
             self.quadruples.pop_function()
             # Return the instruction pointer
             self.instruction_pointer = last_ip
-
-        #----------------------------- r e t u r n -----------------------------
-
         #------------------------------- V E R F -------------------------------
         elif operation == 'VERF':
-            print("VERF cuadruple")
-            # Advance the instruction pointer
-            self.instruction_pointer = self.instruction_pointer + 1
+            # Get the index and the upper/lower limits to be evaluated
+            index = self.search_in_memory(quad.element_1)
+            lower_lim = quad.element_2
+            upper_lim = quad.result
+            # verify that the value of the index is in between the lower and upper
+            # bounds
+            if lower_lim <= index and index < upper_lim:
+                # Advance the instruction pointer
+                self.instruction_pointer = self.instruction_pointer + 1
+            else:
+                self.print_error("array outbounds", True)
 
     def search_in_memory(self, memory_id):
         # Verify escape int 
@@ -440,3 +446,14 @@ class Virtual_Machine:
             return str(value)
         elif result_type == 4:
             return bool(value)
+
+    def print_error(self, error_type, program_stop, variable=""):
+
+        if error_type == "array outbounds":
+            print("Index exceeds dimensions of array")
+            if program_stop:
+                sys.exit("Ending program due to errors")
+
+
+
+

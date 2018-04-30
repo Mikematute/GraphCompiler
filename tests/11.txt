@@ -1,0 +1,26 @@
+program cats;
+  var int myGlobalInt1, myGlobalInt2;
+
+
+int hello(int parameter1, int parameter2) {
+  var int myLocalInt1;
+
+  print("hello there");
+  print("hello there");
+  print("hello there");
+  print("hello there");
+  print("hello there");
+
+  return 10+5;
+}
+
+void hola(int hola) {
+  print("taquitos");
+  print("taquitos");
+  print("taquitos");
+}
+
+main ()
+{
+	var 
+}
