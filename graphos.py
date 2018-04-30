@@ -986,7 +986,7 @@ def p_np_quad_d2(t):
         temporal_mem.save_memory_value("", op_type)
         n_temp = temporal_mem.get_counter(op_type)
 
-        alg_quad.add_quadruple(2, curr_operand, curr_dim['desc']['aux'], n_temp)
+        alg_quad.add_quadruple(2, curr_operand, "$"+str(curr_dim['desc']['aux']), n_temp)
         alg_quad.push_operand(n_temp)
         alg_quad.push_type(op_type)
 
@@ -1057,12 +1057,12 @@ def p_np_quad_d5(t):
     temporal_mem.save_memory_value("", aux1_t)
     n_temp_1 = temporal_mem.get_counter(aux1_t)
 
-    alg_quad.add_quadruple(0, aux_1, curr_dim['desc']['aux'], n_temp_1)
+    alg_quad.add_quadruple(0, aux_1, "$"+str(curr_dim['desc']['aux']), n_temp_1)
 
     temporal_mem.save_memory_value("", aux1_t)
     n_temp_2 = temporal_mem.get_counter(aux1_t)
 
-    alg_quad.add_quadruple(0, n_temp_1, curr_dim['id'], n_temp_2)
+    alg_quad.add_quadruple(0, n_temp_1, "$"+str(curr_dim['id']), n_temp_2)
 
     alg_quad.push_operand('('+str(n_temp_2)+')')
     alg_quad.push_type(aux1_t)

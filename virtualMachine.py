@@ -104,7 +104,10 @@ class Virtual_Machine:
         #------------------------- a s s i g n a t i o n -----------------------
         if operation == 4:
             # Get the left operator
-            memory_id = quad.element_1
+            if str(quad.element_1)[0] == "(":
+                memory_id = self.search_in_memory(int(str(quad.element_1)[1:-1]))
+            else:
+                memory_id = quad.element_1
             # Get the right operator
             value = self.search_in_memory(quad.result)
             # Cast the result into the appropiate type according to the oracle
@@ -334,22 +337,52 @@ class Virtual_Machine:
 
         #----------------------------- r e t u r n -----------------------------
 
-    def search_in_memory(self, memory_id):
-        # Obtains the first digit to know which memory the ID belongs to
-        memory_type = int(memory_id / 10000)
+        #------------------------------- V E R F -------------------------------
+        elif operation == 'VERF':
+            print("VERF cuadruple")
+            # Advance the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
 
-        # If the result is 1, it is the global memory
-        if memory_type == 1:
-            return self.global_mem.get_memory_value(memory_id)
-        # If the result is 2, it is the local memory
-        elif memory_type == 2:
-            return self.local_mem.get_memory_value(memory_id)
-        # If the result is 3, it is the temporal memory
-        elif memory_type == 3:
-            return self.temporal_mem.get_memory_value(memory_id)
-        # If the result is 4, it is the constant memory
-        elif memory_type == 4:
-            return self.constant_mem.get_memory_value(memory_id)
+    def search_in_memory(self, memory_id):
+        # Verify escape int 
+        if str(memory_id)[0] == '$':
+            return int(str(memory_id)[1:])
+        else:
+            if str(memory_id)[0] == '(':
+                aux_mem = int(str(memory_id)[1:-1])
+                # Obtains the first digit to know which memory the ID belongs to
+                mem_type = int(aux_mem / 10000)
+
+                # If the result is 1, it is the global memory
+                if mem_type == 1:
+                    new_mem = self.global_mem.get_memory_value(aux_mem)
+                # If the result is 2, it is the local memory
+                elif mem_type == 2:
+                    new_mem = self.local_mem.get_memory_value(aux_mem)
+                # If the result is 3, it is the temporal memory
+                elif mem_type == 3:
+                    new_mem = self.temporal_mem.get_memory_value(aux_mem)
+                # If the result is 4, it is the constant memory
+                elif mem_type == 4:
+                    new_mem = self.constant_mem.get_memory_value(aux_mem)
+            else:
+                new_mem = memory_id
+            
+            # Obtains the first digit to know which memory the ID belongs to
+            memory_type = int(new_mem / 10000)
+
+            # If the result is 1, it is the global memory
+            if memory_type == 1:
+                return self.global_mem.get_memory_value(new_mem)
+            # If the result is 2, it is the local memory
+            elif memory_type == 2:
+                return self.local_mem.get_memory_value(new_mem)
+            # If the result is 3, it is the temporal memory
+            elif memory_type == 3:
+                return self.temporal_mem.get_memory_value(new_mem)
+            # If the result is 4, it is the constant memory
+            elif memory_type == 4:
+                return self.constant_mem.get_memory_value(new_mem)
 
 
     def search_for_memory(self, variable):
