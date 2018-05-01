@@ -52,6 +52,6 @@ main ()
   print(myGraph2.getNode(3));
   print(myGraph2.getNode(4));
 
-   
+  myGraph1.addConnection(0,9,1);  
 
 }

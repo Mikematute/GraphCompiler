@@ -371,6 +371,7 @@ class Virtual_Machine:
             node_index = self.search_in_memory(quad.element_1)
             # Retrieve the graph memory address
             graph_address = quad.element_2
+            
             # Retrieve the real node memory address to which the value will be retrieved
             node_address = self.get_node_address(graph_address, node_index)
 
@@ -382,6 +383,51 @@ class Virtual_Machine:
 
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
+        #---------------------------- n o d e m e m ----------------------------
+        elif operation == 'NODEMEM':
+            # Get the graph address
+            graph_address = quad.element_1
+            memory_type = int(int(graph_address) / 10000)
+
+            if memory_type == 1:
+                graph_address =  self.global_mem.get_memory_value(graph_address)
+
+            elif memory_type == 2:
+                graph_address = self.local_mem.get_memory_value(graph_address)
+            
+            # Strip the ( ) parenthesis from the node
+            graph_address = int(str(graph_address)[1:-1])
+            
+            # Get the index 
+            node_index = self.search_in_memory(quad.element_2)
+            
+            # Retrieve the address that points to the begining of the edges
+            node_address = int(graph_address) + (2 * int(node_index)) + 1
+            
+            # Save that address in the temporal asigned
+            self.save_in_memory(quad.result, node_address)
+
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
+        #---------------------------- a d d c o n n ----------------------------
+        
+        #-------------------------- a d d w e i g h t --------------------------
+        elif operation == 'ADDWEIG':
+            # Retrieve the content of the temporal value
+            node_address = self.search_in_memory(quad.element_1)
+            edge_starts = self.search_in_memory(node_address)
+            edge_starts = int(str(edge_starts)[1:-1])
+            # Retrieve the value of the index from the node
+            edge_index = self.search_in_memory(quad.element_2)
+            # Retrieve the value connection
+            conn_weight = self.search_in_memory(quad.result)
+            # Recalculate the edge adress to which the connection will be saved
+            edge_address = int(edge_starts) + (int(edge_index) * 2)
+            # Save in memory the weight on the edge address
+            self.save_in_memory(edge_address, conn_weight)
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
+
 
     def search_in_memory(self, memory_id):
         # Verify escape int 
@@ -492,9 +538,14 @@ class Virtual_Machine:
 
     def get_node_address(self, graph_address, index):
         # Get the memory address where the graph points (the initial node)
-        node_address = self.search_in_memory(graph_address)
+        node_address = self.search_in_memory(int(graph_address))
+        
+        # Strip the ( ) parenthesis
+        node_address = int(str(node_address)[1:-1])
+        
         # Add to the initial node address, twice the index variable
         node_address = int(node_address) + (int(index) * 2)
+        
         # Return that address
         return node_address
 

@@ -434,7 +434,7 @@ def p_np_graph_3(t):
     # Create qudruple to add the node to the graph
     node_index = alg_quad.pop_operand()
     expression_val = alg_quad.pop_operand()
-    graph_address = '$' + str(alg_quad.pop_operand())
+    graph_address = alg_quad.pop_operand()
     alg_quad.pop_type()
 
     alg_quad.add_quadruple('ADDNODE', expression_val, node_index, graph_address)
@@ -450,7 +450,7 @@ def p_np_graph_4(t):
   if expression_type == 0:
     # Generate the cuadruples to access the given node
     node_index = alg_quad.pop_operand()
-    graph_address = '$' + str(alg_quad.pop_operand())
+    graph_address = str(alg_quad.pop_operand())
     alg_quad.pop_type()
     new_temporal = temporal_mem.get_counter(3)
 
@@ -489,10 +489,17 @@ def p_np_graph_7(t):
     node_weight = alg_quad.pop_operand()
     node_origin = alg_quad.pop_operand()
     graph_memory= alg_quad.pop_operand()
+    # Add quadruple to get the node address
+    temporal = temporal_mem.get_counter("arc")
+    temporal_mem.save_memory_value("", "arc")
+    
+    alg_quad.add_quadruple('NODEMEM', graph_memory, node_origin, temporal)
+
     # Add quadruple to establish a connection from one node to another
-    alg_quad.add_quadruple('ADDCONN', graph_memory, node_origin, node_destiny)
+    # alg_quad.add_quadruple('ADDCONN', temporal, node_destiny, node_weight)
     # Add quadruple to add the weight between such connection
-    alg_quad.add_quadruple('ADDWEIG', graph_memory, node_origin, node_weight)
+    alg_quad.add_quadruple('ADDWEIG', temporal, node_destiny, node_weight)
+    
     alg_quad.pop_type()
 
   else:
@@ -730,14 +737,14 @@ def p_np_var_4(t):
             nodes_reserved = 2 * (lim_sup - 1) - 1
             global_mem.arc_memory.increment_counter(nodes_reserved)
             # Add blanks to each node so we can save to memory
-            for i in range(2 * (lim_sup - 1)):
+            for i in range(2 * lim_sup):
               global_mem.save_memory_value("", "arc")
             # Assign to each node the pointer where their connections start
             global_mem.save_to_memory(initial_address, local_node)
           
           # We save the pointer to the starting node address
           node_start_address = '(' + str(node_start_address) + ')'
-          global_mem.save_memory_value(node_start_address, "directed")
+          global_mem.save_to_memory(node_start_address, global_mem.directed_memory.counter-1)
 
 
     # If it doesn't exist as global. Check if the "id" exists in the local variable table
@@ -769,14 +776,14 @@ def p_np_var_4(t):
             nodes_reserved = 2 * (lim_sup - 1) - 1
             local_mem.arc_memory.increment_counter(nodes_reserved)
             # Add blanks to each node so we can save to memory
-            for i in range(2 * (lim_sup - 1)):
+            for i in range(2 * lim_sup):
               local_mem.save_memory_value("", "arc")
             # Assign to each node the pointer where their connections start
             local_mem.save_to_memory(initial_address, local_node)
           
           # We save the pointer to the starting node address
           node_start_address = '(' + str(node_start_address) + ')'
-          local_mem.save_memory_value(node_start_address, "directed")
+          local_mem.save_to_memory(node_start_address, local_mem.directed_memory.counter-1)
 
     # The variable specified was not declared
     else:
@@ -856,14 +863,16 @@ def p_np_var_7(t):
 
     if globalVars.current_context == globalVars.global_context:
         # ... then ask for a "memory id" from the "global memory"
-        for i in range(globalVars.R - 1):
-          global_mem.save_memory_value("", globalVars.aux_type)
-          temp_memID = global_mem.get_counter(globalVars.aux_type)
+        if globalVars.table_functions[globalVars.global_context].vars_table[id_var].type != 'directed':
+          for i in range(globalVars.R - 1):
+            global_mem.save_memory_value("", globalVars.aux_type)
+            temp_memID = global_mem.get_counter(globalVars.aux_type)
     else:
         # ... then ask for a "memory id" from the "local memory"
-        for i in range(globalVars.R - 1):
-          local_mem.save_memory_value("", globalVars.aux_type)
-          temp_memID = local_mem.get_counter(globalVars.aux_type)
+        if globalVars.table_functions[globalVars.current_context].vars_table[id_var].type != 'directed':
+          for i in range(globalVars.R - 1):
+            local_mem.save_memory_value("", globalVars.aux_type)
+            temp_memID = local_mem.get_counter(globalVars.aux_type)
 
 
 ###################### M A K I N G    Q U A D R U P L E S ######################
