@@ -27,7 +27,7 @@ main ()
   var string myString1;
   var int myInt;
 
-  myInt = 0;
+  myInt = 33333;
   print(myInt);
 
   myString1 = "Hola" + " bud";
@@ -75,9 +75,11 @@ main ()
   print("");
 
   print("Displaying shortest path in Graph 1");
-  myGraph1.shortpathWeight(0,1);
+  myInt = myGraph1.shortpathWeight(1,0);
+  print(myInt);
   print("Displaying nodes of shortest path in Graph 1");
   myGraph1.shortpathNodes(0,1);
+  print("");
 
 
   myGraph2.addConnection(3,1,4);
@@ -99,7 +101,9 @@ main ()
   myGraph2.printConnections(4);
   print("");
 
-  print("Displaying shortest path in Graph 1");
-  print("Displaying nodes of shortest path in Graph 1");
+  print("Displaying shortest path in Graph 2");
+  myInt = myGraph2.shortpathWeight(1,0);
+  print(myInt);
+  print("Displaying nodes of shortest path in Graph 2");
 
 }

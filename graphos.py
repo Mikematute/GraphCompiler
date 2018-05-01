@@ -557,16 +557,21 @@ def p_np_graph_10(t):
     node_origin = alg_quad.pop_operand()
     graph_memory= alg_quad.pop_operand()
     # Add quadruple to get the node address
-    temporal = temporal_mem.get_counter("arc")
-    temporal_mem.save_memory_value("", "arc")
+    temporal = temporal_mem.get_counter("int")
+    temporal_mem.save_memory_value("", "int")
     
     # Add quadruple that will perform the operation  
-    alg_quad.add_quadruple('SHORTWE', node_destiny, node_origin,       '')
+    alg_quad.add_quadruple('SHORTWE', node_origin, node_destiny,       '')
     # Add quadruple that will save the result of the operatino in a temporal memory slot
     alg_quad.add_quadruple('SHORTWE', graph_memory,          '', temporal)
     
     # Pop the graph type
     alg_quad.pop_type()
+
+    # Push the temporal address
+    alg_quad.push_operand(temporal)
+    # Push the temporal type
+    alg_quad.push_type(0)
 
   else:
     print ('ERROR: Thrid argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));

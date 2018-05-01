@@ -437,6 +437,7 @@ class Virtual_Machine:
             # Add blank nodes to the graph object
             for i in range(graph_size):
                 new_graph.add_node(i)
+
             # Save the result in the specified address
             self.save_in_memory(graph_address, new_graph)
             # Move the instruction pointer
@@ -540,7 +541,7 @@ class Virtual_Machine:
             # Get the new quadruple of that instructino pointer
             new_quad = self.quadruples.lst_quadruples[self.instruction_pointer]
             # Get the weight of the connection
-            con_weight = self.search_in_memory(quad.element_1)
+            con_weight = self.search_in_memory(new_quad.element_1)
             # Retrieve the graph object from the graph address
             graph = self.search_in_memory(graph_address)
             # Look if there is already a connection between the given nodes
@@ -553,7 +554,6 @@ class Virtual_Machine:
 
             # Save the new graph in the given address
             self.save_in_memory(graph_address, graph)
-
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
         #-------------------- g r a p h    a d d w e i g h ---------------------
@@ -597,7 +597,7 @@ class Virtual_Machine:
                     weight = str(weight)
                     node_start = str(node_start)
                     node_end = str(node_end)
-                    print(node_start + " ==> " + weight + " ==> " + node_end)
+                    print('{0:15} ==> {1:3} ==> {2:15}'.format(node_start, weight, node_end))
 
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
@@ -612,16 +612,22 @@ class Virtual_Machine:
             # Get the new quadruple of that instruction pointer
             new_quad = self.quadruples.lst_quadruples[self.instruction_pointer]
             # Get the graph memory address
-            graph_address = int(new_quad.result) + 1
+            graph_address = int(new_quad.element_1) + 1
+            # Get the temporal address
+            temp_address = new_quad.result
             # REtrieve the graph object
             graph = self.search_in_memory(graph_address)
             # Look if there exists a path from one node to another
-            if nx.has_path(graph, node_init, node_dest)
+            if nx.has_path(graph, node_init, node_dest):
                 # Perform the operation of shortpath
-
+                result = nx.dijkstra_path_length(graph, node_init, node_dest)
+            else:
             # There was no short path, return -1
+                result = -1
 
+            result = int(result)
             # Save the result on the temporal assigned
+            self.save_in_memory(temp_address, result)
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
         
