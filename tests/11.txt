@@ -1,5 +1,6 @@
 program cats;
   var int myGlobalInt1, myGlobalInt2;
+  var directed myGlobalGraph1[2];
 
 
 int hello(int parameter1, int parameter2) {
@@ -29,12 +30,28 @@ main ()
   print(myString1);
 
   myGraph1.addNode("California", 0);
-  myGraph2.addNode("Hello", 1);
-  
+  myGraph1.addNode("Illinois", 1);
+  myGraph1.addNode("Oklahoma", 2);
+  print("Displaying Node names of Graph 1");
   myString1 = myGraph1.getNode(0);
   print(myString1);
+  myString1 = myGraph1.getNode(1);
+  print(myString1);
+  myString1 = myGraph1.getNode(2);
+  print(myString1);
 
-  print(myGraph1.getNode(1));
+  myGraph2.addNode("Mexico", 3);
+  myGraph2.addNode("USA", 2);
+  myGraph2.addNode("Canada", 0);
+  myGraph2.addNode("Belice", 4);
+  myGraph2.addNode("Guatemala", 1);
+  print("Displaying Node names of Graph 2");
+  print(myGraph2.getNode(0));
   print(myGraph2.getNode(1));
+  print(myGraph2.getNode(2));
+  print(myGraph2.getNode(3));
+  print(myGraph2.getNode(4));
+
+   
 
 }

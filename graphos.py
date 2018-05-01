@@ -76,6 +76,7 @@ reserved = {
     'diameter'  : 'DIAMETER',
     'addNode'   : 'ADDNODE',
     'getNode'   : 'GETNODE',
+    'addConnection': 'ADDCONN',
     'delete'    : 'DELETE'
 }
 
@@ -373,6 +374,7 @@ def p_method_t(t):
     '''method_t : DEG
                 | SHORTPATH
                 | DIAMETER
+                | ADDCONN LPAREN expression np_graph_5 COMA expression np_graph_6 COMA expression np_graph_7 RPAREN
                 | ADDNODE LPAREN expression np_graph_2 COMA expression np_graph_3 RPAREN
                 | GETNODE LPAREN expression np_graph_4 RPAREN
                 | DELETE
@@ -459,7 +461,44 @@ def p_np_graph_4(t):
     print ('ERROR: Argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
 
 
-#----------------------------- a d d    n o d e --------------------------------
+#----------------------- a d d    c o n n e c t i o n --------------------------
+def p_np_graph_5(t):
+  'np_graph_5 : empty'
+  # retrieve the expression type
+  expression_type= alg_quad.pop_type()
+  # Verify that the value delivered is an integer
+  if expression_type != 0:
+    print ('ERROR: First argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+
+def p_np_graph_6(t):
+  'np_graph_6 : empty'
+  # retrieve the expression type
+  expression_type= alg_quad.pop_type()
+  # Verify that the value delivered is an integer
+  if expression_type != 1:
+    print ('ERROR: Second argument in variable: <{0}>, must be type float. Skipping operation'.format(globalVars.aux_ID));
+
+def p_np_graph_7(t):
+  'np_graph_7 : empty'
+    # retrieve the expression type
+  expression_type= alg_quad.pop_type()
+
+  # Verify that the value delivered is an integer
+  if expression_type == 0:
+    node_destiny= alg_quad.pop_operand()
+    node_weight = alg_quad.pop_operand()
+    node_origin = alg_quad.pop_operand()
+    graph_memory= alg_quad.pop_operand()
+    # Add quadruple to establish a connection from one node to another
+    alg_quad.add_quadruple('ADDCONN', graph_memory, node_origin, node_destiny)
+    # Add quadruple to add the weight between such connection
+    alg_quad.add_quadruple('ADDWEIG', graph_memory, node_origin, node_weight)
+    alg_quad.pop_type()
+
+  else:
+    print ('ERROR: Thrid argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+
+
 #----------------------------- a d d    n o d e --------------------------------
 #----------------------------- a d d    n o d e --------------------------------
 
@@ -671,17 +710,33 @@ def p_np_var_4(t):
 
         # If the variable is a graph
         if globalVars.table_functions[curr_cont].vars_table[id_var].type == "directed":
-          print("is a directed graph, reserving slots");
-          # Get the starting node adress
+          # Get the starting node adress for the graph
           node_start_address = global_mem.get_counter("node")
-          node_start_address = '(' + str(node_start_address) + ')'
-
-          # Reserve the following N addresses in the node memory, wehere N is the size
-          # of the graph
+          
+          # Reserve the following N-1 addresses in memory for the nodes
           graph_size = 2 * (lim_sup - 1)
           global_mem.node_memory.increment_counter(graph_size)
+          for i in range(lim_sup * 2):
+            global_mem.save_memory_value("", "node")
+
+          # For every previously reserved node
+          for i in range(lim_sup):
+            # Get the starting memory address in the arc memory
+            initial_address = global_mem.get_counter("arc")
+            initial_address = '(' + str(initial_address) + ')'
+            local_node = int(node_start_address) + 1 + (i * 2)
+            
+            # Reserve the following (N-1) * 2 addresses in the edge memory
+            nodes_reserved = 2 * (lim_sup - 1) - 1
+            global_mem.arc_memory.increment_counter(nodes_reserved)
+            # Add blanks to each node so we can save to memory
+            for i in range(2 * (lim_sup - 1)):
+              global_mem.save_memory_value("", "arc")
+            # Assign to each node the pointer where their connections start
+            global_mem.save_to_memory(initial_address, local_node)
           
           # We save the pointer to the starting node address
+          node_start_address = '(' + str(node_start_address) + ')'
           global_mem.save_memory_value(node_start_address, "directed")
 
 
@@ -694,17 +749,33 @@ def p_np_var_4(t):
 
         # If the variable is a graph
         if globalVars.table_functions[curr_cont].vars_table[id_var].type == "directed":
-          print("is a directed graph, reserving slots");
-          # Get the starting node adress
+          # Get the starting node adress for the graph
           node_start_address = local_mem.get_counter("node")
-          node_start_address = '(' + str(node_start_address) + ')'
-
-          # Reserve the following N addresses in the node memory, wehere N is the size
-          # of the graph
+          
+          # Reserve the following N-1 addresses in memory for the nodes
           graph_size = 2 * (lim_sup - 1)
           local_mem.node_memory.increment_counter(graph_size)
+          for i in range(lim_sup * 2):
+            local_mem.save_memory_value("", "node")
+
+          # For every previously reserved node
+          for i in range(lim_sup):
+            # Get the starting memory address in the arc memory
+            initial_address = local_mem.get_counter("arc")
+            initial_address = '(' + str(initial_address) + ')'
+            local_node = int(node_start_address) + 1 + (i * 2)
+            
+            # Reserve the following (N-1) * 2 addresses in the edge memory
+            nodes_reserved = 2 * (lim_sup - 1) - 1
+            local_mem.arc_memory.increment_counter(nodes_reserved)
+            # Add blanks to each node so we can save to memory
+            for i in range(2 * (lim_sup - 1)):
+              local_mem.save_memory_value("", "arc")
+            # Assign to each node the pointer where their connections start
+            local_mem.save_to_memory(initial_address, local_node)
           
           # We save the pointer to the starting node address
+          node_start_address = '(' + str(node_start_address) + ')'
           local_mem.save_memory_value(node_start_address, "directed")
 
     # The variable specified was not declared

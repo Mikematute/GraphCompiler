@@ -11,6 +11,7 @@ class Memory_Array:
         self.values.append(value)
 
     def add_value_at_index(self, value, index):
+
         self.values[index] = value
         self.values.append("")
 
