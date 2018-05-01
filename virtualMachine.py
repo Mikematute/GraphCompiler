@@ -630,7 +630,7 @@ class Virtual_Machine:
             self.save_in_memory(temp_address, result)
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
-        
+        #---------------- w e i g h t   o f   s h o r t p a t h ----------------
 
     def search_in_memory(self, memory_id):
         # Verify escape int 

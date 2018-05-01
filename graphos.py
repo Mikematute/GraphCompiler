@@ -72,7 +72,6 @@ reserved = {
     'for'       : 'FOR',
     'in'        : 'IN',
     'deg'       : 'DEG',
-    'shortpath' : 'SHORTPATH',
     'diameter'  : 'DIAMETER',
     'addNode'   : 'ADDNODE',
     'getNode'   : 'GETNODE',
@@ -80,7 +79,8 @@ reserved = {
     'printConnections' : 'PRINTCO',
     'shortpathWeight'  : 'SHORTWE',
     'shortpathNodes'   : 'SHORTNO',
-    'delete'    : 'DELETE'
+    'deleteNode'       : 'DELETEN',
+    'deleteConnection' : 'DELETEC'
 }
 
 tokens = [
@@ -381,9 +381,9 @@ def p_method_t(t):
                 | PRINTCO LPAREN expression np_graph_8 RPAREN
                 | SHORTWE LPAREN expression np_graph_9 COMA expression np_graph_10 RPAREN
                 | SHORTNO LPAREN expression COMA expression RPAREN
-                | SHORTPATH
+                | DELETEC LPAREN expression COMA expression np_graph_11 RPAREN
+                | DELETEN LPAREN expression RPAREN
                 | DIAMETER
-                | DELETE
                 | ARC'''
 
 
@@ -574,7 +574,34 @@ def p_np_graph_10(t):
     alg_quad.push_type(0)
 
   else:
-    print ('ERROR: Thrid argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+    print ('ERROR: Second argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+
+#---------------------- d e l e t e    c o n n e c t i o n ---------------------
+def p_np_graph_11(t):
+  'np_graph_11 : empty'
+  # retrieve the expression types
+  expression_type2= alg_quad.pop_type()
+  expression_type1= alg_quad.pop_type()
+  # Verify that the expressions are of type integer
+  if expression_type1 == 0:
+    if expression_type2 == 0:
+      # Retrieve de operands
+      node_destiny = alg_quad.pop_operand()
+      node_origin  = alg_quad.pop_operand()
+      graph_address= alg_quad.pop_operand()
+            
+      # Add quadruple that will perform the operation to delete the connection
+      alg_quad.add_quadruple('DELETEC', node_origin, node_destiny, graph_address)
+            
+      # Pop the graph type
+      alg_quad.pop_type()
+    else:
+      print ('ERROR: Second argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+  else:
+    print ('ERROR: First argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+
+#---------------------------- d e l e t e    n o d e ---------------------------
+
 
 ######################## A D D I N G  V A R I A B L E S ########################
 

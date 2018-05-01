@@ -81,6 +81,8 @@ main ()
   myGraph1.shortpathNodes(0,1);
   print("");
 
+  myGraph1.deleteConnection(0,1);
+
 
   myGraph2.addConnection(3,1,4);
   myGraph2.addConnection(3,1,1);
