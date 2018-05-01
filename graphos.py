@@ -1537,9 +1537,9 @@ def p_np_statutes_d3(t):
     gotof_jump = alg_quad.pop_jump()
     start_jump = alg_quad.pop_jump()
     # Make the cuadruple to go directly t the evaluation of the expression of the FOR
-    alg_quad.add_quadruple('GOTO', '', '', start_jump)
+    alg_quad.add_quadruple('GOTO', '', '', start_jump + 1)
     # Since now we have the begining of the expression, we can fill out the goto jump
-    alg_quad.fill_jump(goto_jump)
+    alg_quad.fill_jump(goto_jump, aux=1)
     # Push back in the start of assignation and gotof jump
     alg_quad.push_jump(gotof_jump)
     alg_quad.push_jump(assig_jump)
@@ -1549,9 +1549,9 @@ def p_np_statutes_d4(t):
     assig_jump = alg_quad.pop_jump()
     gotof_jump = alg_quad.pop_jump()
     # Create a GOTO for the beginign of the assignation
-    alg_quad.add_quadruple('GOTO', '', '', assig_jump)
+    alg_quad.add_quadruple('GOTO', '', '', assig_jump + 1)
     #since now we now the end of the for, we can fill the gotof jump
-    alg_quad.fill_jump(gotof_jump)
+    alg_quad.fill_jump(gotof_jump, aux=1)
 
 ################################################################################
 #                               F U N C T I O N                                #

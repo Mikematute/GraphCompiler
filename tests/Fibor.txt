@@ -1,0 +1,26 @@
+program cats;
+
+void myFunction1 (int iContador, int iT1, int iT2) {
+  if(iContador < 10)
+  {
+    print(iT1);
+    myFunction1(iContador + 1, iT2, iT1 + iT2);
+  }
+  else
+  {
+    print("Terminando Fibo Recursivo");
+  }
+}
+
+main () {
+  var int iContador, iT1, iT2;
+  iContador = 0;
+  iContador = 0;
+  iT1 = 0;
+  iT2 = 1;
+
+  print("imprimmiendo Fibo Recursivo");
+
+  myFunction1(iContador, iT1, iT2);
+
+}

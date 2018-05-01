@@ -342,14 +342,14 @@ class Virtual_Machine:
             self.aux_local = Memory(2)
             self.aux_temporal = Memory(3)
 
-            for x in range(self.globalVars.table_functions[self.aux_function].variables):
+            for x in range(self.globalVars.table_functions[self.aux_function].variables + 5):
                 self.aux_local.save_memory_value("", 0)
                 self.aux_local.save_memory_value("", 1)
                 self.aux_local.save_memory_value("", 2)
                 self.aux_local.save_memory_value("", 3)
                 self.aux_local.save_memory_value("", 4)
 
-            for x in range(self.globalVars.table_functions[self.aux_function].temporal):
+            for x in range(self.globalVars.table_functions[self.aux_function].temporal + 5):
                 self.aux_temporal.save_memory_value("", 0)
                 self.aux_temporal.save_memory_value("", 1)
                 self.aux_temporal.save_memory_value("", 2)
@@ -366,7 +366,6 @@ class Virtual_Machine:
             keys = list(self.globalVars.table_functions[self.aux_function].vars_table.keys())
             param = int(quad.result[-1])
             mem = self.globalVars.table_functions[self.aux_function].vars_table[keys[param]].direction
-
             self.aux_local.save_to_memory(l_op, mem)
             # Advance the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1

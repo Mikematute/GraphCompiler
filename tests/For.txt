@@ -1,0 +1,10 @@
+program cats;
+
+main () {
+  var int iVar1, iAux;
+  iVar1 = 0;
+  iAux = 0;
+  for (iVar1 ; iVar1 < 6 ; iVar1 = iVar1 + 1;) {
+    print(iVar1);
+  }
+}

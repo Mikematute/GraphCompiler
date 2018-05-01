@@ -20,8 +20,8 @@ class Algorithm_Quadruple:
         self.instruction_pointer += 1;
 
 
-    def fill_jump(self, quad_location):
-        self.lst_quadruples[quad_location].result = self.instruction_pointer
+    def fill_jump(self, quad_location, aux=0):
+        self.lst_quadruples[quad_location].result = self.instruction_pointer + aux
 
     def next_avail(self):
         self.avail += 1
