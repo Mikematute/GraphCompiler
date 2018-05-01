@@ -1,0 +1,19 @@
+program cats;
+  var char cMyGlobal1;  
+void myFunction1 (int iVar1) {
+	print(iVar1);
+}
+
+int myFunction2 (int iVar1, int iVar2) {
+  print(iVar1);
+  myFunction1(iVar2);
+  print(iVar1);
+}
+
+main () {
+  var int iVar1;
+  iVar1 = 5;
+  myFunction2 (8 + 9, 2);
+  myFunction2 (6 + 3, 3);
+  print(iVar1);
+}

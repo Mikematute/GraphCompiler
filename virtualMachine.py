@@ -13,6 +13,12 @@ class Virtual_Machine:
         self.constant_mem   = c_mem
         self.globalVars     = g_vars
         self.quadruples     = quad
+        self.aux_function   = "main"
+        self.s_context      = []
+        self.s_local        = []
+        self.s_temporal     = []
+        self.aux_local      = Memory(2)
+        self.aux_temporal   = Memory(3)
         self.instruction_pointer = 0
         self.int_to_operator = {0  : '+',
                                 1  : '-',
@@ -296,12 +302,37 @@ class Virtual_Machine:
         #-------------------------------- e r a --------------------------------
         elif operation == 'ERA':
             # Saves the current instruction pointer
-            print("ERA cuadruple")
+            # allocate memory for new function
+            self.aux_function = quad.element_1
+            self.aux_local = Memory(2)
+            self.aux_temporal = Memory(3)
+
+            for x in range(self.globalVars.table_functions[self.aux_function].variables):
+                self.aux_local.save_memory_value("", 0)
+                self.aux_local.save_memory_value("", 1)
+                self.aux_local.save_memory_value("", 2)
+                self.aux_local.save_memory_value("", 3)
+                self.aux_local.save_memory_value("", 4)
+
+            for x in range(self.globalVars.table_functions[self.aux_function].temporal):
+                self.aux_temporal.save_memory_value("", 0)
+                self.aux_temporal.save_memory_value("", 1)
+                self.aux_temporal.save_memory_value("", 2)
+                self.aux_temporal.save_memory_value("", 3)
+                self.aux_temporal.save_memory_value("", 4)
+
             # Advance the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
         #------------------------------ p a r a m ------------------------------
         elif operation == 'PARAM':
-            print("PARAM cuadruple")
+            # Get the left operator
+            l_op = self.search_in_memory(quad.element_1)
+            # save operator on the memory space given
+            keys = list(self.globalVars.table_functions[self.aux_function].vars_table.keys())
+            param = int(quad.result[-1])
+            mem = self.globalVars.table_functions[self.aux_function].vars_table[keys[param]].direction
+
+            self.aux_local.save_to_memory(l_op, mem)
             # Advance the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
         #------------------------------ g o s u b ------------------------------
@@ -310,6 +341,12 @@ class Virtual_Machine:
             function_name = quad.element_1
             # Get the instruction number where the function starts
             function_ip = self.globalVars.table_functions[function_name].init_quadruple
+            # Stack current memory and place function in current context
+            self.s_local.append(self.local_mem)
+            self.s_temporal.append(self.temporal_mem)
+
+            self.local_mem = self.aux_local
+            self.temporal_mem = self.aux_temporal
             # Save the next instruction pointer in the stack of IPs, so the program
             # can return to the next instruction
             self.quadruples.push_ip(self.instruction_pointer + 1)
@@ -333,6 +370,9 @@ class Virtual_Machine:
             self.instruction_pointer = last_ip
         #---------------------------- e n d p r o c ----------------------------
         elif operation == 'ENDPROC':
+            # return stack memory
+            self.local_mem = self.s_local.pop()
+            self.temporal_mem = self.s_temporal.pop()
             # Retrieve the last instruction pointer added to the functions stack
             last_ip = self.quadruples.pop_ip()
             self.quadruples.pop_function()
