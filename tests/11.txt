@@ -25,13 +25,17 @@ main ()
 {
 	var directed myGraph1[3], myGraph2[5], myGraph3[2];
   var string myString1;
+  var int myInt;
+
+  myInt = 0;
+  print(myInt);
 
   myString1 = "Hola" + " bud";
   print(myString1);
 
-  myGraph1.addNode("California", 0);
-  myGraph1.addNode("Illinois", 1);
-  myGraph1.addNode("Oklahoma", 2);
+  myGraph1.addNode(0, "California");
+  myGraph1.addNode(1, "Illinois");
+  myGraph1.addNode(2, "Oklahoma");
   
   print("Displaying Node names of Graph 1");
   myString1 = myGraph1.getNode(0);
@@ -42,13 +46,14 @@ main ()
   print(myString1);
   print("");
 
-  myGraph2.addNode("Mexico", 3);
-  myGraph2.addNode("USA", 2);
-  myGraph2.addNode("Canada", 0);
-  myGraph2.addNode("Belice", 4);
-  myGraph2.addNode("Guatemala", 1);
+  myGraph2.addNode(3, "Mexico");
+  myGraph2.addNode(2, "USA");
+  myGraph2.addNode(0, "Canada");
+  myGraph2.addNode(4, "Belice");
+  myGraph2.addNode(1, "Guatemala");
   
   print("Displaying Node names of Graph 2");
+
   print(myGraph2.getNode(0));
   print(myGraph2.getNode(1));
   print(myGraph2.getNode(2));
@@ -69,6 +74,12 @@ main ()
   myGraph1.printConnections(2);
   print("");
 
+  print("Displaying shortest path in Graph 1");
+  myGraph1.shortpathWeight(0,1);
+  print("Displaying nodes of shortest path in Graph 1");
+  myGraph1.shortpathNodes(0,1);
+
+
   myGraph2.addConnection(3,1,4);
   myGraph2.addConnection(3,1,1);
   myGraph2.addConnection(3,1,2);
@@ -88,5 +99,7 @@ main ()
   myGraph2.printConnections(4);
   print("");
 
+  print("Displaying shortest path in Graph 1");
+  print("Displaying nodes of shortest path in Graph 1");
 
 }

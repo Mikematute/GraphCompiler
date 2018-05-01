@@ -3,6 +3,40 @@ from oracle import consult
 from memory import Memory
 from algorithmQuadruple import Algorithm_Quadruple
 import sys
+import networkx as nx
+'''
+FG = nx.DiGraph()
+
+FG.add_node(0)
+FG.add_node(1)
+FG.add_node(2)
+FG.add_node(3)
+FG.add_node(N)
+
+// Regresa la cantidad de conexiones en el camino
+nx.shortest_path_length(FG, init, dest)
+
+// Regresa el valor del camino mas corto
+nx.dijkstra_path_length(FG, init, dest)
+
+// Siempre hacer la comprobacion para no escribir dos arcos
+FG.has_edge(init, dest)
+    FG.remove_edge(init, dest)
+    FG.add_edge(init, dest, weight=0.0)
+fALSE
+    FG.add_edge(init, dest, weight=0.0)
+
+// siempre hacer la comprobacion de que exista un camino
+nx.has_path(FG, init, dest)
+nx.shortest_path(FG, init, dest)
+
+// siempre hacer la comprobacion de que no se borre un arco inexistente
+FG.has_edge(init, dest)
+FG.remove_edge(init, dest)
+
+
+
+'''
 
 class Virtual_Machine:
     def __init__(self, g_mem = Memory(1), l_mem = Memory(2), t_mem = Memory(3),
@@ -48,6 +82,7 @@ class Virtual_Machine:
         while(current_quad.operation != "END"):
             self.perform_operation(current_quad)
             current_quad = self.quadruples.lst_quadruples[self.instruction_pointer]
+        print(self.local_mem.directed_memory.values)
             
 
     def perform_operation(self, quad):
@@ -391,6 +426,21 @@ class Virtual_Machine:
                 self.instruction_pointer = self.instruction_pointer + 1
             else:
                 self.print_error("array outbounds", True)
+        #------------------------ c o n s t r u c t o r ------------------------
+        elif operation == 'CONSTCT':
+            # Get the size of the graph
+            graph_size = quad.element_1
+            # Get The address where the graph data will be stored
+            graph_address = quad.result
+            # Build a blank graph object
+            new_graph = nx.DiGraph()
+            # Add blank nodes to the graph object
+            for i in range(graph_size):
+                new_graph.add_node(i)
+            # Save the result in the specified address
+            self.save_in_memory(graph_address, new_graph)
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
         #---------------------------- a d d n o d e ----------------------------
         elif operation == 'ADDNODE':
             # Retrieve the value of the node
@@ -476,6 +526,40 @@ class Virtual_Machine:
 
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
+        #--------------------- g r a p h    a d d n o d e ----------------------
+        elif operation == 'GADDCON':
+            # Get the origin of the connection
+            node_init = self.search_in_memory(quad.element_1)
+            # Get the destiny of the conenction
+            node_dest = self.search_in_memory(quad.element_2)
+            # Get the address of the graph object
+            graph_address = int(quad.result) + 1
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
+            
+            # Get the new quadruple of that instructino pointer
+            new_quad = self.quadruples.lst_quadruples[self.instruction_pointer]
+            # Get the weight of the connection
+            con_weight = self.search_in_memory(quad.element_1)
+            # Retrieve the graph object from the graph address
+            graph = self.search_in_memory(graph_address)
+            # Look if there is already a connection between the given nodes
+            if graph.has_edge(node_init, node_dest):
+                # There is a coonection, delete it
+                graph.remove_edge(node_init, node_dest)
+
+            # Build a new connection between the nodes with the given weight
+            graph.add_edge(node_init, node_dest, weight=con_weight)
+
+            # Save the new graph in the given address
+            self.save_in_memory(graph_address, graph)
+
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
+        #-------------------- g r a p h    a d d w e i g h ---------------------
+        elif operation == 'NODEMEM':
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------ p r i n t    c o n n e c t i o n s -----------------
         elif operation == 'PRINTCO':
             # Get the starting node inside the graph address
@@ -517,7 +601,29 @@ class Virtual_Machine:
 
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
+        #---------------- w e i g h t   o f   s h o r t p a t h ----------------
+        elif operation == 'SHORTWE':
+            # Get the origin of the connection
+            node_init = self.search_in_memory(quad.element_1)
+            # Get the destiny of the connection
+            node_dest = self.search_in_memory(quad.element_2)
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
+            # Get the new quadruple of that instruction pointer
+            new_quad = self.quadruples.lst_quadruples[self.instruction_pointer]
+            # Get the graph memory address
+            graph_address = int(new_quad.result) + 1
+            # REtrieve the graph object
+            graph = self.search_in_memory(graph_address)
+            # Look if there exists a path from one node to another
+            if nx.has_path(graph, node_init, node_dest)
+                # Perform the operation of shortpath
 
+            # There was no short path, return -1
+
+            # Save the result on the temporal assigned
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
         
 
     def search_in_memory(self, memory_id):
