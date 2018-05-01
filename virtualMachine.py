@@ -630,7 +630,31 @@ class Virtual_Machine:
             self.save_in_memory(temp_address, result)
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
-        #---------------- w e i g h t   o f   s h o r t p a t h ----------------
+        #------------------ d e l e t e    c o n n e c t i o n -----------------
+        elif operation == 'DELETEC':
+            # Get the origin of the connection
+            node_init = self.search_in_memory(quad.element_1)
+            # Get the destiny of the connection
+            node_dest = self.search_in_memory(quad.element_2)
+            # Get the graph memory address
+            graph_address = quad.result
+
+            
+            # Retrieve the graph object
+            graph = self.search_in_memory(int(graph_address) + 1)
+
+            # Look if there exists a connection from one node to another
+            if graph.has_edge(node_init, node_dest):
+                print("The edge exists, deleting edge")
+                # Delete such connection on the graph object
+                graph.remove_edge(node_init, node_dest)
+                # Delete the data from the nedge memory
+                edge_header_address = self.get_address_for_edgeheader(graph_address, node_init, node_dest)
+            # Save the modified graph on the graph_memory
+            self.save_in_memory((int(graph_address) + 1), graph)
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
+
 
     def search_in_memory(self, memory_id):
         # Verify escape int 
@@ -751,6 +775,26 @@ class Virtual_Machine:
         
         # Return that address
         return node_address
+
+    def get_address_for_edgeheader(self, graph_address, index_init, index_dest):
+        edge_header_address = ""
+
+        node_init_address = self.search_in_memory(int(graph_address))
+        node_init_address = str(node_init_address)[1:-1]
+        edge_init_address = int(graph_address)
+
+        graph_address = str(graph_address)
+        index_init = str(index_init)
+        index_dest = str(index_dest)
+        print("GRAPH ADDRESS:" + graph_address)
+        print("NODE  ADDRESS:" + node_init_address)
+        print("INDEX INITIAL:" + index_init)
+        print("INDEX FINAL  :" + index_dest)
+
+        return edge_header_address
+
+    def get_address_for_edgepointer(self):
+        return edge_pointer_address
 
 
 
