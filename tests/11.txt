@@ -32,6 +32,7 @@ main ()
   myGraph1.addNode("California", 0);
   myGraph1.addNode("Illinois", 1);
   myGraph1.addNode("Oklahoma", 2);
+  
   print("Displaying Node names of Graph 1");
   myString1 = myGraph1.getNode(0);
   print(myString1);
@@ -39,19 +40,53 @@ main ()
   print(myString1);
   myString1 = myGraph1.getNode(2);
   print(myString1);
+  print("");
 
   myGraph2.addNode("Mexico", 3);
   myGraph2.addNode("USA", 2);
   myGraph2.addNode("Canada", 0);
   myGraph2.addNode("Belice", 4);
   myGraph2.addNode("Guatemala", 1);
+  
   print("Displaying Node names of Graph 2");
   print(myGraph2.getNode(0));
   print(myGraph2.getNode(1));
   print(myGraph2.getNode(2));
   print(myGraph2.getNode(3));
   print(myGraph2.getNode(4));
+  print("");
 
-  myGraph1.addConnection(0,9,1);  
+  myGraph1.addConnection(0,9,1);
+  myGraph1.addConnection(0,8,2);
+  myGraph1.addConnection(1,7,0);
+  myGraph1.addConnection(1,6,2);
+  myGraph1.addConnection(2,5,0);
+  myGraph1.addConnection(2,4,1);
+
+  print("Displaying connections of Graph 1");
+  myGraph1.printConnections(0);
+  myGraph1.printConnections(1);
+  myGraph1.printConnections(2);
+  print("");
+
+  myGraph2.addConnection(3,1,4);
+  myGraph2.addConnection(3,1,1);
+  myGraph2.addConnection(3,1,2);
+  myGraph2.addConnection(2,1,3);
+  myGraph2.addConnection(2,1,0);
+  myGraph2.addConnection(0,1,2);
+  myGraph2.addConnection(4,1,1);
+  myGraph2.addConnection(4,1,3);
+  myGraph2.addConnection(1,1,4);
+  myGraph2.addConnection(1,1,3);
+
+  print("Displaying connections of Graph 2");
+  myGraph2.printConnections(0);
+  myGraph2.printConnections(1);
+  myGraph2.printConnections(2);
+  myGraph2.printConnections(3);
+  myGraph2.printConnections(4);
+  print("");
+
 
 }

@@ -77,6 +77,7 @@ reserved = {
     'addNode'   : 'ADDNODE',
     'getNode'   : 'GETNODE',
     'addConnection': 'ADDCONN',
+    'printConnections' : 'PRINTCO',
     'delete'    : 'DELETE'
 }
 
@@ -374,6 +375,7 @@ def p_method_t(t):
     '''method_t : DEG
                 | SHORTPATH
                 | DIAMETER
+                | PRINTCO LPAREN expression np_graph_8 RPAREN
                 | ADDCONN LPAREN expression np_graph_5 COMA expression np_graph_6 COMA expression np_graph_7 RPAREN
                 | ADDNODE LPAREN expression np_graph_2 COMA expression np_graph_3 RPAREN
                 | GETNODE LPAREN expression np_graph_4 RPAREN
@@ -475,7 +477,7 @@ def p_np_graph_6(t):
   # retrieve the expression type
   expression_type= alg_quad.pop_type()
   # Verify that the value delivered is an integer
-  if expression_type != 1:
+  if expression_type != 0:
     print ('ERROR: Second argument in variable: <{0}>, must be type float. Skipping operation'.format(globalVars.aux_ID));
 
 def p_np_graph_7(t):
@@ -496,17 +498,38 @@ def p_np_graph_7(t):
     alg_quad.add_quadruple('NODEMEM', graph_memory, node_origin, temporal)
 
     # Add quadruple to establish a connection from one node to another
-    # alg_quad.add_quadruple('ADDCONN', temporal, node_destiny, node_weight)
+    alg_quad.add_quadruple('ADDCONN', temporal, node_destiny, node_weight)
     # Add quadruple to add the weight between such connection
-    alg_quad.add_quadruple('ADDWEIG', temporal, node_destiny, node_weight)
+    #alg_quad.add_quadruple('ADDWEIG', temporal, node_destiny, node_weight)
     
     alg_quad.pop_type()
 
   else:
     print ('ERROR: Thrid argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
 
+#--------------------- p r i n t    c o n n e c t i o n ------------------------
+def p_np_graph_8(t):
+  'np_graph_8 : empty'
+  # retrieve the expression type
+  expression_type= alg_quad.pop_type()
+  # Verify that the value delivered is an integer
+  if expression_type == 0:
+    graph_index = alg_quad.pop_operand()
+    graph_address = alg_quad.pop_operand()
+    alg_quad.pop_type()
 
-#----------------------------- a d d    n o d e --------------------------------
+    if globalVars.variable_in_global(globalVars.aux_ID) :
+      variable_obj = globalVars.table_functions[globalVars.global_context].vars_table[globalVars.aux_ID]
+      graph_size = variable_obj.dimension['sup']
+    elif globalVars.variable_in_local(globalVars.aux_ID) :
+      variable_obj = globalVars.table_functions[globalVars.current_context].vars_table[globalVars.aux_ID]
+      graph_size = variable_obj.dimension['sup']
+    
+    alg_quad.add_quadruple('PRINTCO', graph_address, graph_size, graph_index)
+
+  else:
+    print ('ERROR: Argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+
 #----------------------------- a d d    n o d e --------------------------------
 
 ######################## A D D I N G  V A R I A B L E S ########################
@@ -734,7 +757,7 @@ def p_np_var_4(t):
             local_node = int(node_start_address) + 1 + (i * 2)
             
             # Reserve the following (N-1) * 2 addresses in the edge memory
-            nodes_reserved = 2 * (lim_sup - 1) - 1
+            nodes_reserved = (2 *lim_sup) - 1
             global_mem.arc_memory.increment_counter(nodes_reserved)
             # Add blanks to each node so we can save to memory
             for i in range(2 * lim_sup):
@@ -773,7 +796,7 @@ def p_np_var_4(t):
             local_node = int(node_start_address) + 1 + (i * 2)
             
             # Reserve the following (N-1) * 2 addresses in the edge memory
-            nodes_reserved = 2 * (lim_sup - 1) - 1
+            nodes_reserved = (2 *lim_sup) - 1
             local_mem.arc_memory.increment_counter(nodes_reserved)
             # Add blanks to each node so we can save to memory
             for i in range(2 * lim_sup):

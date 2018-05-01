@@ -450,24 +450,75 @@ class Virtual_Machine:
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
         #---------------------------- a d d c o n n ----------------------------
-        
-        #-------------------------- a d d w e i g h t --------------------------
-        elif operation == 'ADDWEIG':
+        elif operation == 'ADDCONN':
             # Retrieve the content of the temporal value
-            node_address = self.search_in_memory(quad.element_1)
-            edge_starts = self.search_in_memory(node_address)
-            edge_starts = int(str(edge_starts)[1:-1])
-            # Retrieve the value of the index from the node
-            edge_index = self.search_in_memory(quad.element_2)
-            # Retrieve the value connection
-            conn_weight = self.search_in_memory(quad.result)
-            # Recalculate the edge adress to which the connection will be saved
-            edge_address = int(edge_starts) + (int(edge_index) * 2)
-            # Save in memory the weight on the edge address
-            self.save_in_memory(edge_address, conn_weight)
+            temp_value = self.search_in_memory(quad.element_1)
+            # Retrive the content of the index
+            index = self.search_in_memory(quad.element_2)
+            # Retrieve the content of the weight
+            weight = self.search_in_memory(quad.result)
+
+
+            edge_start = self.search_in_memory(temp_value)
+            edge_start = int(str(edge_start)[1:-1])
+
+            #print("temporal vlaue: " + str(temp_value) + ", index: " + str(index) + ", weight: " + str(weight))
+            #print("Edge     vlaue: " + str(edge_start) + ", index: " + str(index) + ", weight: " + str(weight))
+
+            edge_header = int(edge_start) + (2 * int(index))
+            edge_destiny = int(edge_start) + (2 * int(index)) + 1
+            node_destiny = "X"
+
+            # Save in memory the destiny of the connection
+            self.save_in_memory(edge_header, weight)
+            # Save in memory the weight of the connection
+            self.save_in_memory(edge_destiny, index)
+
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
+        #------------------ p r i n t    c o n n e c t i o n s -----------------
+        elif operation == 'PRINTCO':
+            # Get the starting node inside the graph address
+            node_header = self.search_in_memory(quad.element_1)
+            node_header = int(str(node_header)[1:-1])
+            # Get the size of the graph
+            graph_size = quad.element_2
+            # Get the index node where we will check the connections 
+            index = self.search_in_memory(quad.result)
+
+            # Get the header name of the node on the left side
+            node_header = int(node_header) + (int(index) * 2)
+            node_start = self.search_in_memory(node_header)
+            node_connections = int(node_header) + 1
+            node_connections = self.search_in_memory(node_connections)
+            node_connections = int(str(node_connections)[1:-1])
+            #print(node_connections)
+
+            # Go through all the possible connections that a node can have
+            for i in range(graph_size):           
+                # Get the connection weight
+                weight = int(node_connections) + (i * 2)
+                weight = self.search_in_memory(weight)
+                # If the weight is different from an empty string
+                if (weight != ""):
+                    # Get the header name of the node on the right side
+                    node_end = int(node_connections) + (i * 2) + 1
+                    node_end = self.search_in_memory(node_end)
+                    node_begin= self.search_in_memory(quad.element_1)
+                    node_begin= int(str(node_begin)[1:-1])
+                    node_end =  node_begin + (int(node_end) * 2 )
+                    node_end = self.search_in_memory(node_end)
+
+                    # Display the result
+                    weight = str(weight)
+                    node_start = str(node_start)
+                    node_end = str(node_end)
+                    print(node_start + " ==> " + weight + " ==> " + node_end)
+
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
 
+        
 
     def search_in_memory(self, memory_id):
         # Verify escape int 
