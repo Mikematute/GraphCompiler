@@ -119,13 +119,21 @@ t_NOT =         r'!'
 t_DOT =         r'\.'
 t_COLON =       r':'
 t_CTE_STRING =  r'\"[^"]*\"'
-t_CTE_FLO =     r'[0-9]+\.[0-9]+'
 t_CTE_BOO =     r'True|False'
 t_CTE_CHAR =    r'\'.\''
 
 def t_ID(t):
     r'[a-z][a-z|A-Z|0-9]*'
     t.type = reserved.get(t.value,'ID')    # Check for reserved words
+    return t
+
+def t_CTE_FLO(t):
+    r'-?\d+\.[0-9]+'
+    try:
+        t.value = float(t.value)
+    except ValueError:
+        print("float value too large %d", t.value)
+        t.value = 0
     return t
 
 def t_CTE_INT(t):

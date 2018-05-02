@@ -7,5 +7,6 @@ void myFunction1 () { }
 main () {
 	var int myMainInt;
 	myMainInt = 7 * 9;
+	print(4.5 * 8);
 	myFunction1();
 }
