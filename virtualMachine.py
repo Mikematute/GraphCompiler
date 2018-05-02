@@ -82,7 +82,6 @@ class Virtual_Machine:
         while(current_quad.operation != "END"):
             self.perform_operation(current_quad)
             current_quad = self.quadruples.lst_quadruples[self.instruction_pointer]
-        print(self.local_mem.directed_memory.values)
             
 
     def perform_operation(self, quad):
@@ -342,14 +341,14 @@ class Virtual_Machine:
             self.aux_local = Memory(2)
             self.aux_temporal = Memory(3)
 
-            for x in range(self.globalVars.table_functions[self.aux_function].variables):
+            for x in range(self.globalVars.table_functions[self.aux_function].variables + 5):
                 self.aux_local.save_memory_value("", 0)
                 self.aux_local.save_memory_value("", 1)
                 self.aux_local.save_memory_value("", 2)
                 self.aux_local.save_memory_value("", 3)
                 self.aux_local.save_memory_value("", 4)
 
-            for x in range(self.globalVars.table_functions[self.aux_function].temporal):
+            for x in range(self.globalVars.table_functions[self.aux_function].temporal + 5):
                 self.aux_temporal.save_memory_value("", 0)
                 self.aux_temporal.save_memory_value("", 1)
                 self.aux_temporal.save_memory_value("", 2)
@@ -366,7 +365,6 @@ class Virtual_Machine:
             keys = list(self.globalVars.table_functions[self.aux_function].vars_table.keys())
             param = int(quad.result[-1])
             mem = self.globalVars.table_functions[self.aux_function].vars_table[keys[param]].direction
-
             self.aux_local.save_to_memory(l_op, mem)
             # Advance the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
@@ -638,18 +636,20 @@ class Virtual_Machine:
             node_dest = self.search_in_memory(quad.element_2)
             # Get the graph memory address
             graph_address = quad.result
-
-            
             # Retrieve the graph object
             graph = self.search_in_memory(int(graph_address) + 1)
 
             # Look if there exists a connection from one node to another
             if graph.has_edge(node_init, node_dest):
-                print("The edge exists, deleting edge")
                 # Delete such connection on the graph object
                 graph.remove_edge(node_init, node_dest)
-                # Delete the data from the nedge memory
+                # Get both addresses that contain the connection of a node
                 edge_header_address = self.get_address_for_edgeheader(graph_address, node_init, node_dest)
+                edge_pointer_address = int(edge_header_address) + 1
+                # Delete the data from the nedge memory
+                self.save_in_memory(edge_header_address, "")
+                self.save_in_memory(edge_pointer_address, "")
+                
             # Save the modified graph on the graph_memory
             self.save_in_memory((int(graph_address) + 1), graph)
             # Move the instruction pointer
@@ -777,24 +777,26 @@ class Virtual_Machine:
         return node_address
 
     def get_address_for_edgeheader(self, graph_address, index_init, index_dest):
-        edge_header_address = ""
 
         node_init_address = self.search_in_memory(int(graph_address))
         node_init_address = str(node_init_address)[1:-1]
-        edge_init_address = int(graph_address)
+        
+        edge_init_address = int(node_init_address) + (2 * index_init) + 1
+        edge_init_address = self.search_in_memory(edge_init_address)
+        edge_init_address = str(edge_init_address)[1:-1]
 
-        graph_address = str(graph_address)
-        index_init = str(index_init)
-        index_dest = str(index_dest)
-        print("GRAPH ADDRESS:" + graph_address)
-        print("NODE  ADDRESS:" + node_init_address)
-        print("INDEX INITIAL:" + index_init)
-        print("INDEX FINAL  :" + index_dest)
+        return int(edge_init_address) + (2 * int(index_dest))
 
-        return edge_header_address
+    def get_address_for_edgepointer(self, graph_address, index_init, index_dest):
 
-    def get_address_for_edgepointer(self):
-        return edge_pointer_address
+        node_init_address = self.search_in_memory(int(graph_address))
+        node_init_address = str(node_init_address)[1:-1]
+        
+        edge_init_address = int(node_init_address) + (2 * index_init) + 1
+        edge_init_address = self.search_in_memory(edge_init_address)
+        edge_init_address = str(edge_init_address)[1:-1]
+
+        return int(edge_init_address) + (2 * int(index_dest)) + 1
 
 
 

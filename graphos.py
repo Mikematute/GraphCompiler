@@ -379,9 +379,9 @@ def p_method_t(t):
                 | GETNODE LPAREN expression np_graph_4 RPAREN
                 | ADDCONN LPAREN expression np_graph_5 COMA expression np_graph_6 COMA expression np_graph_7 RPAREN
                 | PRINTCO LPAREN expression np_graph_8 RPAREN
-                | SHORTWE LPAREN expression np_graph_9 COMA expression np_graph_10 RPAREN
+                | SHORTWE LPAREN expression COMA expression np_graph_9 RPAREN
                 | SHORTNO LPAREN expression COMA expression RPAREN
-                | DELETEC LPAREN expression COMA expression np_graph_11 RPAREN
+                | DELETEC LPAREN expression COMA expression np_graph_10 RPAREN
                 | DELETEN LPAREN expression RPAREN
                 | DIAMETER
                 | ARC'''
@@ -540,45 +540,39 @@ def p_np_graph_8(t):
 #-------------- w e i g h t    f r o m    s h o r t e s t p a t h --------------
 def p_np_graph_9(t):
   'np_graph_9 : empty'
-  # retrieve the expression type
-  expression_type= alg_quad.pop_type()
-  # Verify that the value delivered is an integer
-  if expression_type != 0:
-    print ('ERROR: Second argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+  # retrieve the expression types
+  expression_type2= alg_quad.pop_type()
+  expression_type1= alg_quad.pop_type()
+  # Verify that the expressions are of type integer
+  if expression_type1 == 0:
+    if expression_type2 == 0:
+      node_destiny= alg_quad.pop_operand()
+      node_origin = alg_quad.pop_operand()
+      graph_memory= alg_quad.pop_operand()
+      # Add quadruple to get the node address
+      temporal = temporal_mem.get_counter("int")
+      temporal_mem.save_memory_value("", "int")
+      
+      # Add quadruple that will perform the operation  
+      alg_quad.add_quadruple('SHORTWE', node_origin, node_destiny,       '')
+      # Add quadruple that will save the result of the operatino in a temporal memory slot
+      alg_quad.add_quadruple('SHORTWE', graph_memory,          '', temporal)
+      
+      # Pop the graph type
+      alg_quad.pop_type()
 
-def p_np_graph_10(t):
-  'np_graph_10 : empty'
-    # retrieve the expression type
-  expression_type= alg_quad.pop_type()
-
-  # Verify that the value delivered is an integer
-  if expression_type == 0:
-    node_destiny= alg_quad.pop_operand()
-    node_origin = alg_quad.pop_operand()
-    graph_memory= alg_quad.pop_operand()
-    # Add quadruple to get the node address
-    temporal = temporal_mem.get_counter("int")
-    temporal_mem.save_memory_value("", "int")
-    
-    # Add quadruple that will perform the operation  
-    alg_quad.add_quadruple('SHORTWE', node_origin, node_destiny,       '')
-    # Add quadruple that will save the result of the operatino in a temporal memory slot
-    alg_quad.add_quadruple('SHORTWE', graph_memory,          '', temporal)
-    
-    # Pop the graph type
-    alg_quad.pop_type()
-
-    # Push the temporal address
-    alg_quad.push_operand(temporal)
-    # Push the temporal type
-    alg_quad.push_type(0)
-
+      # Push the temporal address
+      alg_quad.push_operand(temporal)
+      # Push the temporal type
+      alg_quad.push_type(0)
+    else:
+      print ('ERROR: Second argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
   else:
-    print ('ERROR: Second argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+    print ('ERROR: First argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
 
 #---------------------- d e l e t e    c o n n e c t i o n ---------------------
-def p_np_graph_11(t):
-  'np_graph_11 : empty'
+def p_np_graph_10(t):
+  'np_graph_10 : empty'
   # retrieve the expression types
   expression_type2= alg_quad.pop_type()
   expression_type1= alg_quad.pop_type()
@@ -1537,9 +1531,9 @@ def p_np_statutes_d3(t):
     gotof_jump = alg_quad.pop_jump()
     start_jump = alg_quad.pop_jump()
     # Make the cuadruple to go directly t the evaluation of the expression of the FOR
-    alg_quad.add_quadruple('GOTO', '', '', start_jump)
+    alg_quad.add_quadruple('GOTO', '', '', start_jump + 1)
     # Since now we have the begining of the expression, we can fill out the goto jump
-    alg_quad.fill_jump(goto_jump)
+    alg_quad.fill_jump(goto_jump, aux=1)
     # Push back in the start of assignation and gotof jump
     alg_quad.push_jump(gotof_jump)
     alg_quad.push_jump(assig_jump)
@@ -1549,9 +1543,9 @@ def p_np_statutes_d4(t):
     assig_jump = alg_quad.pop_jump()
     gotof_jump = alg_quad.pop_jump()
     # Create a GOTO for the beginign of the assignation
-    alg_quad.add_quadruple('GOTO', '', '', assig_jump)
+    alg_quad.add_quadruple('GOTO', '', '', assig_jump + 1)
     #since now we now the end of the for, we can fill the gotof jump
-    alg_quad.fill_jump(gotof_jump)
+    alg_quad.fill_jump(gotof_jump, aux=1)
 
 ################################################################################
 #                               F U N C T I O N                                #
