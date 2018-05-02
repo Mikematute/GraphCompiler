@@ -100,6 +100,13 @@ main ()
   myGraph2.printConnections(4);
   print("");
 
+  print("Displaying degree of node 3 in graph 2");
+  print(myGraph2.degree(3));
+
+
+
+  
+
   print("Displaying shortest path in Graph 2");
   myInt = myGraph2.shortpathWeight(1,0);
   print(myInt);

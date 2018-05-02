@@ -71,7 +71,7 @@ reserved = {
     'do'        : 'DO',
     'for'       : 'FOR',
     'in'        : 'IN',
-    'deg'       : 'DEG',
+    'degree'    : 'DEGREE',
     'diameter'  : 'DIAMETER',
     'addNode'   : 'ADDNODE',
     'getNode'   : 'GETNODE',
@@ -382,15 +382,15 @@ def p_method(t):
     'method : ID np_graph_1 DOT method_t'
 
 def p_method_t(t):
-    '''method_t : DEG                
-                | ADDNODE LPAREN expression COMA expression np_graph_3 RPAREN               
+    '''method_t : DEGREE LPAREN expression np_graph_2 RPAREN
+                | ADDNODE LPAREN expression COMA expression np_graph_3 RPAREN
                 | GETNODE LPAREN expression np_graph_4 RPAREN
                 | ADDCONN LPAREN expression COMA expression COMA expression np_graph_5 RPAREN
                 | PRINTCO LPAREN expression np_graph_6 RPAREN
                 | SHORTWE LPAREN expression COMA expression np_graph_7 RPAREN
                 | SHORTNO LPAREN expression COMA expression np_graph_8 RPAREN
-                | DELETEC LPAREN expression COMA expression np_graph_10 RPAREN
-                | DELETEN LPAREN expression np_graph_11 RPAREN
+                | DELETEC LPAREN expression COMA expression np_graph_9 RPAREN
+                | DELETEN LPAREN expression np_graph_10 RPAREN
                 | DIAMETER
                 | ARC'''
 
@@ -429,6 +429,36 @@ def p_np_graph_1(t):
   else:
     print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(globalVars.aux_ID, globalVars.current_context))
     p_error(t)
+
+#------------------------------- d e g r e e -----------------------------------
+def p_np_graph_2(t):
+  'np_graph_2 : empty'
+  # retrieve the expression type
+  expression_type= alg_quad.pop_type()
+  # Verify that the value delivered is an integer
+  if expression_type == 0:
+    node_index = alg_quad.pop_operand()
+    graph_address = alg_quad.pop_operand()
+    alg_quad.pop_type()
+
+    # Get a temporal memory slot to save the degree of the node
+    temporal = temporal_mem.get_counter("int")
+    temporal_mem.save_memory_value("", "int")
+    
+    # Get the size of the graph to verify the index bounds
+    variable_obj = globalVars.search_variable_by_memory(graph_address)
+    graph_size = variable_obj.dimension['sup']
+
+    # Generate quadruples
+    alg_quad.add_quadruple('VERF', node_index, 0, graph_size)
+    alg_quad.add_quadruple('DEGREE', node_index, graph_address, temporal)
+
+    # Push the temporals address and type to the stack
+    alg_quad.push_operand(temporal)
+    alg_quad.push_type(0)
+
+  else:
+    print ('ERROR: Argument in method <printConnections>, for variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
 
 #----------------------------- a d d    n o d e --------------------------------
 def p_np_graph_3(t):
@@ -626,8 +656,8 @@ def p_np_graph_8(t):
     print ('ERROR: First argument in method <shortpathPrint>, for variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
 
 #---------------------- d e l e t e    c o n n e c t i o n ---------------------
-def p_np_graph_10(t):
-  'np_graph_10 : empty'
+def p_np_graph_9(t):
+  'np_graph_9 : empty'
   # retrieve the expression types
   expression_type2= alg_quad.pop_type()
   expression_type1= alg_quad.pop_type()
@@ -655,8 +685,8 @@ def p_np_graph_10(t):
     print ('ERROR: First argument in method <deleteConnection>, for variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
 
 #---------------------------- d e l e t e    n o d e ---------------------------
-def p_np_graph_11(t):
-  'np_graph_11 : empty'
+def p_np_graph_10(t):
+  'np_graph_10 : empty'
   # Verify that the type returned by the expression, is an integer
   expression_type= alg_quad.pop_type()
 

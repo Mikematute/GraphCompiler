@@ -749,6 +749,25 @@ class Virtual_Machine:
             
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
+        #------------------------ n o d e    d e g r e e -----------------------
+        elif operation == 'DEGREE':
+            # Get the graph address
+            graph_address = quad.element_2
+            # Get the index of the node to be evaluated
+            node_index = self.search_in_memory(quad.element_1)
+            # Get the temporal address where the result will be saved
+            temp_address = quad.result
+            # Retrieve the graph object address
+            graph_address = int(graph_address) + 1
+            # Retrieve the graph object
+            graph = self.search_in_memory(graph_address)
+            # Perform the operation and save the result
+            degree = graph.degree(int(node_index))
+            # Save the result in the specified temporal memory
+            self.save_in_memory(temp_address, degree)
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
+
 
     def search_in_memory(self, memory_id):
         # Verify escape int 
