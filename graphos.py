@@ -152,6 +152,10 @@ def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
 
+def t_ccode_comment(t):
+    r'(/\*(.|\n)*?\*/)|(//.*)'
+    pass
+
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)

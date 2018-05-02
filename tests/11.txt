@@ -2,6 +2,10 @@ program cats;
   var int myGlobalInt1, myGlobalInt2;
   var directed myGlobalGraph1[2];
 
+/* a block of comments 
+    more comments
+    and more comments
+*/
 
 int hello(int parameter1, int parameter2) {
   var int myLocalInt1;
@@ -21,9 +25,10 @@ void hola(int hola) {
   print("taquitos");
 }
 
+// Main program
 main ()
 {
-	var directed myGraph1[3], myGraph2[5], myGraph3[2];
+	var directed myGraph1[3], myGraph2[5], myGraph3[2]; // some comments here
   var string myString1;
   var int myInt;
 
@@ -103,9 +108,8 @@ main ()
   print("Displaying degree of node 3 in graph 2");
   print(myGraph2.degree(3));
 
+  // This is a comment
 
-
-  
 
   print("Displaying shortest path in Graph 2");
   myInt = myGraph2.shortpathWeight(1,0);
