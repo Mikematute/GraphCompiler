@@ -1,0 +1,106 @@
+program cats;
+  var int myGlobalInt1, myGlobalInt2;
+  var directed myGlobalGraph1[2];
+
+
+int hello(int parameter1, int parameter2) {
+  var int myLocalInt1;
+
+  print("hello there");
+  print("hello there");
+  print("hello there");
+  print("hello there");
+  print("hello there");
+
+  return 10+5;
+}
+
+void hola(int hola) {
+  print("taquitos");
+  print("taquitos");
+  print("taquitos");
+}
+
+main () {
+  var int myMatrixA[3][3], myMatrixB[3][3], myMatrixC[3][3]; 
+  var int index1, index2;
+  var int i, j, k;
+  var int filas, columnas;
+  var int matSize1, matSize2;
+
+  myMatrixA[0][0] = 1;
+  myMatrixA[0][1] = 2;
+  myMatrixA[0][2] = 3;
+
+  myMatrixA[1][0] = 4;
+  myMatrixA[1][1] = 5;
+  myMatrixA[1][2] = 6;
+
+  myMatrixA[2][0] = 7;
+  myMatrixA[2][1] = 8;
+  myMatrixA[2][2] = 9;
+
+
+
+  myMatrixB[0][0] = 9;
+  myMatrixB[0][1] = 8;
+  myMatrixB[0][2] = 7;
+
+  myMatrixB[1][0] = 6;
+  myMatrixB[1][1] = 5;
+  myMatrixB[1][2] = 4;
+
+  myMatrixB[2][0] = 3;
+  myMatrixB[2][1] = 2;
+  myMatrixB[2][2] = 1;
+
+
+  print("Filling Result matrix with 0s");
+  matSize1 = 3;
+  matSize2 = 3;
+  index1 = 0;
+  while(index1 < matSize1) {
+
+    index2 = 0;
+    while(index2 < matSize2) {
+      myMatrixC[index1][index2] = 0;
+      index2 = index2 + 1;
+    }
+    
+    index1 = index1 + 1;
+  }
+  
+  print("Performing multiplication...");
+  filas = 3;
+  columnas = 3;
+  i = 0;
+  while(i < filas){
+
+    j = 0;
+    while(j < columnas){
+
+      k = 0;
+      while(k < filas){
+        myMatrixC[i][j] = myMatrixC[i][j] + myMatrixA[i][k] * myMatrixB[k][j];
+        k = k + 1;
+      }
+
+      j = j + 1;
+    }
+
+    i = i + 1;
+  }
+
+  print("Results from the multiplication: ");
+  index1 = 0;
+  while(index1 < matSize1) {
+
+    index2 = 0;
+    while(index2 < matSize2) {
+      print(myMatrixC[index1][index2]);
+      index2 = index2 + 1;
+    }
+    
+    index1 = index1 + 1;
+  }
+}
