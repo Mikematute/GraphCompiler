@@ -8,7 +8,7 @@ from memory import Memory
 from algorithmQuadruple import Algorithm_Quadruple
 from virtualMachine import Virtual_Machine
 import sys
-
+import re
 
 global_mem   = Memory(1)
 local_mem    = Memory(2)
@@ -1685,6 +1685,8 @@ def p_np_return(t):
 ################################################################################
 def p_debug(t):
     'debug : empty'
+    
+    '''
     print("\n" + "START DEBUGGER" + "\n");
     time.sleep(1.5);
     print("################# Tables ################")
@@ -1699,6 +1701,8 @@ def p_debug(t):
     print("############ Stack Operands #############")
     alg_quad.print_operands()
     print("\n" + "END OF DEBBUGGER" + "\n");
+    '''
+    
 
 def p_np_eof(t):
     'np_eof : empty'
@@ -1739,29 +1743,56 @@ def read_from_console():
 # "END" is typed
 def read_from_file():
     print ("Indique el nombre del archivo y su extension, escriba 'END' para terminar el programa: ")
-    fileName = input('WOOF > ')
+    user_input = input('GRAPHOS >> ')
 
-    while fileName != "END":
-        fileName = "tests/" + fileName
-        file = open(fileName,"r")
+    regex = '^((?:\w+\.txt)|(?:END))\s*(\-debugtables)?\s*(\-debugquads)?\s*'
+    groups = re.search(regex, user_input)
 
-        # Compiler
-        parser.parse(file.read())
-        print()
+    if groups is not None:
+      debug_t = False
+      debug_q = False
 
-        # Virtual Machine
-        vm = Virtual_Machine(global_mem,
-                             local_mem,
-                             temporal_mem,
-                             constant_mem,
-                             globalVars,
-                             alg_quad)
-        vm.start()
-        # End of execution
-        print()
+      fileName = groups.group(1)
+      
+      if groups.group(2):
+        debug_t = True
 
-        print ("Indique el nombre del archivo y su extension, escriba 'END' para terminar el programa: ")
-        fileName = input('WOOF > ')
+      if groups.group(3):
+        debug_q = True
+
+      if fileName != "END":
+          fileName = "tests/" + fileName
+          file = open(fileName,"r")
+
+          # Compiler
+          parser.parse(file.read())
+          print()
+
+          # Debugger
+          if debug_t or debug_q:
+            print("\n" + "START DEBUGGER" + "\n");
+            if debug_t:
+              print("################### Tables ###################")
+              globalVars.print_tables()
+              print()
+
+            if debug_q:
+              print("################# Quadruples ##################")
+              alg_quad.print_quadruples()
+              print()
+            print("\n" + "############### END OF DEBUGGER #################" + "\n");
+
+          # Virtual Machine
+          vm = Virtual_Machine(global_mem,
+                               local_mem,
+                               temporal_mem,
+                               constant_mem,
+                               globalVars,
+                               alg_quad)
+
+          vm.start()
+          # End of execution
+          print()
 
 ################################################################################
 #                                                                              #

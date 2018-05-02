@@ -47,11 +47,6 @@ main ()
 
   hola(1);
 
-  myIntA = hello(1, 2+3) + 5;
-  print(myIntA);
-
+  myIntA = hello(1, 2);
   
-  print(myIntA);
-
-  print(myIntC[0]);
 }
