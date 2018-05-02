@@ -1192,12 +1192,14 @@ def p_np_quad_a2(t):
         print ('ERROR: Variable: <{0}>, in function: <{1}> was not declared'.format(id_var, globalVars.current_context));
         p_error(t)
 
+
 def p_np_quad_b(t):
     'np_quad_b : empty'
     # grab the operand and place it on the stack
     # convert operand into its numeric value
     current_operator = operator_conv.get(t[-1])
     alg_quad.push_operator(current_operator)
+
 
 def p_np_quad_c0(t):
     'np_quad_c0 : empty'
@@ -1228,7 +1230,6 @@ def p_np_quad_c0(t):
             alg_quad.push_type(n_type)
         else:
             sys.exit("ERROR: type mismatch")
-
 
 def p_np_quad_c1(t):
     'np_quad_c1 : empty'
@@ -1295,7 +1296,6 @@ def p_np_quad_c2(t):
         else:
             sys.exit("ERROR: type mismatch")
 
-
 def p_np_quad_c3(t):
     'np_quad_c3 : empty'
     # leaving current exp lvl, we check if we have a current level rule pending. if so, take out and resolve
@@ -1349,6 +1349,7 @@ def p_np_quad_c4(t):
             alg_quad.push_type(n_type)
         else:
             sys.exit("ERROR: type mismatch")
+
 
 def p_np_quad_d1(t):
     'np_quad_d1 : empty'

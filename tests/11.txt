@@ -32,6 +32,8 @@ main ()
   var string myString1;
   var int myInt;
 
+  print(myString1);
+
   myInt = 33333;
   print(myInt);
 
