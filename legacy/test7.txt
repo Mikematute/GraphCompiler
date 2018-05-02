@@ -1,0 +1,11 @@
+program cats;
+
+var int myGlobalInt;
+
+void myFunction1 () { }
+
+main () {
+	var int myMainInt;
+	myMainInt = 7 * 9;
+	myFunction1();
+}

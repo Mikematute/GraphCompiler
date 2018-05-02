@@ -78,7 +78,7 @@ reserved = {
     'addConnection'    : 'ADDCONN',
     'printConnections' : 'PRINTCO',
     'shortpathWeight'  : 'SHORTWE',
-    'shortpathNodes'   : 'SHORTNO',
+    'shortpathPrint'   : 'SHORTNO',
     'deleteNode'       : 'DELETEN',
     'deleteConnection' : 'DELETEC'
 }
@@ -385,10 +385,10 @@ def p_method_t(t):
     '''method_t : DEG                
                 | ADDNODE LPAREN expression np_graph_2 COMA expression np_graph_3 RPAREN               
                 | GETNODE LPAREN expression np_graph_4 RPAREN
-                | ADDCONN LPAREN expression np_graph_5 COMA expression np_graph_6 COMA expression np_graph_7 RPAREN
-                | PRINTCO LPAREN expression np_graph_8 RPAREN
-                | SHORTWE LPAREN expression COMA expression np_graph_9 RPAREN
-                | SHORTNO LPAREN expression COMA expression RPAREN
+                | ADDCONN LPAREN expression COMA expression COMA expression np_graph_5 RPAREN
+                | PRINTCO LPAREN expression np_graph_6 RPAREN
+                | SHORTWE LPAREN expression COMA expression np_graph_7 RPAREN
+                | SHORTNO LPAREN expression COMA expression np_graph_8 RPAREN
                 | DELETEC LPAREN expression COMA expression np_graph_10 RPAREN
                 | DELETEN LPAREN expression np_graph_11 RPAREN
                 | DIAMETER
@@ -474,57 +474,47 @@ def p_np_graph_4(t):
   else:
     print ('ERROR: Argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
 
-
 #----------------------- a d d    c o n n e c t i o n --------------------------
 def p_np_graph_5(t):
   'np_graph_5 : empty'
-  # retrieve the expression type
-  expression_type= alg_quad.pop_type()
-  # Verify that the value delivered is an integer
-  if expression_type != 0:
-    print ('ERROR: First argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
-
-def p_np_graph_6(t):
-  'np_graph_6 : empty'
-  # retrieve the expression type
-  expression_type= alg_quad.pop_type()
-  # Verify that the value delivered is an integer
-  if expression_type != 0:
-    print ('ERROR: Second argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
-
-def p_np_graph_7(t):
-  'np_graph_7 : empty'
     # retrieve the expression type
-  expression_type= alg_quad.pop_type()
+  expression_type3= alg_quad.pop_type()
+  expression_type2= alg_quad.pop_type()
+  expression_type1= alg_quad.pop_type()
 
   # Verify that the value delivered is an integer
-  if expression_type == 0:
-    node_destiny= alg_quad.pop_operand()
-    node_weight = alg_quad.pop_operand()
-    node_origin = alg_quad.pop_operand()
-    graph_memory= alg_quad.pop_operand()
-    # Add quadruple to get the node address
-    temporal = temporal_mem.get_counter("arc")
-    temporal_mem.save_memory_value("", "arc")
-    
-    alg_quad.add_quadruple('NODEMEM', graph_memory, node_origin, temporal)
+  if expression_type1 == 0:
+    if expression_type2 == 0:
+      if expression_type3 == 0:
+        node_destiny= alg_quad.pop_operand()
+        node_weight = alg_quad.pop_operand()
+        node_origin = alg_quad.pop_operand()
+        graph_memory= alg_quad.pop_operand()
+        # Add quadruple to get the node address
+        temporal = temporal_mem.get_counter("arc")
+        temporal_mem.save_memory_value("", "arc")
+        
+        alg_quad.add_quadruple('NODEMEM', graph_memory, node_origin, temporal)
 
-    # Add quadruple to establish a connection from one node to another
-    alg_quad.add_quadruple('ADDCONN', temporal, node_destiny, node_weight)
-    # Add quadruples to manipulate the graph object
-    alg_quad.add_quadruple('GADDCON', node_origin, node_destiny, graph_memory)
-    alg_quad.add_quadruple('GADDWGH', node_weight,           '', graph_memory)
-    # Add quadruple to add the weight between such connection
-    #alg_quad.add_quadruple('ADDWEIG', temporal, node_destiny, node_weight)
-    
-    alg_quad.pop_type()
-
+        # Add quadruple to establish a connection from one node to another
+        alg_quad.add_quadruple('ADDCONN', temporal, node_destiny, node_weight)
+        # Add quadruples to manipulate the graph object
+        alg_quad.add_quadruple('GADDCON', node_origin, node_destiny, graph_memory)
+        alg_quad.add_quadruple('GADDWGH', node_weight,           '', graph_memory)
+        # Add quadruple to add the weight between such connection
+        #alg_quad.add_quadruple('ADDWEIG', temporal, node_destiny, node_weight)
+        
+        alg_quad.pop_type()
+      else:
+        print ('ERROR: Third argument in method <addConnection>, for variable: <{0}>, must be type int.'.format(globalVars.aux_ID));
+    else:
+      print ('ERROR: Second argument in method <addConnection>, for variable: <{0}>, must be type int.'.format(globalVars.aux_ID));
   else:
-    print ('ERROR: Thrid argument in variable: <{0}>, must be type int.'.format(globalVars.aux_ID));
+    print ('ERROR: First argument in method <addConnection>, for variable: <{0}>, must be type int.'.format(globalVars.aux_ID));
 
 #--------------------- p r i n t    c o n n e c t i o n ------------------------
-def p_np_graph_8(t):
-  'np_graph_8 : empty'
+def p_np_graph_6(t):
+  'np_graph_6 : empty'
   # retrieve the expression type
   expression_type= alg_quad.pop_type()
   # Verify that the value delivered is an integer
@@ -546,8 +536,8 @@ def p_np_graph_8(t):
     print ('ERROR: Argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
 
 #-------------- w e i g h t    f r o m    s h o r t e s t p a t h --------------
-def p_np_graph_9(t):
-  'np_graph_9 : empty'
+def p_np_graph_7(t):
+  'np_graph_7 : empty'
   # retrieve the expression types
   expression_type2= alg_quad.pop_type()
   expression_type1= alg_quad.pop_type()
@@ -565,6 +555,39 @@ def p_np_graph_9(t):
       alg_quad.add_quadruple('SHORTWE', node_origin, node_destiny,       '')
       # Add quadruple that will save the result of the operatino in a temporal memory slot
       alg_quad.add_quadruple('SHORTWE', graph_memory,          '', temporal)
+      
+      # Pop the graph type
+      alg_quad.pop_type()
+
+      # Push the temporal address
+      alg_quad.push_operand(temporal)
+      # Push the temporal type
+      alg_quad.push_type(0)
+    else:
+      print ('ERROR: Second argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+  else:
+    print ('ERROR: First argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+
+#--------------- n o d e s    f r o m    s h o r t e s t p a t h ---------------
+def p_np_graph_8(t):
+  'np_graph_8 : empty'
+  # retrieve the expression types
+  expression_type2= alg_quad.pop_type()
+  expression_type1= alg_quad.pop_type()
+  # Verify that the expressions are of type integer
+  if expression_type1 == 0:
+    if expression_type2 == 0:
+      node_destiny= alg_quad.pop_operand()
+      node_origin = alg_quad.pop_operand()
+      graph_memory= alg_quad.pop_operand()
+      # Add quadruple to get the node address
+      temporal = temporal_mem.get_counter("int")
+      temporal_mem.save_memory_value("", "int")
+      
+      # Add quadruple that will perform the operation  
+      alg_quad.add_quadruple('SHORTNO', node_origin, node_destiny,       '')
+      # Add quadruple that will save the result of the operatino in a temporal memory slot
+      alg_quad.add_quadruple('SHORTNO', graph_memory,          '', temporal)
       
       # Pop the graph type
       alg_quad.pop_type()

@@ -650,6 +650,42 @@ class Virtual_Machine:
             self.save_in_memory(temp_address, result)
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
+        #---------------- w e i g h t   o f   s h o r t p a t h ----------------
+        elif operation == 'SHORTNO':
+            # Get the origin of the connection
+            node_init = self.search_in_memory(quad.element_1)
+            # Get the destiny of the connection
+            node_dest = self.search_in_memory(quad.element_2)
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
+            # Get the new quadruple of that instruction pointer
+            new_quad = self.quadruples.lst_quadruples[self.instruction_pointer]
+            # Get the graph memory address
+            graph_address = int(new_quad.element_1) + 1
+            # Get the temporal address
+            temp_address = new_quad.result
+            # REtrieve the graph object
+            graph = self.search_in_memory(graph_address)
+            # Look if there exists a path from one node to another
+            if nx.has_path(graph, node_init, node_dest):
+                # Perform the operation of shortpath
+                result = nx.shortest_path(graph, node_init, node_dest)
+                # Retrieve the names of those nodes
+                for i in range(len(result)-1):
+                    node_beg = result[i]
+                    node_end = result[i+1]
+                    node_beg = self.get_node_address(graph_address-1, node_beg)
+                    node_end = self.get_node_address(graph_address-1, node_end)
+                    node_beg = self.search_in_memory(node_beg)
+                    node_end = self.search_in_memory(node_end)
+                    print('{0:15} ==> {1:15}'.format(node_beg, node_end))
+            else:
+            # There was no short path, return -1
+                result = -1
+
+            
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
         #------------------ d e l e t e    c o n n e c t i o n -----------------
         elif operation == 'DELETEC':
             # Get the origin of the connection
@@ -826,7 +862,7 @@ class Virtual_Machine:
         node_address = self.search_in_memory(int(graph_address))
         
         # Strip the ( ) parenthesis
-        node_address = int(str(node_address)[1:-1])
+        node_address = str(node_address)[1:-1]
         
         # Add to the initial node address, twice the index variable
         node_address = int(node_address) + (int(index) * 2)

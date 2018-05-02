@@ -1,0 +1,16 @@
+program cats;
+  var char cMyGlobal1;  
+void myFunction1 (int iVar1) {
+}
+
+int myFunction2 (int iVar1, float fVar2) {
+  var bool bTest1, bTest2;
+  myFunction1(1);
+}
+
+main () {
+  var float myFloat;
+  myFunction2 (8 + 9, myFloat);
+  myFunction2 (8 + 9, myFloat, "hey");
+  myFunction2("Hello");
+}
