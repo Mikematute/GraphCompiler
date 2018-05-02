@@ -1,7 +1,7 @@
-from table import Table
-from oracle import consult
-from memory import Memory
-from algorithmQuadruple import Algorithm_Quadruple
+from classes.table import Table
+from classes.oracle import consult
+from classes.memory import Memory
+from classes.algorithmQuadruple import Algorithm_Quadruple
 import sys
 import networkx as nx
 '''
@@ -72,7 +72,6 @@ class Virtual_Machine:
                                 15 : 'print'}
 
     def start(self):
-        print("Starting VM")
         # Start "instruction_pointer" on 0
         self.instruction_pointer = 0
         # Save the the instruction located in the quadruple by the "instruction_pointer"

@@ -2,10 +2,10 @@
 #                         G L O B A L  H A N D L E R S                         #
 ################################################################################
 
-from table import Table
-from oracle import consult
-from memory import Memory
-from algorithmQuadruple import Algorithm_Quadruple
+from classes.table import Table
+from classes.oracle import consult
+from classes.memory import Memory
+from classes.algorithmQuadruple import Algorithm_Quadruple
 from virtualMachine import Virtual_Machine
 import sys
 import re
@@ -1835,10 +1835,10 @@ def read_from_console():
 # Used in MAIN, reads the data from a file written by the user until the command
 # "END" is typed
 def read_from_file():
-    print ("Indique el nombre del archivo y su extension, escriba 'END' para terminar el programa: ")
+    print ("Indique la dirección, nombre del archivo y su extension(Si el archivo se encuentra en la misma carpeta, solo teclee el nombre y su extension). Escriba 'END' para terminar el programa: ")
     user_input = input('GRAPHOS >> ')
 
-    regex = '^((?:\w+\.txt)|(?:END))\s*(\-debugtables)?\s*(\-debugquads)?\s*'
+    regex = '^((?:(\w+\/)*\w+\.txt)|(?:END))\s*(\-debugtables)?\s*(\-debugquads)?\s*'
     groups = re.search(regex, user_input)
 
     if groups is not None:
@@ -1854,7 +1854,7 @@ def read_from_file():
         debug_q = True
 
       if fileName != "END":
-          fileName = "tests/" + fileName
+          
           file = open(fileName,"r")
 
           # Compiler
