@@ -1,1 +1,4 @@
-program cats; main(){}
+program cats; 
+main(){
+	print("Hello world! woof woof!");
+}

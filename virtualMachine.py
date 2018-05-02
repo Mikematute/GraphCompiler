@@ -341,14 +341,14 @@ class Virtual_Machine:
             self.aux_local = Memory(2)
             self.aux_temporal = Memory(3)
 
-            for x in range(self.globalVars.table_functions[self.aux_function].variables + 5):
+            for x in range(self.globalVars.table_functions[self.aux_function].variables + 10):
                 self.aux_local.save_memory_value("", 0)
                 self.aux_local.save_memory_value("", 1)
                 self.aux_local.save_memory_value("", 2)
                 self.aux_local.save_memory_value("", 3)
                 self.aux_local.save_memory_value("", 4)
 
-            for x in range(self.globalVars.table_functions[self.aux_function].temporal + 5):
+            for x in range(self.globalVars.table_functions[self.aux_function].temporal + 10):
                 self.aux_temporal.save_memory_value("", 0)
                 self.aux_temporal.save_memory_value("", 1)
                 self.aux_temporal.save_memory_value("", 2)
