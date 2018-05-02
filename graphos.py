@@ -1507,7 +1507,7 @@ def p_np_statutes_b3(t):
 #------------------------------ d o   w h i l e --------------------------------
 def p_np_statutes_c1(t):
     'np_statutes_c1 : empty'
-    aux_ip = alg_quad.instruction_pointer
+    aux_ip = alg_quad.instruction_pointer + 1
     alg_quad.push_jump(aux_ip)
 
 def p_np_statutes_c2(t):
