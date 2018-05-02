@@ -556,6 +556,28 @@ class Virtual_Machine:
             self.instruction_pointer = self.instruction_pointer + 1
         #-------------------- g r a p h    a d d w e i g h ---------------------
         elif operation == 'NODEMEM':
+            # Get the graph address
+            graph_address = quad.element_1
+            memory_type = int(int(graph_address) / 10000)
+
+            if memory_type == 1:
+                graph_address =  self.global_mem.get_memory_value(graph_address)
+
+            elif memory_type == 2:
+                graph_address = self.local_mem.get_memory_value(graph_address)
+            
+            # Strip the ( ) parenthesis from the node
+            graph_address = int(str(graph_address)[1:-1])
+            
+            # Get the index 
+            node_index = self.search_in_memory(quad.element_2)
+            
+            # Retrieve the address that points to the begining of the edges
+            node_address = int(graph_address) + (2 * int(node_index)) + 1
+            
+            # Save that address in the temporal asigned
+            self.save_in_memory(quad.result, node_address)
+
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
         #------------------ p r i n t    c o n n e c t i o n s -----------------
@@ -654,7 +676,43 @@ class Virtual_Machine:
             self.save_in_memory((int(graph_address) + 1), graph)
             # Move the instruction pointer
             self.instruction_pointer = self.instruction_pointer + 1
+        #------------------------ d e l e t e    n o d e -----------------------
+        elif operation == 'DELETEN':
+            # Get the index of the node to be deleted
+            node_index = self.search_in_memory(quad.element_1)
+            # Get the graph memory address
+            graph_address = quad.result
+            # Get the graph size
+            graph_size = quad.element_2
+            # Retrieve the graph object
+            graph = self.search_in_memory(int(graph_address) + 1)
+            # Remove the node from the graph
+            graph.remove_node(node_index)
+            # Add the node again
+            graph.add_node(node_index)
+            # Remove the node edges data
+            for i in range(graph_size):
+                edge_header_address = self.get_address_for_edgeheader(graph_address, node_index, i)
+                edge_pointer_address = int(edge_header_address) + 1
+                self.save_in_memory(edge_header_address, "")
+                self.save_in_memory(edge_pointer_address, "")
+            
+            # Remove from other nodes the edges that reach the node
+            for n in range(graph_size):
+                # Do this for all the connections except for the ones of th node
+                # we already reseted
+                if n != node_index:
+                    # Get the edge memory addresses
+                    edge_header_address = self.get_address_for_edgeheader(graph_address, n, node_index)
+                    edge_pointer_address = int(edge_header_address) + 1
+                    # Delete the information form those addresses
+                    self.save_in_memory(edge_header_address, "")
+                    self.save_in_memory(edge_pointer_address, "")
 
+            # Remove the header from the node
+            
+            # Move the instruction pointer
+            self.instruction_pointer = self.instruction_pointer + 1
 
     def search_in_memory(self, memory_id):
         # Verify escape int 

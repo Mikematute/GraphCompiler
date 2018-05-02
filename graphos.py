@@ -382,7 +382,7 @@ def p_method_t(t):
                 | SHORTWE LPAREN expression COMA expression np_graph_9 RPAREN
                 | SHORTNO LPAREN expression COMA expression RPAREN
                 | DELETEC LPAREN expression COMA expression np_graph_10 RPAREN
-                | DELETEN LPAREN expression RPAREN
+                | DELETEN LPAREN expression np_graph_11 RPAREN
                 | DIAMETER
                 | ARC'''
 
@@ -512,7 +512,7 @@ def p_np_graph_7(t):
     alg_quad.pop_type()
 
   else:
-    print ('ERROR: Thrid argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
+    print ('ERROR: Thrid argument in variable: <{0}>, must be type int.'.format(globalVars.aux_ID));
 
 #--------------------- p r i n t    c o n n e c t i o n ------------------------
 def p_np_graph_8(t):
@@ -595,7 +595,26 @@ def p_np_graph_10(t):
     print ('ERROR: First argument in variable: <{0}>, must be type int. Skipping operation'.format(globalVars.aux_ID));
 
 #---------------------------- d e l e t e    n o d e ---------------------------
+def p_np_graph_11(t):
+  'np_graph_11 : empty'
+  # Verify that the type returned by the expression, is an integer
+  expression_type= alg_quad.pop_type()
 
+  # Verify that the value delivered is an integer
+  if expression_type == 0:
+    # Retrieve the result of the expression
+    node_index = alg_quad.pop_operand()
+    # REtrieve the graph address
+    graph_address = alg_quad.pop_operand()
+    # Retrieve the graph size
+    variable_obj = globalVars.search_variable_by_memory(graph_address)
+    graph_size = variable_obj.dimension['sup']
+    # Generate the cuadruple with the command to delete the given node
+    alg_quad.add_quadruple('DELETEN', node_index, graph_size, graph_address)
+    # Remove the graph type from the stack
+
+  else:
+    print ('ERROR: Argument in method <deleteNode>, for variable: <{0}>, must be type int'.format(globalVars.aux_ID));
 
 ######################## A D D I N G  V A R I A B L E S ########################
 

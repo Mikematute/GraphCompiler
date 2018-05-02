@@ -106,7 +106,16 @@ main ()
   print("Displaying nodes of shortest path in Graph 2");
 
   myGraph1.deleteConnection(2,1);
+  myGraph2.deleteNode(3);
   myInt = myGraph1.shortpathWeight(2,1);
   print(myInt);
+  
+  print("Displaying connections of Graph 2");
+  myGraph2.printConnections(0);
+  myGraph2.printConnections(1);
+  myGraph2.printConnections(2);
+  myGraph2.printConnections(3);
+  myGraph2.printConnections(4);
+  print("");
 
 }
